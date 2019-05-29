@@ -11,20 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Button.cpp" />
-    <ClCompile Include="src\Cursor.cpp" />
-    <ClCompile Include="src\Dropdown.cpp" />
-    <ClCompile Include="src\Slider.cpp" />
-    <ClCompile Include="src\Switch.cpp" />
-    <ClCompile Include="src\TextHolder.cpp" />
+    <ClCompile Include="NGin\Button.cpp" />
+    <ClCompile Include="NGin\Cursor.cpp" />
+    <ClCompile Include="NGin\Dropdown.cpp" />
+    <ClCompile Include="NGin\Slider.cpp" />
+    <ClCompile Include="NGin\Switch.cpp" />
+    <ClCompile Include="NGin\TextHolder.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Button.h" />
-    <ClInclude Include="src\Cursor.h" />
-    <ClInclude Include="src\Dropdown.h" />
-    <ClInclude Include="src\Slider.h" />
-    <ClInclude Include="src\Switch.h" />
-    <ClInclude Include="src\TextHolder.h" />
+    <ClInclude Include="NGin\Button.h" />
+    <ClInclude Include="NGin\Cursor.h" />
+    <ClInclude Include="NGin\Dropdown.h" />
+    <ClInclude Include="NGin\Slider.h" />
+    <ClInclude Include="NGin\Switch.h" />
+    <ClInclude Include="NGin\TextHolder.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

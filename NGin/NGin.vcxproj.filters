@@ -15,42 +15,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Button.cpp">
+    <ClCompile Include="NGin\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Cursor.cpp">
+    <ClCompile Include="NGin\Cursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Dropdown.cpp">
+    <ClCompile Include="NGin\Dropdown.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Slider.cpp">
+    <ClCompile Include="NGin\Slider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Switch.cpp">
+    <ClCompile Include="NGin\Switch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\TextHolder.cpp">
+    <ClCompile Include="NGin\TextHolder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Button.h">
+    <ClInclude Include="NGin\Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Cursor.h">
+    <ClInclude Include="NGin\Cursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Dropdown.h">
+    <ClInclude Include="NGin\Dropdown.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Slider.h">
+    <ClInclude Include="NGin\Slider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Switch.h">
+    <ClInclude Include="NGin\Switch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\TextHolder.h">
+    <ClInclude Include="NGin\TextHolder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
