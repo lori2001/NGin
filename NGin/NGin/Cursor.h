@@ -6,9 +6,6 @@ namespace NGin {
 	{
 		class Cursor : public sf::Sprite
 		{
-		private:
-			static sf::Vector2f mousePosition;
-		
 		public:
 			Cursor(const sf::Texture & texture)
 			{
@@ -25,6 +22,10 @@ namespace NGin {
 			// updtates cursor's position relative to window
 			// based on where the mouse is at at a given frame
 			void followMouse(const sf::RenderWindow & window);
+
+		private:
+
+			static sf::Vector2f mousePosition;
 		};
 	}
 }
