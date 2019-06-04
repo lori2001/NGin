@@ -8,22 +8,6 @@ namespace NGin
 	{
 		class Button : public sf::Drawable
 		{
-		private:
-			sf::RectangleShape shape; // creates a shape for the button
-			sf::Text text; // a text to be on the button
-			sf::Sound sound; // sound to play when button activated
-
-			sf::Vector2f textPos; // the position at which the text should stay
-			sf::Vector2f calcTextPos(); // updates default text position so as to avoid writing so much and make things compact
-
-			bool isPressed = false; // intermediarily active boolean in between isSelected and isActive
-			bool isSelected = false; // if the button is selected by either mouse or keyboard this is true
-			bool isActive = false; // this is true when the button is pressed upon
-
-			bool useMouse = false; // true whenever mouse selection is used
-			bool useKeyboard = false; // true whenever keyboard selection is used
-
-			bool warningMessage = true; // used to display warning message only once in an endless loop
 		public:
 			Button(const sf::Vector2f& size) {
 				shape.setSize(size);
@@ -48,22 +32,30 @@ namespace NGin
 			/* Needs handleEvents() to take action */
 			void selectByMouse(const sf::Vector2f& mouse);
 
+			// handles enter and mouseclick events and plays given sounds and animations whenever neede
 			void handleEvents(const sf::Event& event);
 			void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-			// setters
-			void setSoundFX(const sf::Sound& pressbutton); // sound the button makes when pressed
-			void setFont(const sf::Font& font); // font of the button
-			void setTextColor(const sf::Color& color); // sets the color of the text on the button
-			void setString(const sf::String& txt); // string the button uses
-			void setTexture(const sf::Texture& texture); // texture of the button
-			void setFillColor(const sf::Color& color); // changes the default color of the button
-			void setPosition(const sf::Vector2f& position); // position of the button
-			void setSelectColor(const sf::Color& color); // outline's color when selected
-			void setScale(const sf::Vector2f& scale); // scale of the button
-			void setCharacterSize(const int& size); // sets the character size of the text
-
-			// getters
+			// sound the button makes when pressed
+			void setSoundFX(const sf::Sound& pressbutton);
+			// font of the text on the button
+			void setFont(const sf::Font& font);
+			// sets the color of the text on the button
+			void setTextColor(const sf::Color& color);
+			// string the button uses
+			void setString(const sf::String& txt);
+			// texture of the button
+			void setTexture(const sf::Texture& texture);
+			// changes the default color of the button
+			void setFillColor(const sf::Color& color);
+			// position of the button
+			void setPosition(const sf::Vector2f& position);
+			// outline's color when selected
+			void setSelectColor(const sf::Color& color);
+			// scale of the button
+			void setScale(const sf::Vector2f& scale);
+			// sets the character size of the text
+			void setCharacterSize(const int& size);
 
 			// returns true whenever action needs to be taken. sets itself back to false automatically
 			bool activated();
@@ -72,6 +64,23 @@ namespace NGin
 			sf::Vector2f getPosition() const { return shape.getPosition(); }
 			sf::Vector2f getSize() const { return shape.getSize(); }
 			sf::FloatRect getGlobalBounds() const { return shape.getGlobalBounds(); }
+
+		private:
+			sf::RectangleShape shape; // creates a shape for the button
+			sf::Text text; // a text to be on the button
+			sf::Sound sound; // sound to play when button activated
+
+			sf::Vector2f textPos; // the position at which the text should stay
+			sf::Vector2f calcTextPos(); // updates default text position so as to avoid writing so much and make things compact
+
+			bool isPressed = false; // intermediarily active boolean in between isSelected and isActive
+			bool isSelected = false; // if the button is selected by either mouse or keyboard this is true
+			bool isActive = false; // this is true when the button is pressed upon
+
+			bool useMouse = false; // true whenever mouse selection is used
+			bool useKeyboard = false; // true whenever keyboard selection is used
+
+			bool warningMessage = true; // used to display warning message only once in an endless loop
 		};
 	}
 }

@@ -4,34 +4,27 @@
 namespace NGin {
 	namespace UI
 	{
-		class Cursor : public sf::Drawable, public sf::Transformable
+		class Cursor : public sf::Sprite
 		{
 		private:
-			const int size = 64;
-			sf::Texture cursorT;
-
-			sf::VertexArray vertices;
-
 			static sf::Vector2f mousePosition;
+		
 		public:
-			Cursor()
+			Cursor(const sf::Texture & texture)
 			{
-				vertices.setPrimitiveType(sf::Quads);
-				vertices.resize(size * size * 4);
-
-				// define its 4 texture coordinates
-				vertices[0].texCoords = sf::Vector2f(0, 0);
-				vertices[1].texCoords = sf::Vector2f((float)size, 0);
-				vertices[2].texCoords = sf::Vector2f((float)size, (float)size);
-				vertices[3].texCoords = sf::Vector2f(0, (float)size);
+				// sets given texture to cursor
+				Sprite::setTexture(texture);
 
 				//scales the cursor down a bit
 				Transformable::setScale({ 0.85f, 0.85f });
 			}
-			void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+			Cursor() = default;
 
-			void setTexture(sf::Texture & cursorT);
-			void setPosition(const sf::Vector2f & mouse);
+			static sf::Vector2f getPosition() { return mousePosition; }
+
+			// updtates cursor's position relative to window
+			// based on where the mouse is at at a given frame
+			void followMouse(const sf::RenderWindow & window);
 		};
 	}
 }
