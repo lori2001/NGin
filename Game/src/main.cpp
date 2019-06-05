@@ -1,5 +1,5 @@
 #include "SFML/Graphics.hpp"
-#include "NGin/Button.h"
+#include "NGin/UserInterface.h"
 
 #include <iostream>
 

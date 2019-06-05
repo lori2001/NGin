@@ -15,42 +15,51 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NGin\Button.cpp">
+    <ClCompile Include="NGin\UI\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\Cursor.cpp">
+    <ClCompile Include="NGin\UI\Cursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\Dropdown.cpp">
+    <ClCompile Include="NGin\UI\Dropdown.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\Slider.cpp">
+    <ClCompile Include="NGin\UI\Slider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\Switch.cpp">
+    <ClCompile Include="NGin\UI\Switch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\TextHolder.cpp">
+    <ClCompile Include="NGin\UI\TextHolder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NGin\ResourceMan.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NGin\Button.h">
+    <ClInclude Include="NGin\UI\TextHolder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\Cursor.h">
+    <ClInclude Include="NGin\UI\Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\Dropdown.h">
+    <ClInclude Include="NGin\UI\Cursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\Slider.h">
+    <ClInclude Include="NGin\UI\Dropdown.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\Switch.h">
+    <ClInclude Include="NGin\UI\Slider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\TextHolder.h">
+    <ClInclude Include="NGin\UI\Switch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NGin\UserInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NGin\ResourceMan.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
