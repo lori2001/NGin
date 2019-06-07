@@ -11,17 +11,15 @@ namespace NGin {
 			{
 				// sets given texture to cursor
 				Sprite::setTexture(texture);
-
-				//scales the cursor down a bit
-				Transformable::setScale({ 0.85f, 0.85f });
 			}
 			Cursor() = default;
 
 			static sf::Vector2f getPosition() { return mousePosition; }
 
+			// disables default mouse texture and
 			// updtates cursor's position relative to window
 			// based on where the mouse is at at a given frame
-			void followMouse(const sf::RenderWindow& window);
+			void followMouse(sf::RenderWindow& window);
 
 		private:
 

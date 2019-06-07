@@ -33,7 +33,10 @@
     <ClCompile Include="NGin\UI\TextHolder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\ResourceMan.cpp">
+    <ClCompile Include="NGin\TextureCodex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NGin\Animation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,8 +62,34 @@
     <ClInclude Include="NGin\UserInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\ResourceMan.h">
+    <ClInclude Include="NGin\TextureCodex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NGin\Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\styles\warcraft\button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\styles\warcraft\cursor.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\styles\warcraft\dropdown.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\styles\warcraft\slider.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\styles\warcraft\sliderbutton.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\styles\warcraft\switch.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\styles\warcraft\textholder.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

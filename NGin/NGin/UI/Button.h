@@ -11,15 +11,19 @@ namespace NGin
 		public:
 			Button(const sf::Vector2f& size) {
 				shape.setSize(size);
-				shape.setFillColor(sf::Color(57, 179, 0));
-				shape.setOutlineColor(sf::Color(57, 65, 222));
+				shape.setFillColor(sf::Color(98, 144, 219));
+				shape.setOutlineColor(sf::Color(211, 95, 82));
+				outlineThickness = 3;
+			}
+			Button(const sf::Vector2f& size, const sf::Texture& texture) : Button(size) {
+				this->setTexture(texture);
 			}
 			Button(const sf::Font& font, const sf::String& txt, const sf::Vector2f& size) : Button(size)
 			{
 				text.setFont(font);
 				text.setString(txt);
 				text.setCharacterSize(30);
-				text.setFillColor(sf::Color(200, 100, 100)); // (247, 148, 29)  (57,179,0)  (57, 65, 222)
+				text.setFillColor(sf::Color(0, 0, 0));
 
 				textPos = calcTextPos();
 				text.setPosition(textPos);
@@ -28,7 +32,7 @@ namespace NGin
 
 			/* IMPORTANT! You have to count and modify arrowCount in an outside variable in order for this to work
 			   Also needs handleEvents() to take action*/
-			void selectByKeyboard(const int& numerotation, const int& arrowCount);
+			void selectByKeyboard(const int numerotation, const int arrowCount);
 			/* Needs handleEvents() to take action */
 			void selectByMouse(const sf::Vector2f& mouse);
 
@@ -52,11 +56,13 @@ namespace NGin
 			void setPosition(const sf::Vector2f& position);
 			// outline's color when selected
 			void setSelectColor(const sf::Color& color);
+			// sets the thickness of the outline when selected
+			void setSelectThickness(const float thickness);
 			// scale of the button
 			void setScale(const sf::Vector2f& scale);
 			// sets the character size of the text
-			void setCharacterSize(const int& size);
-
+			void setCharacterSize(const int size);
+		
 			// returns true whenever action needs to be taken. sets itself back to false automatically
 			bool activated();
 
@@ -70,6 +76,7 @@ namespace NGin
 			sf::Text text; // a text to be on the button
 			sf::Sound sound; // sound to play when button activated
 
+			float outlineThickness; // the thickness of the outline when selected
 			sf::Vector2f textPos; // the position at which the text should stay
 			sf::Vector2f calcTextPos(); // updates default text position so as to avoid writing so much and make things compact
 

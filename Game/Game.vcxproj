@@ -88,6 +88,10 @@
       <Project>{850621ee-8c71-484d-8182-d7167b90d5f7}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\button.png" />
+    <Image Include="assets\cursor.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

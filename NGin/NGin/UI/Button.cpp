@@ -15,7 +15,7 @@ namespace NGin
 			return (sf::Vector2f{ shape.getGlobalBounds().left + shape.getGlobalBounds().width / 2,
 								  shape.getGlobalBounds().top + shape.getGlobalBounds().height / 2 });
 		}
-		void Button::selectByKeyboard(const int& numerotation, const int& arrowCount)
+		void Button::selectByKeyboard(const int numerotation, const int arrowCount)
 		{
 			// prioritize mouse over keyboard
 			if (!useMouse)
@@ -45,7 +45,7 @@ namespace NGin
 		{
 			// if the button is selected outline appears
 			if (isSelected)
-				shape.setOutlineThickness((((shape.getSize().x * shape.getScale().x + shape.getSize().y * shape.getScale().y) / 2) / (shape.getScale().x + shape.getScale().y / 2)) / 50);
+				shape.setOutlineThickness(outlineThickness);
 			else // if not the outline disappears
 				shape.setOutlineThickness(0);
 
@@ -131,6 +131,10 @@ namespace NGin
 			//in case selected this color will be the outline
 			shape.setOutlineColor(color);
 		}
+		void Button::setSelectThickness(const float thickness)
+		{
+			outlineThickness = thickness;
+		}
 		void Button::setScale(const sf::Vector2f & scale)
 		{
 			//changes sprite scale
@@ -143,7 +147,7 @@ namespace NGin
 			textPos = calcTextPos();
 			text.setPosition(textPos);
 		}
-		void Button::setCharacterSize(const int& size)
+		void Button::setCharacterSize(const int size)
 		{
 			//sets the new string to the text
 			this->text.setCharacterSize(size);

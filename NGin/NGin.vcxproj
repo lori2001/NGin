@@ -11,7 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NGin\ResourceMan.cpp" />
+    <ClCompile Include="NGin\Animation.cpp" />
+    <ClCompile Include="NGin\TextureCodex.cpp" />
     <ClCompile Include="NGin\UI\Button.cpp" />
     <ClCompile Include="NGin\UI\Cursor.cpp" />
     <ClCompile Include="NGin\UI\Dropdown.cpp" />
@@ -20,7 +21,8 @@
     <ClCompile Include="NGin\UI\TextHolder.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NGin\ResourceMan.h" />
+    <ClInclude Include="NGin\Animation.h" />
+    <ClInclude Include="NGin\TextureCodex.h" />
     <ClInclude Include="NGin\UI\Button.h" />
     <ClInclude Include="NGin\UI\Cursor.h" />
     <ClInclude Include="NGin\UI\Dropdown.h" />
@@ -28,6 +30,15 @@
     <ClInclude Include="NGin\UI\Switch.h" />
     <ClInclude Include="NGin\UI\TextHolder.h" />
     <ClInclude Include="NGin\UserInterface.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\styles\warcraft\button.png" />
+    <Image Include="assets\styles\warcraft\cursor.png" />
+    <Image Include="assets\styles\warcraft\dropdown.png" />
+    <Image Include="assets\styles\warcraft\slider.png" />
+    <Image Include="assets\styles\warcraft\sliderbutton.png" />
+    <Image Include="assets\styles\warcraft\switch.png" />
+    <Image Include="assets\styles\warcraft\textholder.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
