@@ -1,18 +1,25 @@
 #include "SFML/Graphics.hpp"
 #include "NGin/UserInterface.h"
-#include "NGin/TextureCodex.h"
+#include "NGin/ResourceCodex.h"
 
 #include <iostream>
+
+using namespace NGin;
 
 int main()
 {
 	sf::RenderWindow window;
 	window.create(sf::VideoMode(1366, 768), "Super Mario HD");
 
-	NGin::UI::Button button1{ {400,50}, *NGin::TextureCodex::Acquire("button.png") };
-	button1.setPosition(sf::Vector2f{ 200,200 });
-	
-	NGin::UI::Cursor cursor{*NGin::TextureCodex::Acquire("cursor.png") };
+	UI::Cursor cursor{ *ResourceCodex::Acquire<sf::Texture>("cursor.png") };
+	UI::Button button{ {400, 50}, *ResourceCodex::Acquire<sf::Texture>("button.png") };
+	UI::Button button2{ {400, 50}, *ResourceCodex::Acquire<sf::Texture>("button.png") };
+	button.setFont(*ResourceCodex::Acquire<sf::Font>("arial.ttf"));
+	button.setString("StartGame");
+
+	button2.setPosition(sf::Vector2f{ 200, 200 });
+	button2.setFont(*ResourceCodex::Acquire<sf::Font>("arial.ttf"));
+	button2.setString("Options");
 
 	while (window.isOpen())
 	{
@@ -25,18 +32,20 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 
-			button1.handleEvents(event);
-			button1.selectByMouse(NGin::UI::Cursor::getPosition());
+			button.handleEvents(event);
+			button.selectByMouse(UI::Cursor::getPosition());
+
+			button2.handleEvents(event);
+			button2.selectByMouse(UI::Cursor::getPosition());
+
 			cursor.followMouse(window);
 		}
 
 		window.clear();
 
-		window.draw(button1);
+		window.draw(button);
+		window.draw(button2);
 		window.draw(cursor);
-		if (button1.activated()) {
-			std::cout << "button pressed" << std::endl;
-		}
 
 		//insert drawing commands in here
 

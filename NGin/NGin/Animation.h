@@ -1,5 +1,5 @@
 #pragma once
-class Animation
+/*class Animation
 {
 public:
 	Animation() = default;
@@ -43,4 +43,4 @@ private:
 	std::vector<sf::IntRect> frames;
 	int iFrame = 0;
 	float time = 0.0f;
-};
+};*/

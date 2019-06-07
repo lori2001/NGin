@@ -12,7 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NGin\Animation.cpp" />
-    <ClCompile Include="NGin\TextureCodex.cpp" />
+    <ClCompile Include="NGin\ResourceCodex.cpp" />
     <ClCompile Include="NGin\UI\Button.cpp" />
     <ClCompile Include="NGin\UI\Cursor.cpp" />
     <ClCompile Include="NGin\UI\Dropdown.cpp" />
@@ -22,7 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NGin\Animation.h" />
-    <ClInclude Include="NGin\TextureCodex.h" />
+    <ClInclude Include="NGin\ResourceCodex.h" />
     <ClInclude Include="NGin\UI\Button.h" />
     <ClInclude Include="NGin\UI\Cursor.h" />
     <ClInclude Include="NGin\UI\Dropdown.h" />
@@ -87,6 +87,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)vendor\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)vendor\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -102,6 +103,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)vendor\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
