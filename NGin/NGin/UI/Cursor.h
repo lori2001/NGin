@@ -7,7 +7,7 @@ namespace NGin {
 		class Cursor : public sf::Sprite
 		{
 		public:
-			Cursor(const sf::Texture & texture)
+			Cursor(const sf::Texture& texture)
 			{
 				// sets given texture to cursor
 				Sprite::setTexture(texture);
@@ -21,7 +21,7 @@ namespace NGin {
 
 			// updtates cursor's position relative to window
 			// based on where the mouse is at at a given frame
-			void followMouse(const sf::RenderWindow & window);
+			void followMouse(const sf::RenderWindow& window);
 
 		private:
 

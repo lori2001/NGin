@@ -11,20 +11,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NGin\Button.cpp" />
-    <ClCompile Include="NGin\Cursor.cpp" />
-    <ClCompile Include="NGin\Dropdown.cpp" />
-    <ClCompile Include="NGin\Slider.cpp" />
-    <ClCompile Include="NGin\Switch.cpp" />
-    <ClCompile Include="NGin\TextHolder.cpp" />
+    <ClCompile Include="NGin\ResourceMan.cpp" />
+    <ClCompile Include="NGin\UI\Button.cpp" />
+    <ClCompile Include="NGin\UI\Cursor.cpp" />
+    <ClCompile Include="NGin\UI\Dropdown.cpp" />
+    <ClCompile Include="NGin\UI\Slider.cpp" />
+    <ClCompile Include="NGin\UI\Switch.cpp" />
+    <ClCompile Include="NGin\UI\TextHolder.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NGin\Button.h" />
-    <ClInclude Include="NGin\Cursor.h" />
-    <ClInclude Include="NGin\Dropdown.h" />
-    <ClInclude Include="NGin\Slider.h" />
-    <ClInclude Include="NGin\Switch.h" />
-    <ClInclude Include="NGin\TextHolder.h" />
+    <ClInclude Include="NGin\ResourceMan.h" />
+    <ClInclude Include="NGin\UI\Button.h" />
+    <ClInclude Include="NGin\UI\Cursor.h" />
+    <ClInclude Include="NGin\UI\Dropdown.h" />
+    <ClInclude Include="NGin\UI\Slider.h" />
+    <ClInclude Include="NGin\UI\Switch.h" />
+    <ClInclude Include="NGin\UI\TextHolder.h" />
+    <ClInclude Include="NGin\UserInterface.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
