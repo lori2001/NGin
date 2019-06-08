@@ -1,22 +1,21 @@
 #include <iostream>
 #include "Button.h"
 
-namespace NGin
+namespace NGin::UI
 {
-	namespace UI
+	sf::Vector2f Button::calcTextPos()
 	{
-		sf::Vector2f Button::calcTextPos()
-		{
-			// Center text's origin
-			text.setOrigin(text.getLocalBounds().left + text.getLocalBounds().width / 2.0f,
-				text.getLocalBounds().top + text.getLocalBounds().height / 2.0f);
+		// Center text's origin
+		text.setOrigin(text.getLocalBounds().left + text.getLocalBounds().width / 2.0f,
+			text.getLocalBounds().top + text.getLocalBounds().height / 2.0f);
 
-			// Set text position
-			return (sf::Vector2f{ shape.getGlobalBounds().left + shape.getGlobalBounds().width / 2,
-								  shape.getGlobalBounds().top + shape.getGlobalBounds().height / 2 });
-		}
-		void Button::selectByKeyboard(const int numerotation, const int arrowCount)
-		{
+		// Set text position
+		return (sf::Vector2f{ shape.getGlobalBounds().left + shape.getGlobalBounds().width / 2,
+								shape.getGlobalBounds().top + shape.getGlobalBounds().height / 2 });
+	}
+	void Button::selectByKeyboard(const int numerotation, const int arrowCount)
+	{
+		if (!isInactive) {
 			// prioritize mouse over keyboard
 			if (!useMouse)
 			{
@@ -34,14 +33,19 @@ namespace NGin
 				warningMessage = false;
 			}
 		}
-		void Button::selectByMouse(const sf::Vector2f & mouse)
-		{
+	}
+	void Button::selectByMouse(const sf::Vector2f & mouse)
+	{
+		if (!isInactive) {
 			// checks if the mouse and the button intersect
 			isSelected = shape.getGlobalBounds().intersects(sf::FloatRect(mouse, { 1,1 })); // consider mouse to be 1x1 pixels
 
 			useMouse = true;
 		}
-		void Button::handleEvents(const sf::Event & event)
+	}
+	void Button::handleEvents(const sf::Event & event)
+	{
+		if (!isInactive)
 		{
 			// if the button is selected outline appears
 			if (isSelected)
@@ -83,95 +87,107 @@ namespace NGin
 			else // else the text gets back its position
 				text.setPosition(textPos);
 		}
-		void Button::draw(sf::RenderTarget & target, sf::RenderStates states) const
-		{
-			target.draw(shape, states);
-			target.draw(text, states);
-		}
-		void Button::setSoundFX(const sf::Sound & sound)
-		{
-			this->sound = sound;
-		}
-		void Button::setFont(const sf::Font & font)
-		{
-			// sets font
-			text.setFont(font);
+	}
+	void Button::draw(sf::RenderTarget & target, sf::RenderStates states) const
+	{
+		target.draw(shape, states);
+		target.draw(text, states);
+	}
+	void Button::setSoundFX(const sf::SoundBuffer &buffer)
+	{
+		this->sound.setBuffer(buffer);
+	}
+	void Button::setFont(const sf::Font & font)
+	{
+		// sets font
+		text.setFont(font);
 
-			// centers text with the new font in mind
-			textPos = calcTextPos();
-			text.setPosition(textPos);
-		}
-		void Button::setTextColor(const sf::Color & color)
-		{
-			text.setFillColor(color);
-		}
-		void Button::setTexture(const sf::Texture & texture)
-		{
-			// sets sprite texture
-			shape.setTexture(&texture);
+		// centers text with the new font in mind
+		textPos = calcTextPos();
+		text.setPosition(textPos);
+	}
+	void Button::setTextColor(const sf::Color & color)
+	{
+		text.setFillColor(color);
+	}
+	void Button::setTexture(const sf::Texture & texture)
+	{
+		// sets sprite texture
+		shape.setTexture(&texture);
 
-			// uses the first part of the buttontexture
-			shape.setTextureRect(sf::IntRect(0, 0, int(shape.getSize().x), int(shape.getSize().y)));
-		}
-		void Button::setFillColor(const sf::Color & color)
-		{
-			shape.setFillColor(color);
-		}
-		void Button::setPosition(const sf::Vector2f & position)
-		{
-			//sets position of the sprite
-			shape.setPosition(position);
+		// uses the first part of the buttontexture
+		shape.setTextureRect(sf::IntRect(0, 0, int(shape.getSize().x), int(shape.getSize().y)));
+	}
+	void Button::setFillColor(const sf::Color & color)
+	{
+		shape.setFillColor(color);
+	}
+	void Button::setPosition(const sf::Vector2f & position)
+	{
+		//sets position of the sprite
+		shape.setPosition(position);
 
-			// update the position of the text based on shape's position
-			textPos = calcTextPos();
-			text.setPosition(textPos);
-		}
-		void Button::setSelectColor(const sf::Color & color)
-		{
-			//in case selected this color will be the outline
-			shape.setOutlineColor(color);
-		}
-		void Button::setSelectThickness(const float thickness)
-		{
-			outlineThickness = thickness;
-		}
-		void Button::setScale(const sf::Vector2f & scale)
-		{
-			//changes sprite scale
-			shape.setScale(scale);
+		// update the position of the text based on shape's position
+		textPos = calcTextPos();
+		text.setPosition(textPos);
+	}
+	void Button::setSelectColor(const sf::Color & color)
+	{
+		//in case selected this color will be the outline
+		shape.setOutlineColor(color);
+	}
+	void Button::setSelectThickness(const float thickness)
+	{
+		outlineThickness = thickness;
+	}
+	void Button::setScale(const sf::Vector2f & scale)
+	{
+		//changes sprite scale
+		shape.setScale(scale);
 
-			//changes text size
-			text.setCharacterSize(int(38 * scale.y));
+		//changes text size
+		text.setCharacterSize(int(38 * scale.y));
 
-			//centers the newly sized text
-			textPos = calcTextPos();
-			text.setPosition(textPos);
-		}
-		void Button::setCharacterSize(const int size)
-		{
-			//sets the new string to the text
-			this->text.setCharacterSize(size);
+		//centers the newly sized text
+		textPos = calcTextPos();
+		text.setPosition(textPos);
+	}
+	void Button::setCharacterSize(const int size)
+	{
+		//sets the new string to the text
+		this->text.setCharacterSize(size);
 
-			//centers the string with its new height
-			textPos = calcTextPos();
-			text.setPosition(textPos);
-		}
-		bool Button::activated()
-		{
-			if (isActive) {
-				isActive = false;
-				return true;
-			}
-			else return false;
-		}
-		void Button::setString(const sf::String & txt)
-		{
-			//sets the new string to the text
-			this->text.setString(txt);
+		//centers the string with its new height
+		textPos = calcTextPos();
+		text.setPosition(textPos);
+	}
+	void Button::setInactivity(const bool param)
+	{
+		isInactive = param;
+		if (isInactive) {
+			// gets rid of selected outline if there is any
+			isSelected = false;
+			shape.setOutlineThickness(0);
 
-			//centers the new string of text
-			textPos = calcTextPos();
-			text.setPosition(textPos);
+			// visual representation of inactive button (3rd texture)
+			shape.setTextureRect(sf::IntRect(2 * (int)shape.getSize().x, 0, (int)shape.getSize().x, (int)shape.getSize().y));
 		}
+	}
+	bool Button::activated()
+	{
+		if (isActive) {
+			isActive = false;
+			return true;
+		}
+		else return false;
+	}
+	void Button::setString(const sf::String & txt)
+	{
+		//sets the new string to the text
+		this->text.setString(txt);
+
+		//centers the new string of text
+		textPos = calcTextPos();
+		text.setPosition(textPos);
 	}
 }

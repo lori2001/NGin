@@ -21,9 +21,6 @@
     <ClCompile Include="NGin\UI\Cursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\UI\Dropdown.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="NGin\UI\Slider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -39,6 +36,12 @@
     <ClCompile Include="NGin\ResourceCodex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NGin\UI\Dropdown-old.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NGin\UI\Dropdown.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NGin\UI\TextHolder.h">
@@ -48,9 +51,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NGin\UI\Cursor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NGin\UI\Dropdown.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NGin\UI\Slider.h">
@@ -66,6 +66,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NGin\ResourceCodex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NGin\UI\Dropdown-old.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NGin\UI\Dropdown.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

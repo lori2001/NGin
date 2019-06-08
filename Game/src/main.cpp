@@ -11,15 +11,24 @@ int main()
 	sf::RenderWindow window;
 	window.create(sf::VideoMode(1366, 768), "Super Mario HD");
 
+	ResourceCodex::setLocation("assets/");
 	UI::Cursor cursor{ *ResourceCodex::Acquire<sf::Texture>("cursor.png") };
+	
 	UI::Button button{ {400, 50}, *ResourceCodex::Acquire<sf::Texture>("button.png") };
-	UI::Button button2{ {400, 50}, *ResourceCodex::Acquire<sf::Texture>("button.png") };
 	button.setFont(*ResourceCodex::Acquire<sf::Font>("arial.ttf"));
-	button.setString("StartGame");
+	button.setString("Start Game");
+	button.setSoundFX(*ResourceCodex::Acquire<sf::SoundBuffer>("button_click.wav"));
+	button.setPosition({200,200});
 
-	button2.setPosition(sf::Vector2f{ 200, 200 });
-	button2.setFont(*ResourceCodex::Acquire<sf::Font>("arial.ttf"));
-	button2.setString("Options");
+	//UI::Dropdown dropdown{ 5 };
+	(*ResourceCodex::Acquire<sf::Texture>("dropdown.png")).setRepeated(true);
+
+	//dropdown.setPosition({1000, 300});
+	//dropdown.setTexture(*ResourceCodex::Acquire<sf::Texture>("dropdown.png"),
+	//					*ResourceCodex::Acquire<sf::Font>("arial.ttf"));
+	//dropdown.setAbovetext("Blah-Blah");
+
+	sf::Sound dummy;
 
 	while (window.isOpen())
 	{
@@ -34,17 +43,21 @@ int main()
 
 			button.handleEvents(event);
 			button.selectByMouse(UI::Cursor::getPosition());
-
-			button2.handleEvents(event);
-			button2.selectByMouse(UI::Cursor::getPosition());
+			
+			// dropdown.checkSelected(UI::Cursor::getPosition());
+			// dropdown.handleInput(event, dummy);
 
 			cursor.followMouse(window);
 		}
 
 		window.clear();
 
+		if (button.activated()) {
+			std::cout << "I am being pressed!" << std::endl;
+		}
+
 		window.draw(button);
-		window.draw(button2);
+		// window.draw(dropdown);
 		window.draw(cursor);
 
 		//insert drawing commands in here
