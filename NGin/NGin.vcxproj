@@ -11,27 +11,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NGin\Animation.cpp" />
-    <ClCompile Include="NGin\ResourceCodex.cpp" />
+    <ClCompile Include="NGin\Base\Animation.cpp" />
+    <ClCompile Include="NGin\Base\ResourceCodex.cpp" />
     <ClCompile Include="NGin\UI\Button.cpp" />
     <ClCompile Include="NGin\UI\Cursor.cpp" />
-    <ClCompile Include="NGin\UI\Dropdown-old.cpp" />
     <ClCompile Include="NGin\UI\Dropdown.cpp" />
     <ClCompile Include="NGin\UI\Slider.cpp" />
     <ClCompile Include="NGin\UI\Switch.cpp" />
     <ClCompile Include="NGin\UI\TextHolder.cpp" />
+    <ClCompile Include="NGin\Utils\Center.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NGin\Animation.h" />
-    <ClInclude Include="NGin\ResourceCodex.h" />
+    <ClInclude Include="NGin\Base.h" />
+    <ClInclude Include="NGin\Base\Animation.h" />
+    <ClInclude Include="NGin\Base\ResourceCodex.h" />
     <ClInclude Include="NGin\UI\Button.h" />
     <ClInclude Include="NGin\UI\Cursor.h" />
-    <ClInclude Include="NGin\UI\Dropdown-old.h" />
     <ClInclude Include="NGin\UI\Dropdown.h" />
     <ClInclude Include="NGin\UI\Slider.h" />
     <ClInclude Include="NGin\UI\Switch.h" />
     <ClInclude Include="NGin\UI\TextHolder.h" />
     <ClInclude Include="NGin\UserInterface.h" />
+    <ClInclude Include="NGin\Utils.h" />
+    <ClInclude Include="NGin\Utils\Center.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\styles\warcraft\button.png" />

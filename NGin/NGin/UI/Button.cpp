@@ -3,44 +3,11 @@
 
 namespace NGin::UI
 {
-	sf::Vector2f Button::calcTextPos()
-	{
-		// Center text's origin
-		text.setOrigin(text.getLocalBounds().left + text.getLocalBounds().width / 2.0f,
-			text.getLocalBounds().top + text.getLocalBounds().height / 2.0f);
-
-		// Set text position
-		return (sf::Vector2f{ shape.getGlobalBounds().left + shape.getGlobalBounds().width / 2,
-								shape.getGlobalBounds().top + shape.getGlobalBounds().height / 2 });
-	}
-	void Button::selectByKeyboard(const int numerotation, const int arrowCount)
-	{
-		if (!isInactive) {
-			// prioritize mouse over keyboard
-			if (!useMouse)
-			{
-				if (arrowCount == numerotation) {
-					isSelected = true;
-				}
-				else {
-					isSelected = false;
-				}
-
-				useKeyboard = true;
-			}
-			else if (warningMessage) {
-				std::cout << "WARNING! Buttons can't be contolled by both mouse and keyboard at once! -> Keyboard control DISABLED" << std::endl;
-				warningMessage = false;
-			}
-		}
-	}
 	void Button::selectByMouse(const sf::Vector2f & mouse)
 	{
 		if (!isInactive) {
 			// checks if the mouse and the button intersect
 			isSelected = shape.getGlobalBounds().intersects(sf::FloatRect(mouse, { 1,1 })); // consider mouse to be 1x1 pixels
-
-			useMouse = true;
 		}
 	}
 	void Button::handleEvents(const sf::Event & event)
@@ -54,9 +21,9 @@ namespace NGin::UI
 				shape.setOutlineThickness(0);
 
 			// if its selected and the right events are triggered
-			if (isSelected && ((useMouse && event.mouseButton.button == sf::Mouse::Left) || (useKeyboard && event.key.code == sf::Keyboard::Enter)))
+			if ( isSelected && event.mouseButton.button == sf::Mouse::Left )
 			{
-				if ((useMouse && event.type == sf::Event::MouseButtonPressed) || (useKeyboard && event.type == sf::Event::KeyPressed))
+				if (event.type == sf::Event::MouseButtonPressed)
 				{
 					if (sound.getStatus() != sf::Music::Status::Playing) // play button sound
 						sound.play();
@@ -67,7 +34,7 @@ namespace NGin::UI
 					//the button has been pressed / take action when released
 					isPressed = true;
 				}
-				else if (isPressed && ((useMouse && event.type == sf::Event::MouseButtonReleased) || (useKeyboard && event.type == sf::Event::KeyReleased)))
+				else if (isPressed && event.type == sf::Event::MouseButtonReleased)
 				{
 					//take action
 					isActive = true;
@@ -75,7 +42,7 @@ namespace NGin::UI
 			}
 
 			// make the button inactive whenever needed
-			if ((useMouse && event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonReleased) || !isSelected)
+			if ((event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonReleased) || !isSelected)
 			{
 				shape.setTextureRect(sf::IntRect(0, 0, (int)shape.getSize().x, (int)shape.getSize().y));
 				isPressed = false;
@@ -103,8 +70,8 @@ namespace NGin::UI
 		text.setFont(font);
 
 		// centers text with the new font in mind
-		textPos = calcTextPos();
-		text.setPosition(textPos);
+		centerTextInShape(text, shape);
+		textPos = text.getPosition();
 	}
 	void Button::setTextColor(const sf::Color & color)
 	{
@@ -128,8 +95,8 @@ namespace NGin::UI
 		shape.setPosition(position);
 
 		// update the position of the text based on shape's position
-		textPos = calcTextPos();
-		text.setPosition(textPos);
+		centerTextInShape(text, shape);
+		textPos = text.getPosition();
 	}
 	void Button::setSelectColor(const sf::Color & color)
 	{
@@ -149,8 +116,8 @@ namespace NGin::UI
 		text.setCharacterSize(int(38 * scale.y));
 
 		//centers the newly sized text
-		textPos = calcTextPos();
-		text.setPosition(textPos);
+		centerTextInShape(text, shape);
+		textPos = text.getPosition();
 	}
 	void Button::setCharacterSize(const int size)
 	{
@@ -158,8 +125,8 @@ namespace NGin::UI
 		this->text.setCharacterSize(size);
 
 		//centers the string with its new height
-		textPos = calcTextPos();
-		text.setPosition(textPos);
+		centerTextInShape(text, shape);
+		textPos = text.getPosition();
 	}
 	void Button::setInactivity(const bool param)
 	{
@@ -187,7 +154,7 @@ namespace NGin::UI
 		this->text.setString(txt);
 
 		//centers the new string of text
-		textPos = calcTextPos();
-		text.setPosition(textPos);
+		centerTextInShape(text, shape);
+		textPos = text.getPosition();
 	}
 }

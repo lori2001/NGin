@@ -1,6 +1,7 @@
 #pragma once
 #include "SFML\Graphics.hpp"
 #include "SFML\Audio.hpp"
+#include "..\Utils.h"
 
 namespace NGin::UI
 {
@@ -20,15 +21,12 @@ namespace NGin::UI
 			text.setString(txt);
 			text.setCharacterSize(30);
 
-			textPos = calcTextPos();
-			text.setPosition(textPos);
+			centerTextInShape(text, shape);
+			textPos = text.getPosition();
 		}
 		Button() : Button(sf::Vector2f{ 400, 50 }) {} // default empty selectable rectangle
 
-		/* IMPORTANT! You have to count and modify arrowCount in an outside variable in order for this to work
-			Also needs handleEvents() to take action*/
-		void selectByKeyboard(const int numerotation, const int arrowCount);
-		/* Needs handleEvents() to take action */
+		//  Selects by mouse -> Needs handleEvents() to take action
 		void selectByMouse(const sf::Vector2f& mouse);
 
 		// handles enter and mouseclick events and plays given sounds and animations whenever neede
@@ -74,8 +72,7 @@ namespace NGin::UI
 		sf::Sound sound; // sound to play when button activated
 
 		float outlineThickness; // the thickness of the outline when selected
-		sf::Vector2f textPos; // the position at which the text should stay
-		sf::Vector2f calcTextPos(); // updates default text position so as to avoid writing so much and make things compact
+		sf::Vector2f textPos; // saves the position at which the text should stay (to avoid moving indefinetly)
 
 		bool isInactive = false; // if true make it grey and set it to unselectable
 		bool isPressed = false; // intermediarily active boolean in between isSelected and isActive
