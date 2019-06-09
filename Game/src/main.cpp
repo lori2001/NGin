@@ -35,6 +35,7 @@ int main()
 	dropdown.addTextElement("800x600");
 	dropdown.addTextElement("400x400");
 	dropdown.deleteTextElement(2);
+	dropdown.setSoundFX(*ResourceCodex::Acquire<sf::SoundBuffer>("button_click.wav"));
 
 	while (window.isOpen())
 	{

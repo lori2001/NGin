@@ -59,6 +59,8 @@ namespace NGin::UI
 		void setInactivity(const bool param);
 		// if true does not swap out the main drop-text inside the object
 		void setStaticism(const bool param);
+		// sound the object makes when pressed
+		void setSoundFX(const sf::SoundBuffer& buffer);
 
 		// returns isActive for given element number and sets it to false
 		bool activated(const int i);

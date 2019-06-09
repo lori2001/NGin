@@ -270,6 +270,10 @@ namespace NGin::UI
 	{
 		isStatic = param;
 	}
+	void Dropdown::setSoundFX(const sf::SoundBuffer& buffer)
+	{
+		this->sound.setBuffer(buffer);
+	}
 	bool Dropdown::activated(const int i)
 	{
 		if (isActive[i]) {
