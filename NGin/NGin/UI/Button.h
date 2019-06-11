@@ -26,10 +26,10 @@ namespace NGin::UI
 		}
 		Button() : Button(sf::Vector2f{ 400, 50 }) {} // default empty selectable rectangle
 
-		//  Selects by mouse -> Needs handleEvents() to take action
+		//  Selects by mouse (BUT Needs handleEvents() to take action!)
 		void selectByMouse(const sf::Vector2f& mouse);
 
-		// handles enter and mouseclick events and plays given sounds and animations whenever neede
+		// handles enter and mouseclick events and plays given sounds and animations whenever needed
 		void handleEvents(const sf::Event& event);
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -43,7 +43,9 @@ namespace NGin::UI
 		void setString(const sf::String& txt);
 		// texture of the button
 		void setTexture(const sf::Texture& texture);
-		// changes the default color of the button
+		// sets the location inside the texture at which buttons should load (default: 0, 0)
+		void setTexturePos(const sf::Vector2i position);
+		// changes the default color of the button (default: white)
 		void setFillColor(const sf::Color& color);
 		// position of the button
 		void setPosition(const sf::Vector2f& position);
@@ -56,12 +58,14 @@ namespace NGin::UI
 		// sets the character size of the text
 		void setCharacterSize(const int size);
 		// if true makes button unselectable, and unactivatable (activates third texture)
-		void setInactivity(const bool param);
+		void setInactivity(const bool in_isInactive);
+		// sets size of the button (affects texture clipping)
+		void setSize(const sf::Vector2f size);
 		
 		// returns true whenever action needs to be taken. sets itself back to false automatically
 		bool activated();
 
-		sf::Vector2f getScale() const { return  shape.getScale(); }
+		sf::Vector2f getScale() const { return shape.getScale(); }
 		sf::Vector2f getPosition() const { return shape.getPosition(); }
 		sf::Vector2f getSize() const { return shape.getSize(); }
 		sf::FloatRect getGlobalBounds() const { return shape.getGlobalBounds(); }
@@ -73,7 +77,9 @@ namespace NGin::UI
 
 		float outlineThickness; // the thickness of the outline when selected
 		sf::Vector2f textPos; // saves the position at which the text should stay (to avoid moving indefinetly)
+		sf::Vector2i texturePos = {0, 0}; // the position at which textures should be loaded from
 
+		sf::Color shapeColor; // the color the shape has when not inactive
 		bool isInactive = false; // if true make it grey and set it to unselectable
 		bool isPressed = false; // intermediarily active boolean in between isSelected and isActive
 		bool isSelected = false; // if the button is selected by either mouse or keyboard this is true

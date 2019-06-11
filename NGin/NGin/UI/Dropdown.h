@@ -12,7 +12,7 @@ namespace NGin::UI
 			textAbove.setCharacterSize(25); // the size of the text above object
 			dropTextSize = 22;  // the size of the text on each element
 			outlineThickness = 3; // the thickness of outline when selected
-			highlight.setFillColor(sf::Color(0,0,0, 100)); // half-transparent black
+			highlight.setFillColor(sf::Color(255, 255, 255, 100)); // half-transparent white
 
 			/*first element is mandatory*/
 			addTextElement("");
@@ -21,7 +21,8 @@ namespace NGin::UI
 			shape.setSize(size);
 			highlight.setSize(size);
 		}
-		Dropdown() : Dropdown({ 300,40 }) {}
+		Dropdown() : Dropdown({ 300, 40 }) {}
+
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		// can be selected by mouse (only if the object is not inactive)
@@ -40,25 +41,25 @@ namespace NGin::UI
 		// sets the font for all texts
 		void setFont(const sf::Font& param);
 		// gives a color to the shape
-		void setShapeColor(const sf::Color& param);
+		void setFillColor(const sf::Color& color);
 		// sets selection outline's color
-		void setSelectColor(const sf::Color& param);
+		void setSelectColor(const sf::Color& color);
 		// sets the size of the main item and its derivates
-		void setSize(const sf::Vector2f& param);
+		void setSize(const sf::Vector2f& in_size);
 		// sets the object's position
-		void setPosition(const sf::Vector2f& param);
+		void setPosition(const sf::Vector2f& position);
 		// sets the string for the text above the object
-		void setAboveString(const sf::String& param);
+		void setAboveString(const sf::String& string);
 		// sets the size of the text above the shape
-		void setAboveSize(const unsigned param);
+		void setAboveSize(const unsigned charSize);
 		// sets the size of the text inside the dropdown
-		void setDropTextSize(const unsigned param);
+		void setDropTextSize(const unsigned charSize);
 		// sets the text with given index inside the droptext vector
 		void setDropString(const int i, const sf::String& text);
 		// makes dropdown unselectable and unactivateable
-		void setInactivity(const bool param);
+		void setInactivity(const bool in_isInactive);
 		// if true does not swap out the main drop-text inside the object
-		void setStaticism(const bool param);
+		void setStaticism(const bool in_isStatic);
 		// sound the object makes when pressed
 		void setSoundFX(const sf::SoundBuffer& buffer);
 
@@ -75,6 +76,7 @@ namespace NGin::UI
 		float outlineThickness; // the size of the outline in pixels
 
 		sf::RectangleShape shape; // the main shape of the object
+		sf::Color shapeColor; // the color the shape has when not inactive
 		sf::RectangleShape highlight; // the overlay that gets displayed upon currently selected element
 		sf::Text textAbove; // text above main sprite
 		std::vector<sf::Text> droptext; // texts inside each element

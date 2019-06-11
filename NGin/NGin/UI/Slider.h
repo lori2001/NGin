@@ -1,83 +1,83 @@
 #pragma once
-#include <assert.h>
-#include "SFML\Graphics.hpp"
-#include "SFML\Audio.hpp"
+#include "SFML/Audio.hpp"
+#include "SFML/Graphics.hpp"
+#include "Button.h"
 
-namespace UI
-{
-	class Slider : public sf::Drawable
-	{
-	private:
-		const sf::Vector2f ssize { 407,45 }; // slider size
-		const sf::Vector2f csize { 335,31 }; // center body size
-		const sf::Vector2f lrsize { 33,31 }; // left and right arrow size
-		const sf::Vector2f center { 407 / 2,31 / 2 }; // the center of the whole slider
-		const sf::Vector2f bsize { 33,27 }; // the size of the button
-
-		sf::RectangleShape slider { ssize };
-		sf::RectangleShape button { bsize };
-
-		//these are shown if selected
-		sf::RectangleShape centerOutline { csize };
-		sf::RectangleShape leftOutline { lrsize };
-		sf::RectangleShape rightOutline { lrsize };
-
-		bool isPressed = false; //true if left mouse button is pressed while it is selected
-		bool iscSelected = false; //true if the center is selected
-		bool isrSelected = false; // true if right arrow is selected
-		bool islSelected = false; // true if left arrow is selected
-		bool isActive = false; //true if level changes
-
-		unsigned int level = 5; //contains slider position - defaults to rthe center
-
-		sf::Text text; // text above slider
+namespace NGin::UI {
+	class Slider : public sf::Drawable {
 	public:
-		Slider()
+		Slider(const sf::Vector2f& shapeSize,
+			const sf::Vector2f& arrowSize,
+			const sf::Vector2f& markSize,
+			const sf::Vector2f& position = { 0,0 })
 		{
-			//sets all origins to center
-			slider.setOrigin(center);
-			button.setOrigin(sf::Vector2f(bsize.x / 2, bsize.y / 2));
-			centerOutline.setOrigin(sf::Vector2f(csize.x / 2, csize.y / 2));
-			leftOutline.setOrigin(sf::Vector2f(lrsize.x / 2, lrsize.y / 2));
-			rightOutline.setOrigin(sf::Vector2f(lrsize.x / 2, lrsize.y / 2));
+			outlineThickness = 3;
 
-			/*makes rectangles look like outlines*/
-			centerOutline.setOutlineColor(sf::Color::Yellow);
-			leftOutline.setOutlineColor(sf::Color::Yellow);
-			rightOutline.setOutlineColor(sf::Color::Yellow);
+			// set shapes' sizes
+			shape.setSize(shapeSize);
+			leftArrow.setSize(arrowSize);
+			rightArrow.setSize(arrowSize);
+			mark.setSize(markSize);
 
-			centerOutline.setOutlineThickness(-2);
-			leftOutline.setOutlineThickness(-2);
-			rightOutline.setOutlineThickness(-2);
+			// button has to be centered in order to align properly
+			mark.setOrigin({ mark.getGlobalBounds().width / 2, mark.getGlobalBounds().height / 2 });
 
-			centerOutline.setFillColor(sf::Color::Transparent);
-			leftOutline.setFillColor(sf::Color::Transparent);
-			rightOutline.setFillColor(sf::Color::Transparent);
-			/*************************************/
+			// set up virtual box (has some additional offset calibrated for default textures)
+			sliderBox = { mark.getGlobalBounds().width / 2 + 5 , 0,
+					   shape.getGlobalBounds().width - mark.getGlobalBounds().width - 10,
+					   shape.getGlobalBounds().height / 2 };
 
-			//makes text yellow by default
-			text.setFillColor(sf::Color::Yellow);
-		}
-		Slider(const std::string txt) : Slider()
-		{
-			text.setString(txt);
-		}
+			// positon structure (leftArrow->shape->rightArrow)
+			leftArrow.setPosition(position);
+			shape.setPosition({ leftArrow.getPosition().x + leftArrow.getGlobalBounds().width, position.y });
+			rightArrow.setPosition({ shape.getPosition().x + shape.getGlobalBounds().width, position.y });
+			adjustMarkPos();
 
-		void setSelected(const sf::Vector2f & mouse);
-		void handleInput(const sf::Event &event, const sf::Vector2f & mouse, sf::Sound & pressbutton);
+		} Slider(const sf::Vector2f& position = { 0,0 }) : Slider({ 300, 40 }, { 40, 40 }, { 30, 30 }, position) {}
+
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-		//setters
-		void setTexture(const sf::Texture &sliderT, const sf::Texture &buttonT, const sf::Font & font);
-		void setPosition(const sf::Vector2f &position);
-		void setSelectColor(const sf::Color &color);
-		void setScale(const sf::Vector2f &scale);
-		void setString(const std::string & txt);
-		void setActive(const bool & active);
-		void setLevel(const unsigned int  & lvl);
+		//  Selects by mouse (BUT Needs handleEvents() to take action!)
+		void selectByMouse(const sf::Vector2f& mouse);
 
-		//getters
-		bool getActive() const { return isActive; }
-		unsigned int getLevel() const { return level; }
+		// handles enter and mouseclick events and plays given sounds and animations whenever needed
+		void handleEvents(const sf::Event& event);
+
+		// sets textures which then get mapped according to sizes (shape->arrow->button)
+		void setTexture(const sf::Texture& texture);
+		// sound the slider makes when pressed
+		void setSoundFX(const sf::SoundBuffer& buffer);
+		// set fill color of every element
+		void setFillColor(const sf::Color& color);
+		// set the fill color of the mark's container only
+		void setContainerColor(const sf::Color& color);
+		// set the fill color of the mark only
+		void setMarkColor(const sf::Color& color);
+		// set the fill color of the arrows(left and right) only
+		void setArrowsColor(const sf::Color& color);
+		// sets the box the slider can move in
+		void setSliderBox(const sf::FloatRect& newbox);
+
+		// gets the current level of the slider in a value between 0 and 1
+		float getLevel();
+	private:
+		// adjust button position based on level
+		void adjustMarkPos();
+	private:
+		sf::FloatRect sliderBox; // a virtual box for the mark
+		sf::RectangleShape shape; // the main shape of the slider
+		sf::RectangleShape mark; // the round sprite signaling current level
+		sf::Sound sound; // sound to play when slider activated
+		Button leftArrow; // the left arrow's button
+		Button rightArrow; // the right arrow's button
+
+		float outlineThickness; // the thickness of selection outline
+		float mouseX = 0; // holds mouse's X position to help calculate level later on
+		float level = 0; // the output percentage (0 <= level <= 1)
+
+		bool isSliding = false; // true if lmb is on hold (then slider is active)
+		bool isInactive = false; // if true the object can't be selected or modified
+		bool isSelected = false; // used for the main section
+		bool isActive = false; // used for the main section
 	};
 }

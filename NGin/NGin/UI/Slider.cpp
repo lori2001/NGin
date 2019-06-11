@@ -1,135 +1,142 @@
 #include "Slider.h"
 
-namespace UI
-{
-	void Slider::setSelected(const sf::Vector2f & mouse)
+namespace NGin::UI {
+	void Slider::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		iscSelected = (slider.getPosition().x - csize.x / 2 * slider.getScale().x <= mouse.x &&
-			slider.getPosition().x + csize.x / 2 * slider.getScale().x >= mouse.x &&
-			slider.getPosition().y - csize.y / 2 * slider.getScale().y <= mouse.y &&
-			slider.getPosition().y + csize.y / 2 * slider.getScale().y >= mouse.y);
-
-		isrSelected = (slider.getPosition().x + csize.x / 2 * slider.getScale().x <= mouse.x &&
-			slider.getPosition().x + csize.x / 2 * slider.getScale().x + lrsize.x * slider.getScale().x + 1 * slider.getScale().x >= mouse.x &&
-			slider.getPosition().y - lrsize.y / 2 * slider.getScale().y <= mouse.y &&
-			slider.getPosition().y + lrsize.y / 2 * slider.getScale().y >= mouse.y);
-
-		islSelected = (slider.getPosition().x - csize.x / 2 * slider.getScale().x - lrsize.x * slider.getScale().x - 1 * slider.getScale().x <= mouse.x &&
-			slider.getPosition().x - csize.x / 2 * slider.getScale().x >= mouse.x &&
-			slider.getPosition().y - lrsize.y / 2 * slider.getScale().y <= mouse.y &&
-			slider.getPosition().y + lrsize.y / 2 * slider.getScale().y >= mouse.y);
+		target.draw(shape);
+		target.draw(leftArrow);
+		target.draw(rightArrow);
+		target.draw(mark);
 	}
-	void Slider::handleInput(const sf::Event & event, const sf::Vector2f & mouse, sf::Sound & pressbutton)
+	void Slider::selectByMouse(const sf::Vector2f& mouse)
 	{
-		const unsigned int lastlevel = level;
-		assert(0 <= level && level <= 10);
+		if (!isInactive) {
 
-		if (event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonPressed) // if left button is pressed
-		{
-			if (pressbutton.getStatus() != sf::Music::Status::Playing && (islSelected || isrSelected || iscSelected))
-				pressbutton.play();
+			leftArrow.selectByMouse(mouse);
+			rightArrow.selectByMouse(mouse);
 
-			isPressed = true;
+			sf::FloatRect mouseRect = { mouse, { 1,1 } };
 
-			if (isrSelected && level < 10)
-			{
-				(level)++;
-			}
-			else if (islSelected && level > 0)
-			{
-				(level)--;
-			}
-		}
+			isSelected = shape.getGlobalBounds().intersects(mouseRect);
 
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) || event.mouseButton.button == sf::Mouse::Left) // if left button is held
-		{
-			if (iscSelected && isPressed)
-			{
-				const float unit = csize.x / 11 * slider.getScale().x;
-				unsigned int measure = 0;
-				for (float i = slider.getPosition().x - csize.x / 2 * slider.getScale().x + unit; measure <= 10; i += unit)
-				{
-					if (mouse.x > i - unit && mouse.x < i)
-					{
-						level = measure;
-						break;
-					}
-					measure++;
-				}
-			}
-		}
-
-		if (!islSelected && !isrSelected && !iscSelected)
-			isPressed = false;
-
-		if (lastlevel != level)
-		{
-			//level changed, this changes the position of the button
-			button.setPosition(sf::Vector2f(slider.getPosition().x - csize.x / 2 * slider.getScale().x + bsize.x / 2 * slider.getScale().x + (csize.x - bsize.x) * (level) / 10 * slider.getScale().x, slider.getPosition().y));
-			//sets isActive to true thus taking action
-			isActive = true;
+			// store mouse.x in slider level to avoid declaring another float
+			mouseX = mouse.x;
 		}
 	}
-	void Slider::draw(sf::RenderTarget & target, sf::RenderStates states) const
+	void Slider::handleEvents(const sf::Event& event)
 	{
-		target.draw(slider, states);
+		if (!isInactive) {
 
-		if (iscSelected)
-			target.draw(centerOutline, states);
-		else if (isrSelected)
-			target.draw(rightOutline, states);
-		else if (islSelected)
-			target.draw(leftOutline, states);
+			if (isSelected)
+				shape.setOutlineThickness(-outlineThickness);
+			else 
+				shape.setOutlineThickness(0);
 
-		target.draw(button, states);
-		target.draw(text, states);
-	}
-	void Slider::setTexture(const sf::Texture & sliderT, const sf::Texture & buttonT, const sf::Font & font)
-	{
-		slider.setTexture(&sliderT);
-		button.setTexture(&buttonT);
-		text.setFont(font);
-	}
-	void Slider::setPosition(const sf::Vector2f & position)
-	{
-		slider.setPosition(position);
-		button.setPosition(sf::Vector2f(position.x - csize.x / 2 * slider.getScale().x + bsize.x / 2 * slider.getScale().x + (csize.x - bsize.x) * level / 10 * slider.getScale().x, position.y));
-		centerOutline.setPosition(position);
-		leftOutline.setPosition(sf::Vector2f(position.x - csize.x / 2 * slider.getScale().x - lrsize.x / 2 * slider.getScale().x - 1 * slider.getScale().x, position.y));
-		rightOutline.setPosition(sf::Vector2f(position.x + csize.x / 2 * slider.getScale().x + lrsize.x / 2 * slider.getScale().x + 1 * slider.getScale().x, position.y));
-		text.setPosition(sf::Vector2f(position.x, position.y - (csize.y + 3) * slider.getScale().y));
-	}
-	void Slider::setSelectColor(const sf::Color & color)
-	{
-		centerOutline.setOutlineColor(color);
-		leftOutline.setOutlineColor(color);
-		rightOutline.setOutlineColor(color);
-	}
-	void Slider::setScale(const sf::Vector2f & scale)
-	{
-		slider.setScale(scale);
-		button.setScale(scale);
-		centerOutline.setScale(scale);
-		leftOutline.setScale(scale);
-		rightOutline.setScale(scale);
-		text.setCharacterSize(int(38 * scale.y));
+			if (event.mouseButton.button == sf::Mouse::Left && isSelected)
+			{
+				// isSliding is true if isSelected and while lmb is held 
+				isSliding = true;
+			}
+			
+			if (event.type == sf::Event::MouseButtonReleased && isSliding) {
 
-		this->text.setOrigin(this->text.getLocalBounds().left + this->text.getLocalBounds().width / 2.0f,
-			this->text.getLocalBounds().top + this->text.getLocalBounds().height / 2.0f);
-	}
-	void Slider::setString(const std::string & text)
-	{
-		this->text.setString(text);
+				// play slider sound
+				if (sound.getStatus() != sf::Music::Status::Playing)
+					sound.play();
 
-		this->text.setOrigin(this->text.getLocalBounds().left + this->text.getLocalBounds().width / 2.0f,
-			this->text.getLocalBounds().top + this->text.getLocalBounds().height / 2.0f);
+				// if lmb is released set to false
+				isSliding = false;
+			}
+			else if (isSliding) {
+				// calculate the level based on the mouse's position (OUTPUT: a number between 0 and 1)
+				level = (mouseX - shape.getGlobalBounds().left) / shape.getGlobalBounds().width;
+
+				// Safely restrict that number
+				if (level > 1) level = 1;
+				else if (level < 0) level = 0;
+
+				adjustMarkPos();
+			}
+
+			leftArrow.handleEvents(event);
+			rightArrow.handleEvents(event);
+
+			if (leftArrow.activated()) {
+				float temp = level - 0.05f; // step down level by 0.05
+
+				// establish 0 as minimum limit
+				if (temp < 0) level = 0;
+				else level = temp;
+
+				adjustMarkPos();
+			}
+			else if (rightArrow.activated()) {
+				float temp = level + 0.05f; // step up level by 0.05
+
+				// establish 1 as maximum limit
+				if (temp > 1) level = 1;
+				else level = temp;
+
+				adjustMarkPos();
+			}
+		}
 	}
-	void Slider::setActive(const bool & active)
+	void Slider::setTexture(const sf::Texture& texture)
 	{
-		this->isActive = active;
+		shape.setTexture(&texture);
+		leftArrow.setTexture(texture);
+		rightArrow.setTexture(texture);
+		mark.setTexture(&texture);
+
+		leftArrow.setTexturePos({ 0, 0 });
+
+		shape.setTextureRect({ 2 * (int)leftArrow.getSize().x, 0, (int)shape.getSize().x, (int)shape.getSize().y });
+
+		rightArrow.setTexturePos({ int(2 * leftArrow.getSize().x + shape.getSize().x), 0 });
+
+		mark.setTextureRect ({
+			int(shape.getSize().x + 2 * leftArrow.getSize().x + 2 * rightArrow.getSize().x), 0,
+			(int)mark.getSize().x, (int)mark.getSize().y
+		});
 	}
-	void Slider::setLevel(const unsigned int & level)
+	void Slider::setSoundFX(const sf::SoundBuffer& buffer)
 	{
-		this->level = level;
+		sound.setBuffer(buffer);
+		leftArrow.setSoundFX(buffer);
+		rightArrow.setSoundFX(buffer);
+	}
+	void Slider::setFillColor(const sf::Color& color)
+	{
+		shape.setFillColor(color);
+		leftArrow.setFillColor(color);
+		rightArrow.setFillColor(color);
+		mark.setFillColor(color);
+	}
+	void Slider::setContainerColor(const sf::Color& color)
+	{
+		shape.setFillColor(color);
+	}
+	void Slider::setMarkColor(const sf::Color& color)
+	{
+		mark.setFillColor(color);
+	}
+	void Slider::setArrowsColor(const sf::Color& color)
+	{
+		leftArrow.setFillColor(color);
+		rightArrow.setFillColor(color);
+	}
+	void Slider::setSliderBox(const sf::FloatRect& newbox)
+	{
+		sliderBox = newbox;
+	}
+	float Slider::getLevel()
+	{
+		return level;
+	}
+	void Slider::adjustMarkPos()
+	{
+		mark.setPosition({
+			shape.getPosition().x + sliderBox.left + (sliderBox.width * level),
+			shape.getPosition().y + sliderBox.height });
 	}
 }

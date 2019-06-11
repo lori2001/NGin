@@ -27,9 +27,12 @@ namespace NGin::UI
 		{
 			// first element is the closed-up shape
 			sf::FloatRect mainrect(shape.getGlobalBounds().left, shape.getGlobalBounds().top, size.x * shape.getScale().x, size.y * shape.getScale().y);
-
+			
+			// a false rectangle that represents mouse for easy intersection checking
+			sf::FloatRect mouseRect = { mouse, { 1,1 } };
+			
 			// check if it collides with mouse
-			isSelected[0] = mainrect.intersects(sf::FloatRect(mouse, { 1,1 }));
+			isSelected[0] = mainrect.intersects(mouseRect);
 
 			// if the main element has been pressed
 			if (isActive[0])
@@ -47,7 +50,7 @@ namespace NGin::UI
 					);
 
 					// checks intersection with mouse for each element
-					isSelected[i] = thisrect.intersects(sf::FloatRect(mouse, { 1,1 }));
+					isSelected[i] = thisrect.intersects(mouseRect);
 				}
 			}
 		}
@@ -167,7 +170,8 @@ namespace NGin::UI
 			}
 		}
 		else {
-			std::cout << "WARNING! Delete function out of vector size - COMMAND IGNORED" << std::endl;
+			std::cout << "WARNING! Dropdown -- delete nr." << index;
+			std::cout << " out of vector size - COMMAND IGNORED" << std::endl;
 		}
 	}
 	void Dropdown::setTexture(const sf::Texture& texture)
@@ -192,22 +196,23 @@ namespace NGin::UI
 											  shape.getGlobalBounds().height });
 		}
 	}
-	void Dropdown::setShapeColor(const sf::Color& param)
+	void Dropdown::setFillColor(const sf::Color& color)
 	{
-		shape.setFillColor(param);
+		shape.setFillColor(color);
+		shapeColor = color;
 	}
-	void Dropdown::setSelectColor(const sf::Color& param)
+	void Dropdown::setSelectColor(const sf::Color& color)
 	{
-		shape.setOutlineColor(param);
+		shape.setOutlineColor(color);
 	}
-	void Dropdown::setSize(const sf::Vector2f& param)
+	void Dropdown::setSize(const sf::Vector2f& in_size)
 	{
-		size = param;
-		shape.setSize(size);
+		size = in_size;
+		shape.setSize(in_size);
 	}
-	void Dropdown::setPosition(const sf::Vector2f& param)
+	void Dropdown::setPosition(const sf::Vector2f& position)
 	{
-		shape.setPosition(param);
+		shape.setPosition(position);
 		centerTextInBounds(textAbove, { shape.getGlobalBounds().left,
 										shape.getGlobalBounds().top - shape.getGlobalBounds().height,
 										shape.getGlobalBounds().width,
@@ -221,27 +226,27 @@ namespace NGin::UI
 											  shape.getGlobalBounds().height });
 		}
 	}
-	void Dropdown::setAboveString(const sf::String& param)
+	void Dropdown::setAboveString(const sf::String& string)
 	{
-		textAbove.setString(param);
+		textAbove.setString(string);
 		centerTextInBounds(textAbove, { shape.getGlobalBounds().left,
 								shape.getGlobalBounds().top - shape.getGlobalBounds().height,
 								shape.getGlobalBounds().width,
 								shape.getGlobalBounds().height });
 
 	}
-	void Dropdown::setAboveSize(const unsigned param)
+	void Dropdown::setAboveSize(const unsigned charSize)
 	{
-		textAbove.setCharacterSize(param);
+		textAbove.setCharacterSize(charSize);
 		centerTextInBounds(textAbove, { shape.getGlobalBounds().left,
 								shape.getGlobalBounds().top - shape.getGlobalBounds().height,
 								shape.getGlobalBounds().width,
 								shape.getGlobalBounds().height });
 
 	}
-	void Dropdown::setDropTextSize(const unsigned param)
+	void Dropdown::setDropTextSize(const unsigned charSize)
 	{
-		dropTextSize = param;
+		dropTextSize = charSize;
 
 		for (int i = 0; i < int(droptext.size()); i++) {
 			droptext[i].setCharacterSize(dropTextSize);
@@ -261,14 +266,27 @@ namespace NGin::UI
 					  shape.getGlobalBounds().width,
 					  shape.getGlobalBounds().height });
 	}
-	void Dropdown::setInactivity(const bool param)
+	void Dropdown::setInactivity(const bool in_isInactive)
 	{
-		isInactive = param;
-		shape.setTextureRect(sf::IntRect(2 * int(size.x), 0, int(size.x), int(size.y)));;
+		if (isInactive && !in_isInactive) {
+			// set original shape color back
+			shape.setFillColor(shapeColor);
+		}
+		else if (!isInactive && in_isInactive) {
+			// gets rid of selected outline if there is any
+			isActive[0] = false;
+			isSelected[0] = false;
+			shape.setOutlineThickness(0);
+
+			// set greyish color to shape
+			shape.setFillColor({ 150, 150, 150 });
+		}
+
+		isInactive = in_isInactive;
 	}
-	void Dropdown::setStaticism(const bool param)
+	void Dropdown::setStaticism(const bool in_isStatic)
 	{
-		isStatic = param;
+		isStatic = in_isStatic;
 	}
 	void Dropdown::setSoundFX(const sf::SoundBuffer& buffer)
 	{
