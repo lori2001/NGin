@@ -27,11 +27,7 @@ namespace NGin::UI {
 					   shape.getGlobalBounds().width - mark.getGlobalBounds().width - 10,
 					   shape.getGlobalBounds().height / 2 };
 
-			// positon structure (leftArrow->shape->rightArrow)
-			leftArrow.setPosition(position);
-			shape.setPosition({ leftArrow.getPosition().x + leftArrow.getGlobalBounds().width, position.y });
-			rightArrow.setPosition({ shape.getPosition().x + shape.getGlobalBounds().width, position.y });
-			adjustMarkPos();
+			setPosition({ 0, 0 });
 
 		} Slider(const sf::Vector2f& position = { 0,0 }) : Slider({ 300, 40 }, { 40, 40 }, { 30, 30 }, position) {}
 
@@ -57,6 +53,8 @@ namespace NGin::UI {
 		void setArrowsColor(const sf::Color& color);
 		// sets the box the slider can move in
 		void setSliderBox(const sf::FloatRect& newbox);
+		// sets the position of the object (top-left pivot)
+		void setPosition(const sf::Vector2f& position);
 
 		// gets the current level of the slider in a value between 0 and 1
 		float getLevel();

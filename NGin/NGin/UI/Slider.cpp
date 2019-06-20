@@ -107,10 +107,9 @@ namespace NGin::UI {
 	}
 	void Slider::setFillColor(const sf::Color& color)
 	{
-		shape.setFillColor(color);
-		leftArrow.setFillColor(color);
-		rightArrow.setFillColor(color);
-		mark.setFillColor(color);
+		setContainerColor(color);
+		setMarkColor(color);
+		setArrowsColor(color);
 	}
 	void Slider::setContainerColor(const sf::Color& color)
 	{
@@ -128,6 +127,16 @@ namespace NGin::UI {
 	void Slider::setSliderBox(const sf::FloatRect& newbox)
 	{
 		sliderBox = newbox;
+	}
+	void Slider::setPosition(const sf::Vector2f& position)
+	{
+		// positon structure (leftArrow->shape->rightArrow)
+		leftArrow.setPosition(position);
+		shape.setPosition({ leftArrow.getPosition().x + leftArrow.getGlobalBounds().width, position.y });
+		rightArrow.setPosition({ shape.getPosition().x + shape.getGlobalBounds().width, position.y });
+
+		// put the mark where it should be
+		adjustMarkPos();
 	}
 	float Slider::getLevel()
 	{

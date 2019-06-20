@@ -17,8 +17,8 @@
     <ClCompile Include="NGin\UI\Cursor.cpp" />
     <ClCompile Include="NGin\UI\Dropdown.cpp" />
     <ClCompile Include="NGin\UI\Slider.cpp" />
-    <ClCompile Include="NGin\UI\Switch.cpp" />
-    <ClCompile Include="NGin\UI\TextHolder.cpp" />
+    <ClCompile Include="NGin\UI\Switcher.cpp" />
+    <ClCompile Include="NGin\UI\Card.cpp" />
     <ClCompile Include="NGin\Utils\Center.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -29,8 +29,8 @@
     <ClInclude Include="NGin\UI\Cursor.h" />
     <ClInclude Include="NGin\UI\Dropdown.h" />
     <ClInclude Include="NGin\UI\Slider.h" />
-    <ClInclude Include="NGin\UI\Switch.h" />
-    <ClInclude Include="NGin\UI\TextHolder.h" />
+    <ClInclude Include="NGin\UI\Switcher.h" />
+    <ClInclude Include="NGin\UI\Card.h" />
     <ClInclude Include="NGin\UserInterface.h" />
     <ClInclude Include="NGin\Utils.h" />
     <ClInclude Include="NGin\Utils\Center.h" />
@@ -43,6 +43,9 @@
     <Image Include="assets\styles\warcraft\sliderbutton.png" />
     <Image Include="assets\styles\warcraft\switch.png" />
     <Image Include="assets\styles\warcraft\textholder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="themes\readme.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

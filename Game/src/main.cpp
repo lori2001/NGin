@@ -14,9 +14,16 @@ int main()
 	ResourceCodex::setLocation("assets/");
 	UI::Cursor cursor{ *ResourceCodex::Acquire<sf::Texture>("cursor.png") };
 
-	UI::Slider slider{ {100,100} };
-	slider.setTexture(*ResourceCodex::Acquire<sf::Texture>("slider.png"));
-	slider.setFillColor(sf::Color(155,23,255));
+	UI::Button button;
+	button.setTexture(*ResourceCodex::Acquire<sf::Texture>("button.png"));
+	button.setPosition({800, 200});
+	button.setFillColor(sf::Color(100,255,50));
+
+	UI::Switcher switcher;
+	//switcher.setTexture(*ResourceCodex::Acquire<sf::Texture>("switcher.png"));
+	switcher.setButtonColor(sf::Color::Red);
+	switcher.setMarkColor(sf::Color::Blue);
+	switcher.setPosition({200,200});
 
 	while (window.isOpen())
 	{
@@ -31,17 +38,19 @@ int main()
 
 			cursor.followMouse(window);
 
-			slider.selectByMouse(UI::Cursor::getPosition());
-			slider.handleEvents(event);
-		}
+			switcher.selectByMouse(UI::Cursor::getPosition());
+			switcher.handleEvents(event);
 
+			button.selectByMouse(UI::Cursor::getPosition());
+			button.handleEvents(event);
+		}
+		
 		window.clear();
 
-		window.draw(slider);
+		window.draw(switcher);
+		window.draw(button);
 		window.draw(cursor);
-
-		//insert drawing commands in here
-
+		
 		window.display();
 	}
 

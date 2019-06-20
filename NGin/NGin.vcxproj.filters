@@ -21,12 +21,6 @@
     <ClCompile Include="NGin\UI\Cursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\UI\Switch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NGin\UI\TextHolder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="NGin\UI\Dropdown.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -42,18 +36,18 @@
     <ClCompile Include="NGin\UI\Slider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NGin\UI\Switcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NGin\UI\Card.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NGin\UI\TextHolder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="NGin\UI\Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NGin\UI\Cursor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NGin\UI\Switch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NGin\UserInterface.h">
@@ -80,6 +74,12 @@
     <ClInclude Include="NGin\UI\Slider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NGin\UI\Switcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NGin\UI\Card.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\styles\warcraft\button.png">
@@ -103,5 +103,8 @@
     <Image Include="assets\styles\warcraft\textholder.png">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="themes\readme.txt" />
   </ItemGroup>
 </Project>

@@ -28,9 +28,10 @@ namespace NGin::UI
 
 		//  Selects by mouse (BUT Needs handleEvents() to take action!)
 		void selectByMouse(const sf::Vector2f& mouse);
-
 		// handles enter and mouseclick events and plays given sounds and animations whenever needed
 		void handleEvents(const sf::Event& event);
+
+		// draws given shape to a render target
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		// sound the button makes when pressed
@@ -61,14 +62,16 @@ namespace NGin::UI
 		void setInactivity(const bool in_isInactive);
 		// sets size of the button (affects texture clipping)
 		void setSize(const sf::Vector2f size);
-		
-		// returns true whenever action needs to be taken. sets itself back to false automatically
+
+		// returns true whenever action needs to be taken(isActive == true)
+		// sets isActive back to false automatically
 		bool activated();
 
 		sf::Vector2f getScale() const { return shape.getScale(); }
 		sf::Vector2f getPosition() const { return shape.getPosition(); }
 		sf::Vector2f getSize() const { return shape.getSize(); }
 		sf::FloatRect getGlobalBounds() const { return shape.getGlobalBounds(); }
+		bool getIsPressed() const { return isPressed; }
 
 	private:
 		sf::RectangleShape shape; // creates a shape for the button

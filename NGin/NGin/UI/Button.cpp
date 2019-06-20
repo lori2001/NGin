@@ -42,7 +42,7 @@ namespace NGin::UI
 				}
 			}
 
-			// make the button inactive whenever needed
+			// make the button non-active whenever needed
 			if ((event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonReleased) || !isSelected)
 			{
 				shape.setTextureRect(sf::IntRect(texturePos.x, texturePos.y, (int)shape.getSize().x, (int)shape.getSize().y));
@@ -90,7 +90,7 @@ namespace NGin::UI
 	{
 		texturePos = position;
 
-		// resets shape's texture to apply  the new position immediately
+		// resets shape's texture to apply the new position immediately
 		shape.setTextureRect(sf::IntRect(texturePos.x, texturePos.y, int(shape.getSize().x), int(shape.getSize().y)));
 	}
 	void Button::setFillColor(const sf::Color & color)
