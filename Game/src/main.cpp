@@ -9,23 +9,10 @@ using namespace NGin;
 int main()
 {
 	sf::RenderWindow window;
-	window.create(sf::VideoMode(1366, 768), "Super Mario HD");
+	window.create(sf::VideoMode(1366, 768), "My Application");
 
 	ResourceCodex::setLocation("assets/");
 	UI::Cursor cursor{ *ResourceCodex::Acquire<sf::Texture>("cursor.png") };
-
-	UI::Dropdown dropdown;
-	ResourceCodex::Acquire<sf::Texture>("dropdown.png")->setRepeated(true);
-	dropdown.setTexture( *ResourceCodex::Acquire<sf::Texture>("dropdown.png"));
-	dropdown.setFillColor(sf::Color::Red);
-	dropdown.setFont( *ResourceCodex::Acquire<sf::Font>("arial.ttf"));
-	dropdown.addTextElement("Proba1");
-	dropdown.addTextElement("Proba2");
-	dropdown.addTextElement("Proba3");
-	dropdown.addTextElement("Proba4");
-	dropdown.addTextElement("Proba5");
-	dropdown.addTextElement("Proba6");
-	dropdown.setPosition({200,200});
 
 	UI::InputText inputtext;
 
@@ -46,20 +33,11 @@ int main()
 				window.close();
 
 			cursor.followMouse(window);
-
-			dropdown.selectByMouse(UI::Cursor::getPosition());
-			dropdown.handleEvents(event);
 		}
 		
-		if (dropdown.activated(1)) {
-			dropdown.deleteTextElement(5);
-		}
-
-
 		window.clear();
 
 		window.draw(inputtext);
-		window.draw(dropdown);
 		window.draw(cursor);
 		
 		window.display();

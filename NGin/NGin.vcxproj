@@ -46,9 +46,6 @@
     <Image Include="assets\styles\warcraft\switch.png" />
     <Image Include="assets\styles\warcraft\textholder.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="themes\readme.txt" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{850621EE-8C71-484D-8182-D7167B90D5F7}</ProjectGuid>

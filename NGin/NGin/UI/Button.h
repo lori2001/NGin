@@ -89,7 +89,6 @@ namespace NGin::UI
 		bool isActive = false; // this is true when the button is pressed upon
 
 		bool useMouse = false; // true whenever mouse selection is used
-		bool useKeyboard = false; // true whenever keyboard selection is used
 
 		bool warningMessage = true; // used to display warning message only once in an endless loop
 	};

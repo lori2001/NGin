@@ -110,7 +110,4 @@
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="themes\readme.txt" />
-  </ItemGroup>
 </Project>
