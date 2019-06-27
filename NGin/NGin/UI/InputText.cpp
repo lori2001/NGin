@@ -1,3 +1,13 @@
+#include "InputText.h"
+
+namespace NGin::UI {
+	void InputText::draw(sf::RenderTarget& target, sf::RenderStates states) const
+	{
+		target.draw(shape);
+	}
+}
+
+
 //#include "TextHolder.h"
 //
 //namespace UI

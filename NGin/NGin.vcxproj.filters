@@ -39,7 +39,10 @@
     <ClCompile Include="NGin\UI\Switcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\UI\Card.cpp">
+    <ClCompile Include="NGin\UI\InputText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NGin\Base\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,7 +80,10 @@
     <ClInclude Include="NGin\UI\Switcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\UI\Card.h">
+    <ClInclude Include="NGin\UI\InputText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NGin\Base\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

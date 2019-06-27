@@ -9,7 +9,7 @@ namespace NGin::UI
 	{
 	public:
 		Dropdown(const sf::Vector2f& size) {
-			textAbove.setCharacterSize(25); // the size of the text above object
+			font = nullptr; // initialize font to nothing
 			dropTextSize = 22;  // the size of the text on each element
 			outlineThickness = 3; // the thickness of outline when selected
 			highlight.setFillColor(sf::Color(255, 255, 255, 100)); // half-transparent white
@@ -39,7 +39,7 @@ namespace NGin::UI
 		// adds given texture to the object shape
 		void setTexture(const sf::Texture& texture);
 		// sets the font for all texts
-		void setFont(const sf::Font& param);
+		void setFont(sf::Font& param);
 		// gives a color to the shape
 		void setFillColor(const sf::Color& color);
 		// sets selection outline's color
@@ -48,10 +48,6 @@ namespace NGin::UI
 		void setSize(const sf::Vector2f& in_size);
 		// sets the object's position
 		void setPosition(const sf::Vector2f& position);
-		// sets the string for the text above the object
-		void setAboveString(const sf::String& string);
-		// sets the size of the text above the shape
-		void setAboveSize(const unsigned charSize);
 		// sets the size of the text inside the dropdown
 		void setDropTextSize(const unsigned charSize);
 		// sets the text with given index inside the droptext vector
@@ -78,9 +74,10 @@ namespace NGin::UI
 		sf::RectangleShape shape; // the main shape of the object
 		sf::Color shapeColor; // the color the shape has when not inactive
 		sf::RectangleShape highlight; // the overlay that gets displayed upon currently selected element
-		sf::Text textAbove; // text above main sprite
-		std::vector<sf::Text> droptext; // texts inside each element
 		sf::Sound sound; // the sound the object makes whenever clicked upon
+
+		sf::Font *font; // font used for texts
+		std::vector<sf::Text> texts; // texts inside each element
 
 		std::vector<bool> isSelected; // bool for each element that = true if the element is selected
 		std::vector<bool> isActive; // if true then react - this is done outside of object exept for element nr 0

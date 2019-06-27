@@ -1,5 +1,5 @@
 #include "Dropdown.h"
-#include <iostream>
+#include "../Base/Logger.h"
 
 namespace NGin::UI
 {
@@ -11,15 +11,13 @@ namespace NGin::UI
 			target.draw(highlight);
 		}
 
-		target.draw(droptext[0]);
+		target.draw(texts[0]);
 
 		if (isActive[0]) {
-			for (int i = 1; i < int(droptext.size()); i++) {
-				target.draw(droptext[i]);
+			for (int i = 1; i < int(texts.size()); i++) {
+				target.draw(texts[i]);
 			}
 		}
-
-		target.draw(textAbove);
 	}
 	void Dropdown::selectByMouse(const sf::Vector2f& mouse)
 	{
@@ -93,9 +91,9 @@ namespace NGin::UI
 						if (!isStatic)
 						{
 							//change text
-							droptext[0].setString(droptext[i].getString());
+							texts[0].setString(texts[i].getString());
 
-							centerTextInBounds(droptext[0], { shape.getGlobalBounds().left,
+							centerTextInBounds(texts[0], { shape.getGlobalBounds().left,
 															  shape.getGlobalBounds().top,
 															  size.x * shape.getScale().x,
 															  size.y * shape.getScale().y });
@@ -145,11 +143,11 @@ namespace NGin::UI
 	{
 		isSelected.push_back(false);
 		isActive.push_back(false);
-		droptext.push_back({ text, *textAbove.getFont(), dropTextSize });
+		texts.push_back({ text, *font, dropTextSize });
 
 		// puts added element's text inside its container
-		int i = droptext.size() - 1;
-		centerTextInBounds(droptext[i], { shape.getGlobalBounds().left,
+		int i = texts.size() - 1;
+		centerTextInBounds(texts[i], { shape.getGlobalBounds().left,
 								  shape.getGlobalBounds().top + shape.getGlobalBounds().height * i,
 								  shape.getGlobalBounds().width,
 								  shape.getGlobalBounds().height });
@@ -159,19 +157,19 @@ namespace NGin::UI
 		if (index < int(isSelected.size()) ) {
 			isSelected.erase(isSelected.begin() + index);
 			isActive.erase(isActive.begin() + index);
-			droptext.erase(droptext.begin() + index);
+			texts.erase(texts.begin() + index);
 
 			// repositions elements properly after the deleted element
 			for (int i = index; i < int(isSelected.size()); i++) {
-				centerTextInBounds(droptext[i], { shape.getGlobalBounds().left,
+				centerTextInBounds(texts[i], { shape.getGlobalBounds().left,
 						  shape.getGlobalBounds().top + shape.getGlobalBounds().height * i,
 						  shape.getGlobalBounds().width,
 						  shape.getGlobalBounds().height });
 			}
 		}
 		else {
-			std::cout << "WARNING! Dropdown -- delete nr." << index;
-			std::cout << " out of vector size - COMMAND IGNORED" << std::endl;
+			Logger::logOnce("Dropdown -> cannot delete index of " + std::to_string(index)
+			+ " vector size is " + std::to_string(isSelected.size()) + " -> COMMAND IGNORED", Logger::Severity::Warning);
 		}
 	}
 	void Dropdown::setTexture(const sf::Texture& texture)
@@ -179,18 +177,14 @@ namespace NGin::UI
 		shape.setTexture(&texture);
 		if(!isInactive) shape.setTextureRect({ 0, 0, int(size.x), int(size.y) });
 	}
-	void Dropdown::setFont(const sf::Font& param)
+	void Dropdown::setFont(sf::Font& param)
 	{
-		textAbove.setFont(param);
-		centerTextInBounds(textAbove, { shape.getGlobalBounds().left,
-								shape.getGlobalBounds().top - shape.getGlobalBounds().height,
-								shape.getGlobalBounds().width,
-								shape.getGlobalBounds().height });
+		font = &param;
 
-		for (int i = 0; i < int(droptext.size()); i++)
+		for (int i = 0; i < int(texts.size()); i++)
 		{
-			droptext[i].setFont(param);
-			centerTextInBounds(droptext[i], { shape.getGlobalBounds().left,
+			texts[i].setFont(param);
+			centerTextInBounds(texts[i], { shape.getGlobalBounds().left,
 											  shape.getGlobalBounds().top + shape.getGlobalBounds().height * i,
 											  shape.getGlobalBounds().width,
 											  shape.getGlobalBounds().height });
@@ -213,45 +207,23 @@ namespace NGin::UI
 	void Dropdown::setPosition(const sf::Vector2f& position)
 	{
 		shape.setPosition(position);
-		centerTextInBounds(textAbove, { shape.getGlobalBounds().left,
-										shape.getGlobalBounds().top - shape.getGlobalBounds().height,
-										shape.getGlobalBounds().width,
-										shape.getGlobalBounds().height });
 
-		for (int i = 0; i < int(droptext.size()); i++)
+		for (int i = 0; i < int(texts.size()); i++)
 		{
-			centerTextInBounds(droptext[i], { shape.getGlobalBounds().left,
+			centerTextInBounds(texts[i], { shape.getGlobalBounds().left,
 											  shape.getGlobalBounds().top + shape.getGlobalBounds().height * i,
 											  shape.getGlobalBounds().width,
 											  shape.getGlobalBounds().height });
 		}
 	}
-	void Dropdown::setAboveString(const sf::String& string)
-	{
-		textAbove.setString(string);
-		centerTextInBounds(textAbove, { shape.getGlobalBounds().left,
-								shape.getGlobalBounds().top - shape.getGlobalBounds().height,
-								shape.getGlobalBounds().width,
-								shape.getGlobalBounds().height });
-
-	}
-	void Dropdown::setAboveSize(const unsigned charSize)
-	{
-		textAbove.setCharacterSize(charSize);
-		centerTextInBounds(textAbove, { shape.getGlobalBounds().left,
-								shape.getGlobalBounds().top - shape.getGlobalBounds().height,
-								shape.getGlobalBounds().width,
-								shape.getGlobalBounds().height });
-
-	}
 	void Dropdown::setDropTextSize(const unsigned charSize)
 	{
 		dropTextSize = charSize;
 
-		for (int i = 0; i < int(droptext.size()); i++) {
-			droptext[i].setCharacterSize(dropTextSize);
+		for (int i = 0; i < int(texts.size()); i++) {
+			texts[i].setCharacterSize(dropTextSize);
 
-			centerTextInBounds(droptext[i], { shape.getGlobalBounds().left,
+			centerTextInBounds(texts[i], { shape.getGlobalBounds().left,
 								  shape.getGlobalBounds().top + shape.getGlobalBounds().height * i,
 								  shape.getGlobalBounds().width,
 								  shape.getGlobalBounds().height });
@@ -259,9 +231,9 @@ namespace NGin::UI
 	}
 	void Dropdown::setDropString(const int i, const sf::String& text)
 	{
-		droptext[i].setString(text);
+		texts[i].setString(text);
 
-		centerTextInBounds(droptext[i], { shape.getGlobalBounds().left,
+		centerTextInBounds(texts[i], { shape.getGlobalBounds().left,
 					  shape.getGlobalBounds().top + shape.getGlobalBounds().height * i,
 					  shape.getGlobalBounds().width,
 					  shape.getGlobalBounds().height });
@@ -306,6 +278,6 @@ namespace NGin::UI
 	}
 	sf::String Dropdown::getDropString(const int i)
 	{
-		return droptext[i].getString();
+		return texts[i].getString();
 	}
 }

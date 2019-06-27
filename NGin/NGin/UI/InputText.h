@@ -2,16 +2,23 @@
 #include "SFML\Graphics.hpp"
 
 namespace NGin::UI {
-	class Card : public sf::Drawable {
+	class InputText : public sf::Drawable {
 	public:
-		Card() {
-			shape.setSize({200, 50});
+		InputText(const sf::Vector2f &size) {
+			shape.setSize(size);
 		}
+		InputText() : InputText({400, 50}) {}
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+		// handles enter and mouseclick events and plays given sounds and animations whenever needed
+		void handleEvents(const sf::Event& event);
+
 	private:
+
 		// the block that the text gets displayed in
 		sf::RectangleShape shape;
+
+		sf::Text text;
 	
 	};
 }

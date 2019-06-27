@@ -7,3 +7,4 @@
 #include "UI/Dropdown.h"
 #include "UI/Slider.h" // includes Button.h
 #include "UI/Switcher.h" // includes Button.h
+#include "UI/InputText.h" // includes Button.h

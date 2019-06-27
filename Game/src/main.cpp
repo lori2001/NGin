@@ -14,16 +14,25 @@ int main()
 	ResourceCodex::setLocation("assets/");
 	UI::Cursor cursor{ *ResourceCodex::Acquire<sf::Texture>("cursor.png") };
 
-	UI::Button button;
-	button.setTexture(*ResourceCodex::Acquire<sf::Texture>("button.png"));
-	button.setPosition({800, 200});
-	button.setFillColor(sf::Color(100,255,50));
+	UI::Dropdown dropdown;
+	ResourceCodex::Acquire<sf::Texture>("dropdown.png")->setRepeated(true);
+	dropdown.setTexture( *ResourceCodex::Acquire<sf::Texture>("dropdown.png"));
+	dropdown.setFillColor(sf::Color::Red);
+	dropdown.setFont( *ResourceCodex::Acquire<sf::Font>("arial.ttf"));
+	dropdown.addTextElement("Proba1");
+	dropdown.addTextElement("Proba2");
+	dropdown.addTextElement("Proba3");
+	dropdown.addTextElement("Proba4");
+	dropdown.addTextElement("Proba5");
+	dropdown.addTextElement("Proba6");
+	dropdown.setPosition({200,200});
 
-	UI::Switcher switcher;
-	//switcher.setTexture(*ResourceCodex::Acquire<sf::Texture>("switcher.png"));
-	switcher.setButtonColor(sf::Color::Red);
-	switcher.setMarkColor(sf::Color::Blue);
-	switcher.setPosition({200,200});
+	UI::InputText inputtext;
+
+	Logger::setConsoleFont({ 18, 18 }, true);
+	Logger::setConsoleSize({ 1280, 600 });
+
+	Logger::log("Application Initialized");
 
 	while (window.isOpen())
 	{
@@ -38,17 +47,19 @@ int main()
 
 			cursor.followMouse(window);
 
-			switcher.selectByMouse(UI::Cursor::getPosition());
-			switcher.handleEvents(event);
-
-			button.selectByMouse(UI::Cursor::getPosition());
-			button.handleEvents(event);
+			dropdown.selectByMouse(UI::Cursor::getPosition());
+			dropdown.handleEvents(event);
 		}
 		
+		if (dropdown.activated(1)) {
+			dropdown.deleteTextElement(5);
+		}
+
+
 		window.clear();
 
-		window.draw(switcher);
-		window.draw(button);
+		window.draw(inputtext);
+		window.draw(dropdown);
 		window.draw(cursor);
 		
 		window.display();

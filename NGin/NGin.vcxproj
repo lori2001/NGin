@@ -12,25 +12,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NGin\Base\Animation.cpp" />
+    <ClCompile Include="NGin\Base\Logger.cpp" />
     <ClCompile Include="NGin\Base\ResourceCodex.cpp" />
     <ClCompile Include="NGin\UI\Button.cpp" />
     <ClCompile Include="NGin\UI\Cursor.cpp" />
     <ClCompile Include="NGin\UI\Dropdown.cpp" />
     <ClCompile Include="NGin\UI\Slider.cpp" />
     <ClCompile Include="NGin\UI\Switcher.cpp" />
-    <ClCompile Include="NGin\UI\Card.cpp" />
+    <ClCompile Include="NGin\UI\InputText.cpp" />
     <ClCompile Include="NGin\Utils\Center.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NGin\Base.h" />
     <ClInclude Include="NGin\Base\Animation.h" />
+    <ClInclude Include="NGin\Base\Logger.h" />
     <ClInclude Include="NGin\Base\ResourceCodex.h" />
     <ClInclude Include="NGin\UI\Button.h" />
     <ClInclude Include="NGin\UI\Cursor.h" />
     <ClInclude Include="NGin\UI\Dropdown.h" />
     <ClInclude Include="NGin\UI\Slider.h" />
     <ClInclude Include="NGin\UI\Switcher.h" />
-    <ClInclude Include="NGin\UI\Card.h" />
+    <ClInclude Include="NGin\UI\InputText.h" />
     <ClInclude Include="NGin\UserInterface.h" />
     <ClInclude Include="NGin\Utils.h" />
     <ClInclude Include="NGin\Utils\Center.h" />
