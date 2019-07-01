@@ -21,7 +21,7 @@ namespace NGin
 	private:
 		// destroys resources form given map that point nowhere
 		template <class UnorderedMap>
-		static void DestroyUnusedFrom(UnorderedMap map);
+		static void DestroyUnusedFrom(UnorderedMap& map);
 
 	private:
 		static std::unordered_map<std::string, std::shared_ptr<sf::Texture>> pTextures;
@@ -45,21 +45,21 @@ namespace NGin
 			pResources = &pSoundBuffers;
 		}
 
-		auto temp = pResources->find(name); // searches resources with the given name
+		auto temp = pResources->find( location + name ); // searches resources with the given name
 
 		if (temp != pResources->end()) { // if something is found
 			return temp->second; // returns the requested resource
 		}
 		else {
 			auto pTex = std::make_shared<Resource>(); // creates a new resource
-			pTex->loadFromFile(location + name); // loads it
+			pTex->loadFromFile( location + name ); // loads it
 
-			pResources->insert({ name, pTex }); // inserts it inside the proper resource map
+			pResources->insert({ location + name, pTex }); // inserts it inside the proper resource map
 			return pTex; // returns the requested resource
 		}
 	}
 	template<class UnorderedMap>
-	inline void ResourceCodex::DestroyUnusedFrom(UnorderedMap map)
+	inline void ResourceCodex::DestroyUnusedFrom(UnorderedMap& map)
 	{
 		auto i = map.begin();
 

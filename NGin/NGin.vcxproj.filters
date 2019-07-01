@@ -18,9 +18,6 @@
     <ClCompile Include="NGin\UI\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\UI\Cursor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="NGin\UI\Dropdown.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -45,12 +42,12 @@
     <ClCompile Include="NGin\Base\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NGin\UI\Cursor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NGin\UI\Button.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NGin\UI\Cursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NGin\UserInterface.h">
@@ -60,9 +57,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NGin\Utils\Center.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NGin\Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NGin\Base.h">
@@ -84,6 +78,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NGin\Base\Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NGin\UI\Cursor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NGin\Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NGin\UI\UIElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

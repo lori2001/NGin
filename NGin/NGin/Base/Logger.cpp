@@ -1,4 +1,5 @@
 #include "Logger.h"
+#include <iostream>
 
 namespace NGin {
 	HANDLE Logger::consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -46,7 +47,7 @@ namespace NGin {
 			ShowWindow(console, SW_HIDE);
 		#endif
 	}
-	void Logger::setConsoleSize(const sf::Vector2i& size)
+	void Logger::setConsoleSize(const sf::Vector2u& size)
 	{
 		RECT rect;
 		HWND console = GetConsoleWindow();

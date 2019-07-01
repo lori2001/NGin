@@ -1,10 +1,12 @@
 #include "Button.h"
+#include "Cursor.h"
 
 namespace NGin::UI
 {
-	void Button::selectByMouse(const sf::Vector2f & mouse)
+	void Button::select(const sf::Vector2f& mouse)
 	{
-		if (!isInactive) {
+		if (!isInactive)
+		{
 			// checks if the mouse and the button intersect
 			// considers mouse to be 1x1 pixels
 			isSelected = shape.getGlobalBounds().intersects(sf::FloatRect(mouse, { 1,1 }));
@@ -14,33 +16,34 @@ namespace NGin::UI
 	{
 		if (!isInactive)
 		{
-			// if the button is selected outline appears
-			if (isSelected)
+			// if the button is selected
+			if (isSelected) {
+				// outline appears
 				shape.setOutlineThickness(outlineThickness);
-			else // if not the outline disappears
-				shape.setOutlineThickness(0);
 
-			// if its selected and the right events are triggered
-			if ( isSelected && event.mouseButton.button == sf::Mouse::Left )
-			{
-				if (event.type == sf::Event::MouseButtonPressed)
-				{
-					if (sound.getStatus() != sf::Music::Status::Playing) // play button sound
-						sound.play();
+				// if the right events are triggered
+				if (event.mouseButton.button == sf::Mouse::Left) {
+					if (event.type == sf::Event::MouseButtonPressed)
+					{
+						// audio feedback for pressing
+						NGin::UI::Cursor::playSound();
 
-					// create the "pressed in" visual effect
-					shape.setTextureRect(sf::IntRect(texturePos.x + (int)shape.getSize().x, texturePos.y,
-													 (int)shape.getSize().x, (int)shape.getSize().y));
+						// create the "pressed in" visual effect
+						shape.setTextureRect(sf::IntRect(texturePos.x + (int)shape.getSize().x, texturePos.y,
+							(int)shape.getSize().x, (int)shape.getSize().y));
 
-					// the button has been pressed / take action when released
-					isPressed = true;
-				}
-				else if (isPressed && event.type == sf::Event::MouseButtonReleased)
-				{
-					// take action
-					isActive = true;
+						// the button has been pressed / take action when released
+						isPressed = true;
+					}
+					else if (isPressed && event.type == sf::Event::MouseButtonReleased)
+					{
+						// take action
+						isActive = true;
+					}
 				}
 			}
+			else // if not selected the outline disappears
+				shape.setOutlineThickness(0);
 
 			// make the button non-active whenever needed
 			if ((event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonReleased) || !isSelected)
@@ -58,12 +61,8 @@ namespace NGin::UI
 	}
 	void Button::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	{
-		target.draw(shape, states);
-		target.draw(text, states);
-	}
-	void Button::setSoundFX(const sf::SoundBuffer &buffer)
-	{
-		this->sound.setBuffer(buffer);
+		target.draw(shape);
+		target.draw(text);
 	}
 	void Button::setFont(const sf::Font & font)
 	{

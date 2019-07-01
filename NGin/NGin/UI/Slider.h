@@ -1,10 +1,9 @@
 #pragma once
-#include "SFML/Audio.hpp"
-#include "SFML/Graphics.hpp"
+#include "UIElement.h"
 #include "Button.h"
 
 namespace NGin::UI {
-	class Slider : public sf::Drawable {
+	class Slider : public UIElement {
 	public:
 		Slider(const sf::Vector2f& shapeSize,
 			const sf::Vector2f& arrowSize,
@@ -34,15 +33,13 @@ namespace NGin::UI {
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		//  Selects by mouse (BUT Needs handleEvents() to take action!)
-		void selectByMouse(const sf::Vector2f& mouse);
+		void select(const sf::Vector2f& mouse);
 
 		// handles enter and mouseclick events and plays given sounds and animations whenever needed
 		void handleEvents(const sf::Event& event);
 
 		// sets textures which then get mapped according to sizes (shape->arrow->button)
 		void setTexture(const sf::Texture& texture);
-		// sound the slider makes when pressed
-		void setSoundFX(const sf::SoundBuffer& buffer);
 		// set fill color of every element
 		void setFillColor(const sf::Color& color);
 		// set the fill color of the mark's container only
@@ -65,7 +62,6 @@ namespace NGin::UI {
 		sf::FloatRect sliderBox; // a virtual box for the mark
 		sf::RectangleShape shape; // the main shape of the slider
 		sf::RectangleShape mark; // the round sprite signaling current level
-		sf::Sound sound; // sound to play when slider activated
 		Button leftArrow; // the left arrow's button
 		Button rightArrow; // the right arrow's button
 

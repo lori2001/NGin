@@ -1,6 +1,5 @@
 #pragma once
 #include "SFML/System.hpp"
-#include <iostream>
 #include <vector>
 #include <windows.h> // <- only windows capable
 
@@ -24,7 +23,7 @@ namespace NGin
 		// Hides console for Release mode
 		static void hideReleaseConsole();
 
-		static void setConsoleSize(const sf::Vector2i &size);
+		static void setConsoleSize(const sf::Vector2u &size);
 		// changes even fonts already displayed
 		static void setConsoleFont(const sf::Vector2i& size, const bool isBold = false);
 	private:

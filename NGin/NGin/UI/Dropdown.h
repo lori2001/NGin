@@ -1,21 +1,22 @@
 #pragma once
-#include "SFML/Graphics.hpp"
-#include "SFML/Audio.hpp"
+#include "UIElement.h"
 #include "../Utils.h"
 
 namespace NGin::UI
 {
-	class Dropdown : public sf::Drawable
+	class Dropdown : public UIElement
 	{
 	public:
 		Dropdown(const sf::Vector2f& size) {
-			font = nullptr; // initialize font to nothing
-			dropTextSize = 22;  // the size of the text on each element
-			outlineThickness = 3; // the thickness of outline when selected
-			highlight.setFillColor(sf::Color(255, 255, 255, 100)); // half-transparent white
+			/*declaration of MANDATORY first element*/
+				isSelected.push_back(false);
+				isActive.push_back(false);
+				texts.push_back({ "", sf::Font{}, 22 });
+				centerTextInShape(texts[0], shape);
 
-			/*first element is mandatory*/
-			addTextElement("");
+			outlineThickness = 3; // the thickness of outline when selected
+
+			highlight.setFillColor(sf::Color(255, 255, 255, 100)); // half-transparent white
 
 			this->size = size;
 			shape.setSize(size);
@@ -26,20 +27,20 @@ namespace NGin::UI
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		// can be selected by mouse (only if the object is not inactive)
-		void selectByMouse(const sf::Vector2f& mouse);
+		void select(const sf::Vector2f& mouse);
 		// reacts to user input (other than selecting)
 		void handleEvents(const sf::Event& event);
 
 		// creates a dropdown element filled with text
-		void addTextElement(const sf::String text);
+		void addDropString(const sf::String text);
 		// deletes element with index i
-		void deleteTextElement(const int i);
+		void deleteDropString(const int i);
 
-		// assumes that texture.isRepeated() is set to true
+		// BEWARE! SETS texture.isRepeated() to true
 		// adds given texture to the object shape
-		void setTexture(const sf::Texture& texture);
+		void setTexture(sf::Texture& texture);
 		// sets the font for all texts
-		void setFont(sf::Font& param);
+		void setFont(sf::Font& in_font);
 		// gives a color to the shape
 		void setFillColor(const sf::Color& color);
 		// sets selection outline's color
@@ -49,15 +50,13 @@ namespace NGin::UI
 		// sets the object's position
 		void setPosition(const sf::Vector2f& position);
 		// sets the size of the text inside the dropdown
-		void setDropTextSize(const unsigned charSize);
+		void setTextSize(const unsigned charSize);
 		// sets the text with given index inside the droptext vector
 		void setDropString(const int i, const sf::String& text);
 		// makes dropdown unselectable and unactivateable
 		void setInactivity(const bool in_isInactive);
 		// if true does not swap out the main drop-text inside the object
 		void setStaticism(const bool in_isStatic);
-		// sound the object makes when pressed
-		void setSoundFX(const sf::SoundBuffer& buffer);
 
 		// returns isActive for given element number and sets it to false
 		bool activated(const int i);
@@ -68,15 +67,12 @@ namespace NGin::UI
 
 	private:
 		sf::Vector2f size; // the size of the object in closed status
-		unsigned dropTextSize; // the size of the text inside dropdown
 		float outlineThickness; // the size of the outline in pixels
 
 		sf::RectangleShape shape; // the main shape of the object
 		sf::Color shapeColor; // the color the shape has when not inactive
 		sf::RectangleShape highlight; // the overlay that gets displayed upon currently selected element
-		sf::Sound sound; // the sound the object makes whenever clicked upon
 
-		sf::Font *font; // font used for texts
 		std::vector<sf::Text> texts; // texts inside each element
 
 		std::vector<bool> isSelected; // bool for each element that = true if the element is selected

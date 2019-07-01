@@ -1,162 +1,153 @@
 #include "InputText.h"
+#include "../Base/Logger.h"
+#include "Cursor.h"
 
 namespace NGin::UI {
 	void InputText::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		target.draw(shape);
+		target.draw(text);
+		target.draw(cursor);
+
+		// if the font is not set
+		if (text.getFont() == nullptr) {
+
+			// print a warning message
+			NGin::Logger::logOnce("Font undefinded for InputText nr."
+				+ std::to_string(UIElement::Elemindex)
+				+ " -> OBJECT MAY NOT FUNCTION PROPERLY", NGin::Logger::Severity::Warning);
+		}
+	}
+	void InputText::select(const sf::Vector2f& mouse)
+	{
+		if (!isInactive) {
+			isSelected = shape.getGlobalBounds().intersects(sf::FloatRect(mouse, { 1,1 }));
+		}
+	}
+	void InputText::handleEvents(const sf::Event& event)
+	{
+		if (isSelected)
+			shape.setOutlineThickness(outlineThickness);
+		else
+			shape.setOutlineThickness(0);
+
+		// if mouse button pressed on object
+		if (isSelected && event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonPressed)
+		{ 
+			NGin::UI::Cursor::playSound();
+
+			// adjusts cursor's position
+			adjustCursor();
+
+			// color the cursor character (make visible)
+			cursor.setFillColor(text.getFillColor());
+
+			isActive = true; // makes active so writing may occur
+		}
+		// if mouse button pressed outside object or enter is pressed
+		else if ((!isSelected && event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonPressed)
+					|| sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+		{
+			// make object non-active
+			isActive = false;
+
+			// hide cursor
+			cursor.setFillColor(sf::Color::Transparent);
+		}
+
+		// if active and text was entered
+		if (isActive && event.type == sf::Event::TextEntered)
+		{
+			char inputchar = event.text.unicode; // gets the character entered
+			std::string container = text.getString(); // holds the string that's going to be modified
+
+			// if backslash pressed and there are characters
+			if (inputchar == '\b') {
+				if (container.size() > 0) {
+					container.erase(container.end() - 1); // erase the last character
+				}
+			}
+			// if we have less than max characters and it does not go out of bounds
+			else if (container.size() < maxChars && text.getLocalBounds().width < shape.getGlobalBounds().width - outlineThickness - 5)
+			{
+				// if shift is pressed or capslock active make the entered character caps
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
+					inputchar = toupper(inputchar);
+
+				// add new character to string
+				container += inputchar;
+			}
+
+			// add new string to output text
+			text.setString(container);
+			// center text
+			centerTextInShape(text, shape);
+			// adjusts cursor's position
+			adjustCursor();
+		}
+	}
+	void InputText::setFillColor(const sf::Color& color)
+	{
+		shape.setFillColor(color);
+	}
+	void InputText::setTextColor(const sf::Color& color)
+	{
+		text.setFillColor(color);
+	}
+	void InputText::setTexture(const sf::Texture& texture)
+	{
+		shape.setTexture(&texture);
+	}
+	void InputText::setPosition(const sf::Vector2f& position)
+	{
+		shape.setPosition(position);
+		centerTextInShape(text, shape);
+	}
+	void InputText::setFont(sf::Font& font)
+	{
+		text.setFont(font);
+		cursor.setFont(font);
+
+		centerTextInShape(text, shape);
+	}
+	void InputText::setMaxCharacters(const unsigned nrofMaxChars)
+	{
+		maxChars = nrofMaxChars;
+	}
+	void InputText::setString(const sf::String& str)
+	{
+		text.setString(str);
+		// centers the newly added string
+		centerTextInShape(text, shape);
+	}
+	void InputText::setCharacterSize(const unsigned charSize) {
+		text.setCharacterSize(charSize);
+		centerTextInShape(text, shape);
+
+		cursor.setCharacterSize(charSize);
+	}
+	void InputText::setSelectColor(const sf::Color& color) {
+		shape.setOutlineColor(color);
+	}
+	void InputText::setSelectThickness(const float thickness) {
+		outlineThickness = thickness;
+	}
+	void InputText::setSize(const sf::Vector2f& size) {
+		shape.setSize(size);
+	}
+	void InputText::adjustCursor()
+	{
+		// if there is text set cursor after it
+		if (text.getString() != "") {
+
+			cursor.setPosition({ text.getGlobalBounds().left + text.getGlobalBounds().width + 1,
+				shape.getGlobalBounds().top + (shape.getGlobalBounds().height + outlineThickness) / 2
+				- (cursor.getGlobalBounds().height / 2 + cursor.getLocalBounds().top) });
+		}
+		else {
+			// if there is no text put the cursor in center of shape
+			centerTextInShape(cursor, shape);
+		}
+
 	}
 }
-
-
-//#include "TextHolder.h"
-//
-//namespace UI
-//{
-//	void TextHolder::setSelected(const sf::Vector2f & mouse)
-//	{
-//		isSelected = (sprite.getPosition().x - size.x / 2 * sprite.getScale().x <= mouse.x &&
-//			sprite.getPosition().x + size.x / 2 * sprite.getScale().x >= mouse.x &&
-//			sprite.getPosition().y - size.y / 2 * sprite.getScale().y <= mouse.y &&
-//			sprite.getPosition().y + size.y / 2 * sprite.getScale().y >= mouse.y);
-//
-//		if (isSelected)
-//			sprite.setOutlineThickness(-2);
-//		else
-//			sprite.setOutlineThickness(0);
-//	}
-//	void TextHolder::handleInput(const sf::Event & event, sf::Sound & pressbutton)
-//	{//TODO: if resolution changes text goes out of bound
-//		if (isSelected && event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonPressed)
-//		{ // if pressed and selected
-//			if (pressbutton.getStatus() != sf::Music::Status::Playing && !isActive) // play sound
-//				pressbutton.play();
-//
-//			text.setString(""); //resets text
-//
-//			//sets to center after wiping text
-//			cursor.setPosition(sf::Vector2f(text.getPosition().x + text.getLocalBounds().width / 2 + 2 * sprite.getScale().x, text.getPosition().y));
-//
-//			isActive = true; //makes active so writing may occur
-//		}
-//		else if (isActive == true && event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonPressed)
-//		{ // if mouse button pressed anywhere else
-//			isActive = false; //make inactive
-//			hasChanged = true; //signal that string has changed
-//		}
-//
-//		if (isActive)
-//		{
-//			std::string temp = text.getString(); // holds the text before editing
-//			std::string txt = (sf::String(event.text.unicode)); //gets the text entered
-//
-//			if (event.type == sf::Event::TextEntered && (temp.size() < 30 || txt == "\b"))
-//			{// if text entered and we have either less caracters than 30 or get a /b caracter
-//
-//				if (txt == "\b" && temp.size() > 0) //if backslash pressed
-//				{
-//					temp.erase(temp.size() - 1); // erase the last character
-//				}
-//				else if (text.getLocalBounds().width < (size.x - 20) * sprite.getScale().x)
-//				{ //checks the current size of the text, to not exceed corners
-//
-//					if (temp == "" || (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift)))
-//					{ //if this is the first character or shift is pressed make the entered text big
-//						txt[0] = toupper(txt[0]);
-//					}
-//
-//					temp += txt;
-//					//add new character to the temp string
-//				}
-//
-//				text.setString(temp); //set new text on screen
-//
-//				//center it
-//				this->text.setOrigin(this->text.getLocalBounds().left + this->text.getLocalBounds().width / 2.0f,
-//					this->text.getLocalBounds().top + this->text.getLocalBounds().height / 2.0f);
-//
-//				//sets cursor after new bounds
-//				cursor.setPosition(sf::Vector2f(text.getPosition().x + text.getLocalBounds().width / 2 + 2 * sprite.getScale().x, text.getPosition().y));
-//			}
-//			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
-//			{ //if enter pressed make inactive
-//				isActive = false;
-//				hasChanged = true; //signal that string has changed
-//			}
-//		}
-//	}
-//	void TextHolder::draw(sf::RenderTarget & target, sf::RenderStates states) const
-//	{
-//		target.draw(sprite, states);
-//		target.draw(text, states);
-//		target.draw(maintext, states);
-//
-//		if (isActive)
-//			target.draw(cursor, states);
-//	}
-//	void TextHolder::setTexture(const sf::Texture & texture, const sf::Font & font)
-//	{
-//		sprite.setTexture(&texture);
-//		text.setFont(font);
-//		maintext.setFont(font);
-//		cursor.setFont(font);
-//
-//		cursor.setString("|");
-//
-//		this->text.setOrigin(this->text.getLocalBounds().left + this->text.getLocalBounds().width / 2.0f,
-//			this->text.getLocalBounds().top + this->text.getLocalBounds().height / 2.0f);
-//
-//		this->maintext.setOrigin(this->maintext.getLocalBounds().left + this->maintext.getLocalBounds().width / 2.0f,
-//			this->maintext.getLocalBounds().top + this->maintext.getLocalBounds().height / 2.0f);
-//
-//		this->cursor.setOrigin(this->cursor.getLocalBounds().left + this->cursor.getLocalBounds().width / 2.0f,
-//			this->cursor.getLocalBounds().top + this->cursor.getLocalBounds().height / 2.0f);
-//	}
-//	void TextHolder::setPosition(const sf::Vector2f & position)
-//	{
-//		sprite.setPosition(position);
-//		text.setPosition(position);
-//		maintext.setPosition(sf::Vector2f(position.x, position.y - size.y * sprite.getScale().y));
-//		cursor.setPosition(sf::Vector2f(position.x + text.getLocalBounds().width / 2 + 2 * sprite.getScale().x, position.y));
-//	}
-//	void TextHolder::setScale(const sf::Vector2f & scale)
-//	{
-//		sprite.setScale(scale);
-//
-//		std::string temp = text.getString();
-//
-//		if (text.getLocalBounds().width >= (size.x - 20) * sprite.getScale().x)
-//			textsize--;
-//		else if (text.getLocalBounds().width < (size.x - 20) * sprite.getScale().x && lastscale != scale)
-//			textsize = 32;
-//
-//		text.setCharacterSize(int(textsize * scale.y));
-//
-//		maintext.setCharacterSize(int(38 * scale.y));
-//		cursor.setCharacterSize(int(38 * scale.y));
-//
-//		lastscale = scale;
-//
-//		this->text.setOrigin(this->text.getLocalBounds().left + this->text.getLocalBounds().width / 2.0f,
-//			this->text.getLocalBounds().top + this->text.getLocalBounds().height / 2.0f);
-//
-//		this->maintext.setOrigin(this->maintext.getLocalBounds().left + this->maintext.getLocalBounds().width / 2.0f,
-//			this->maintext.getLocalBounds().top + this->maintext.getLocalBounds().height / 2.0f);
-//
-//		this->cursor.setOrigin(this->cursor.getLocalBounds().left + this->cursor.getLocalBounds().width / 2.0f,
-//			this->cursor.getLocalBounds().top + this->cursor.getLocalBounds().height / 2.0f);
-//	}
-//	void TextHolder::setString(const std::string & text)
-//	{
-//		this->text.setString(text);
-//
-//		this->text.setOrigin(this->text.getLocalBounds().left + this->text.getLocalBounds().width / 2.0f,
-//			this->text.getLocalBounds().top + this->text.getLocalBounds().height / 2.0f);
-//	}
-//	void TextHolder::setMaintext(const std::string & text)
-//	{
-//		maintext.setString(text);
-//
-//		this->maintext.setOrigin(this->maintext.getLocalBounds().left + this->maintext.getLocalBounds().width / 2.0f,
-//			this->maintext.getLocalBounds().top + this->maintext.getLocalBounds().height / 2.0f);
-//	}
-//}

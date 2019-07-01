@@ -1,11 +1,10 @@
 #pragma once
-#include "SFML\Graphics.hpp"
-#include "SFML\Audio.hpp"
+#include "UIElement.h"
 #include "..\Utils.h"
 
 namespace NGin::UI
 {
-	class Button : public sf::Drawable
+	class Button : public UIElement
 	{
 	public:
 		Button(const sf::Vector2f& size) {
@@ -26,16 +25,14 @@ namespace NGin::UI
 		}
 		Button() : Button(sf::Vector2f{ 400, 50 }) {} // default empty selectable rectangle
 
-		//  Selects by mouse (BUT Needs handleEvents() to take action!)
-		void selectByMouse(const sf::Vector2f& mouse);
-		// handles enter and mouseclick events and plays given sounds and animations whenever needed
+		// can be selected by mouse (only if the object is not inactive)
+		void select(const sf::Vector2f& mouse);
+		// handles mouse events and plays given sounds and animations whenever needed
 		void handleEvents(const sf::Event& event);
 
 		// draws given shape to a render target
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-		// sound the button makes when pressed
-		void setSoundFX(const sf::SoundBuffer& buffer);
 		// font of the text on the button
 		void setFont(const sf::Font& font);
 		// sets the color of the text on the button
@@ -76,7 +73,6 @@ namespace NGin::UI
 	private:
 		sf::RectangleShape shape; // creates a shape for the button
 		sf::Text text; // a text to be on the button
-		sf::Sound sound; // sound to play when button activated
 
 		float outlineThickness; // the thickness of the outline when selected
 		sf::Vector2f textPos; // saves the position at which the text should stay (to avoid moving indefinetly)

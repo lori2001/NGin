@@ -1,19 +1,19 @@
 #pragma once
+#include "UIElement.h"
 #include "Button.h"
-#include "SFML/Graphics.hpp"
 
 namespace NGin::UI {
-	class Switcher : public sf::Drawable {
+	class Switcher : public UIElement {
 	public:
 		Switcher() : Switcher(sf::Vector2f{ 60,60 }) {}
 		Switcher(const sf::Vector2f& size) {
 			setSize(size);
 		}
 
-		//  Selects by mouse (BUT Needs handleEvents() to take action!)
-		void selectByMouse(const sf::Vector2f& mouse);
 		// handles enter and mouseclick events and plays given sounds and animations whenever needed
 		void handleEvents(const sf::Event& event);
+
+		void select(const sf::Vector2f& mouse);
 
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -42,7 +42,7 @@ namespace NGin::UI {
 		// the color the mark normally has (when not inactive)
 		sf::Color markColor;
 
-		// this is the button that everything evolves around
+		// this is the base button that gtets transformed into switcher
 		Button button;
 
 		bool isActive = false;

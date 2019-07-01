@@ -1,4 +1,5 @@
 #include "Slider.h"
+#include "Cursor.h"
 
 namespace NGin::UI {
 	void Slider::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -8,12 +9,12 @@ namespace NGin::UI {
 		target.draw(rightArrow);
 		target.draw(mark);
 	}
-	void Slider::selectByMouse(const sf::Vector2f& mouse)
+	void Slider::select(const sf::Vector2f& mouse)
 	{
 		if (!isInactive) {
 
-			leftArrow.selectByMouse(mouse);
-			rightArrow.selectByMouse(mouse);
+			leftArrow.select(mouse);
+			rightArrow.select(mouse);
 
 			sf::FloatRect mouseRect = { mouse, { 1,1 } };
 
@@ -27,22 +28,21 @@ namespace NGin::UI {
 	{
 		if (!isInactive) {
 
-			if (isSelected)
+			if (isSelected) {
 				shape.setOutlineThickness(-outlineThickness);
+
+				if (event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonPressed) {
+					// isSliding is true if isSelected and while lmb is held 
+					isSliding = true;
+
+					// play slider sound
+					NGin::UI::Cursor::playSound();
+				}
+			}
 			else 
 				shape.setOutlineThickness(0);
-
-			if (event.mouseButton.button == sf::Mouse::Left && isSelected)
-			{
-				// isSliding is true if isSelected and while lmb is held 
-				isSliding = true;
-			}
 			
 			if (event.type == sf::Event::MouseButtonReleased && isSliding) {
-
-				// play slider sound
-				if (sound.getStatus() != sf::Music::Status::Playing)
-					sound.play();
 
 				// if lmb is released set to false
 				isSliding = false;
@@ -98,12 +98,6 @@ namespace NGin::UI {
 			int(shape.getSize().x + 2 * leftArrow.getSize().x + 2 * rightArrow.getSize().x), 0,
 			(int)mark.getSize().x, (int)mark.getSize().y
 		});
-	}
-	void Slider::setSoundFX(const sf::SoundBuffer& buffer)
-	{
-		sound.setBuffer(buffer);
-		leftArrow.setSoundFX(buffer);
-		rightArrow.setSoundFX(buffer);
 	}
 	void Slider::setFillColor(const sf::Color& color)
 	{

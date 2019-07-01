@@ -36,6 +36,7 @@
     <ClInclude Include="NGin\UserInterface.h" />
     <ClInclude Include="NGin\Utils.h" />
     <ClInclude Include="NGin\Utils\Center.h" />
+    <ClInclude Include="NGin\UI\UIElement.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\styles\warcraft\button.png" />

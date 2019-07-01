@@ -1,10 +1,6 @@
 #include "Switcher.h"
 
 namespace NGin::UI {
-	void Switcher::selectByMouse(const sf::Vector2f& mouse)
-	{
-		button.selectByMouse(mouse);
-	}
 	void Switcher::handleEvents(const sf::Event& event)
 	{
 		button.handleEvents(event);
@@ -20,6 +16,10 @@ namespace NGin::UI {
 			isActive = !isActive;
 		}
 
+	}
+	void Switcher::select(const sf::Vector2f& mouse)
+	{
+		button.select(mouse);
 	}
 	void Switcher::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
