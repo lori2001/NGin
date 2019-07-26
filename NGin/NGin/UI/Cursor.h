@@ -2,18 +2,18 @@
 #include "SFML\Audio.hpp"
 #include "SFML\Graphics.hpp"
 
-namespace NGin::UI {
-	class Cursor : public sf::Drawable
+namespace ngin::ui {
+	class Cursor
 	{
 	public:
-		static void draw(sf::RenderTarget& target);
+		static void draw(sf::RenderWindow& window);
 
 		// texture of the mouse displayed
 		static void setTexture(const sf::Texture& texture);
 
 		// this function returns the position of an element relative to the window
 		// the cursor is set to. (needs void followMouse)
-		static sf::Vector2f getPosition() { return sprite.getPosition(); }
+		static sf::Vector2f getPosition() { return sprite_.getPosition(); }
 
 		// IMPORTANT !!! ALL UI ELEMENTS DEPEND ON THIS FUNCTION!!!
 		// updtates cursor's position relative to window
@@ -27,9 +27,7 @@ namespace NGin::UI {
 		static void playSound();
 
 	private:
-		static sf::Sprite sprite;
-
-		// the sound feedbacks played when mouse presses something
-		static sf::Sound sound;
+		static sf::Sprite sprite_;
+		static sf::Sound sound_;
 	};
 }

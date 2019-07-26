@@ -1,51 +1,52 @@
 #include "Switcher.h"
 
-namespace NGin::UI {
-	void Switcher::handleEvents(const sf::Event& event)
+namespace ngin::ui {
+	void Switcher::handleEvents(const sf::Event& event, const sf::Vector2f& mouse)
 	{
-		button.handleEvents(event);
+		button_.handleEvents(event, mouse);
 
-		if (button.getIsPressed()) {
+		if (button_.isPressed()) {
 			mark.setTextureRect({ int(3 * mark.getSize().x), 0, int(mark.getSize().x), int(mark.getSize().y) });
 		}
 		else {
 			mark.setTextureRect({ int(2 * mark.getSize().x), 0, int(mark.getSize().x), int(mark.getSize().y) });
 		}
 
-		if (button.activated()) {
-			isActive = !isActive;
+		if (button_.isActive()) {
+			isActive_ = !isActive_;
+			hasChanged_ = true;
 		}
+		else hasChanged_ = false;
 
 	}
-	void Switcher::select(const sf::Vector2f& mouse)
+	void Switcher::draw(sf::RenderWindow& window)
 	{
-		button.select(mouse);
-	}
-	void Switcher::draw(sf::RenderTarget& target, sf::RenderStates states) const
-	{
-		button.draw(target, states);
-		
-		if(isActive)
-			target.draw(mark);
+		button_.draw(window);
+
+		if (isActive_)
+			window.draw(mark);
+
+		// this is to avoid writing an update() function
+		hasChanged_ = false;
 	}
 	void Switcher::setTexture(const sf::Texture& texture)
 	{
-		button.setTexture(texture);
+		button_.setTexture(texture);
 		mark.setTexture(&texture);
 	}
 	void Switcher::setPosition(const sf::Vector2f& position)
 	{
-		button.setPosition(position);
+		button_.setPosition(position);
 		mark.setPosition(position);
 	}
 	void Switcher::setScale(const sf::Vector2f& scale)
 	{
-		button.setScale(scale);
+		button_.setScale(scale);
 		mark.setScale(scale);
 	}
 	void Switcher::setSize(const sf::Vector2f& size)
 	{
-		button.setSize(size);
+		button_.setSize(size);
 		mark.setSize(size);
 	}
 	void Switcher::setFillColor(const sf::Color& color)
@@ -55,19 +56,23 @@ namespace NGin::UI {
 	}
 	void Switcher::setMarkColor(const sf::Color& color)
 	{
-		markColor = color;
-		mark.setFillColor(markColor);
+		mark.setFillColor(color);
 	}
 	void Switcher::setButtonColor(const sf::Color& color)
 	{
-		button.setFillColor(color);
+		button_.setFillColor(color);
 	}
 	void Switcher::setSelectColor(const sf::Color& color)
 	{
-		button.setSelectColor(color);
+		button_.setSelectColor(color);
 	}
-	bool Switcher::getisActive()
+	void Switcher::setisActive(const bool active)
 	{
-		return isActive;
+		isActive_ = active;
+		mark.setTextureRect({ int(2 * mark.getSize().x), 0, int(mark.getSize().x), int(mark.getSize().y) });
+	}
+	void Switcher::setDisabled(const bool isDisabled)
+	{
+		button_.setDisabled(isDisabled);
 	}
 }

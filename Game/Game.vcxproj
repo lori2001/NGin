@@ -88,10 +88,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\button.png" />
-    <Image Include="assets\cursor.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

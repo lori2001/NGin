@@ -1,66 +1,52 @@
 #pragma once
 #include "UIElement.h"
-#include "../Utils.h"
+#include "../Utilities.h"
 
-namespace NGin::UI {
+namespace ngin::ui {
 	class InputText : public UIElement {
 	public:
 		InputText(const sf::Vector2f& size) {
-			cursor.setFillColor(sf::Color::Transparent);
-			cursor.setString("|");
+			cursor_.setFillColor(sf::Color::Transparent);
+			cursor_.setString("|");
 
 			setSelectThickness(3);
-			setMaxCharacters(20);
+			setMaxCharacterNo(20);
 			setCharacterSize(25);
 			setSize(size);
 		}
 		InputText() : InputText({ 400, 50 }) {}
-		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-		//  Selects by mouse (BUT Needs handleEvents() to take action!)
-		void select(const sf::Vector2f& mouse);
-		// handles enter and mouseclick events and plays given sounds and animations whenever needed
-		void handleEvents(const sf::Event& event);
+		void handleEvents(const sf::Event& event, const sf::Vector2f& mouse);
+		void draw(sf::RenderWindow& window);
 
-		// sets the fill color of the underlying rectangle
-		void setFillColor(const sf::Color& color);
-		// sets the fill color of the overlaying text
-		void setTextColor(const sf::Color& color);
-		// sets the texture of the shape
-		void setTexture(const sf::Texture& texture);
-		// sets the position of the object
 		void setPosition(const sf::Vector2f& position);
-		// sets the font the text is going to have
-		void setFont(sf::Font& font);
-		// sets the maximum number of characters allowed
-		void setMaxCharacters(const unsigned nrofMaxChars);
-		// sets the string of the text element
 		void setString(const sf::String& str);
-		// sets the size of characters
-		void setCharacterSize(const unsigned charSize);
-		// sets the color of the outline when selected
-		void setSelectColor(const sf::Color& color);
-		// sets the thickness of the selection outline when active
-		void setSelectThickness(const float thickness);
-		// sets the size of the underlying shape
-		void setSize(const sf::Vector2f& size);
+		void setCharacterSize(const unsigned characterSize);
+		void setFont(sf::Font& font);
+		void setFillColor(const sf::Color& color) { shape_.setFillColor(color); }
+		void setTextColor(const sf::Color& color) { text_.setFillColor(color); }
+		void setTexture(const sf::Texture& texture) { shape_.setTexture(&texture); }
+		void setMaxCharacterNo(const unsigned maxCharacterNo) { maxCharacterNo_ = maxCharacterNo; }
+		void setSelectColor(const sf::Color& color) { shape_.setOutlineColor(color); }
+		void setSelectThickness(const float thickness) { selectThickness_ = thickness; }
+		void setSize(const sf::Vector2f& size) { shape_.setSize(size); }
+		void setDisabled(const bool isDisabled) { isDisabled_ = isDisabled; }
 
-		// returns the text inputed into the object
-		sf::String getString() { return text.getString(); }
-		bool getisActive() { return isActive; }
+		sf::String getString() { return text_.getString(); }
+		bool getisActive() { return isActive_; }
 
 	private:
-		sf::RectangleShape shape; // the block that the text gets displayed in
-		float outlineThickness; // the thickness of shape's outline when selected
-		unsigned maxChars; // holds the number of maximum characters allowed in one object
+		sf::RectangleShape shape_; // the block that the text gets displayed in
+		float selectThickness_; // the thickness of shape's outline when selected
+		unsigned maxCharacterNo_; // holds the number of maximum characters allowed in one object
 
-		sf::Text text; // the rewritable text inside the rectangle
+		sf::Text text_; // the rewritable text inside the rectangle
 
-		sf::Text cursor; // just a | to show off cursor position
+		sf::Text cursor_; // just a | to show off cursor position
 		void adjustCursor();
 
-		bool isActive = false; // true whenever writing may occur
-		bool isSelected = false; // true whenever object is selected by means(ex.mouse)
-		bool isInactive = false; // true whenever object canot be selected or changed
+		bool isActive_ = false; // true whenever writing may occur
+		bool isSelected_ = false; // true whenever object is selected by means(ex.mouse)
+		bool isDisabled_ = false; // true whenever object canot be selected or changed
 	};
 }

@@ -1,177 +1,153 @@
 #include "Button.h"
 #include "Cursor.h"
 
-namespace NGin::UI
+namespace ngin::ui
 {
-	void Button::select(const sf::Vector2f& mouse)
+	void Button::handleEvents(const sf::Event & event, const sf::Vector2f& mouse)
 	{
-		if (!isInactive)
+		if (!isDisabled_)
 		{
-			// checks if the mouse and the button intersect
-			// considers mouse to be 1x1 pixels
-			isSelected = shape.getGlobalBounds().intersects(sf::FloatRect(mouse, { 1,1 }));
-		}
-	}
-	void Button::handleEvents(const sf::Event & event)
-	{
-		if (!isInactive)
-		{
-			// if the button is selected
-			if (isSelected) {
-				// outline appears
-				shape.setOutlineThickness(outlineThickness);
+			isActive_ = false;
 
-				// if the right events are triggered
+			// considers mouse to be 1x1 pixels
+			isSelected_ = shape_.getGlobalBounds().intersects(sf::FloatRect(mouse, { 1,1 }));
+
+			if (isSelected_) {
+				shape_.setOutlineThickness(selectThickness_);
+
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					if (event.type == sf::Event::MouseButtonPressed)
 					{
+						isPressed_ = true;
+
 						// audio feedback for pressing
-						NGin::UI::Cursor::playSound();
+						ngin::ui::Cursor::playSound();
 
-						// create the "pressed in" visual effect
-						shape.setTextureRect(sf::IntRect(texturePos.x + (int)shape.getSize().x, texturePos.y,
-							(int)shape.getSize().x, (int)shape.getSize().y));
+						// create the "pressed in" visual feedback
+						shape_.setTextureRect(sf::IntRect{
+							 texturePos_.x + static_cast<int>(shape_.getSize().x),
+											 static_cast<int>(texturePos_.y),
+											 static_cast<int>(shape_.getSize().x),
+											 static_cast<int>(shape_.getSize().y)});
 
-						// the button has been pressed / take action when released
-						isPressed = true;
+						text_.setPosition(sf::Vector2f(textPos_.x + (3 * shape_.getScale().x),
+													   textPos_.y + (3 * shape_.getScale().y)));
 					}
-					else if (isPressed && event.type == sf::Event::MouseButtonReleased)
+					else if (isPressed_ && event.type == sf::Event::MouseButtonReleased)
 					{
-						// take action
-						isActive = true;
+						isActive_ = true;
 					}
 				}
 			}
-			else // if not selected the outline disappears
-				shape.setOutlineThickness(0);
-
-			// make the button non-active whenever needed
-			if ((event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonReleased) || !isSelected)
-			{
-				shape.setTextureRect(sf::IntRect(texturePos.x, texturePos.y, (int)shape.getSize().x, (int)shape.getSize().y));
-				isPressed = false;
+			else { // !isSelected_
+				shape_.setOutlineThickness(0);
 			}
 
-			// if the button is pressed and selected the text moves down and right a bit to create the pressed-in feeling
-			if (isPressed && isSelected)
-				text.setPosition(sf::Vector2f(textPos.x + (3 * shape.getScale().x), textPos.y + (3 * shape.getScale().y))); // move 3px to shape's scale
-			else // else the text gets back its position
-				text.setPosition(textPos);
+			// If left mouse button released or unselected...
+			if ((event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonReleased)
+				|| !isSelected_)
+			{
+				isPressed_ = false;
+
+				shape_.setTextureRect(sf::IntRect(texturePos_.x, texturePos_.y, (int)shape_.getSize().x, (int)shape_.getSize().y));
+				text_.setPosition(textPos_);
+			}
 		}
 	}
-	void Button::draw(sf::RenderTarget & target, sf::RenderStates states) const
+	void Button::draw(sf::RenderWindow& window)
 	{
-		target.draw(shape);
-		target.draw(text);
+		window.draw(shape_);
+		window.draw(text_);
 	}
 	void Button::setFont(const sf::Font & font)
 	{
-		// sets font
-		text.setFont(font);
+		text_.setFont(font);
 
 		// centers text with the new font in mind
-		centerTextInShape(text, shape);
-		textPos = text.getPosition();
+		align::centerTextInShape(text_, shape_);
+		textPos_ = text_.getPosition();
 	}
 	void Button::setTextColor(const sf::Color & color)
 	{
-		text.setFillColor(color);
+		text_.setFillColor(color);
 	}
 	void Button::setTexture(const sf::Texture & texture)
 	{
-		// sets sprite texture
-		shape.setTexture(&texture);
-
-		// uses the first part of the buttontexture
-		shape.setTextureRect(sf::IntRect(texturePos.x, texturePos.y, int(shape.getSize().x), int(shape.getSize().y)));
+		shape_.setTexture(&texture);
+		shape_.setTextureRect(sf::IntRect(texturePos_.x,
+										  texturePos_.y,
+										  static_cast<int>(shape_.getSize().x),
+										  static_cast<int>(shape_.getSize().y)));
 	}
 	void Button::setTexturePos(const sf::Vector2i position)
 	{
-		texturePos = position;
+		texturePos_ = position;
 
-		// resets shape's texture to apply the new position immediately
-		shape.setTextureRect(sf::IntRect(texturePos.x, texturePos.y, int(shape.getSize().x), int(shape.getSize().y)));
+		shape_.setTextureRect(sf::IntRect(texturePos_.x,
+									      texturePos_.y,
+										  static_cast<int>(shape_.getSize().x),
+									      static_cast<int>(shape_.getSize().y)));
 	}
 	void Button::setFillColor(const sf::Color & color)
 	{
-		shape.setFillColor(color);
-		shapeColor = color;
+		shape_.setFillColor(color);
+		shapeColor_ = color;
 	}
 	void Button::setPosition(const sf::Vector2f & position)
 	{
-		//sets position of the sprite
-		shape.setPosition(position);
+		shape_.setPosition(position);
 
-		// update the position of the text based on shape's position
-		centerTextInShape(text, shape);
-		textPos = text.getPosition();
+		align::centerTextInShape(text_, shape_);
+		textPos_ = text_.getPosition();
 	}
 	void Button::setSelectColor(const sf::Color & color)
 	{
-		//in case selected this color will be the outline
-		shape.setOutlineColor(color);
+		shape_.setOutlineColor(color);
 	}
 	void Button::setSelectThickness(const float thickness)
 	{
-		outlineThickness = thickness;
+		selectThickness_ = thickness;
 	}
 	void Button::setScale(const sf::Vector2f & scale)
 	{
-		//changes sprite scale
-		shape.setScale(scale);
+		shape_.setScale(scale);
 
-		//changes text size
-		text.setCharacterSize(int(38 * scale.y));
+		text_.setCharacterSize(int(38 * scale.y));
 
-		//centers the newly sized text
-		centerTextInShape(text, shape);
-		textPos = text.getPosition();
+		align::centerTextInShape(text_, shape_);
+		textPos_ = text_.getPosition();
 	}
 	void Button::setCharacterSize(const int size)
 	{
-		//sets the new string to the text
-		this->text.setCharacterSize(size);
-
-		//centers the string with its new height
-		centerTextInShape(text, shape);
-		textPos = text.getPosition();
-	}
-	void Button::setInactivity(const bool in_isInactive)
-	{
-		if (isInactive && !in_isInactive) {
-			// set original shape color back
-			shape.setFillColor(shapeColor);
-		}
-		else if (!isInactive && in_isInactive) {
-			// gets rid of selected outline if there is any
-			isSelected = false;
-			shape.setOutlineThickness(0);
-
-			// set greyish color to shape
-			shape.setFillColor ({150, 150, 150});
-		}
-
-		isInactive = in_isInactive;
+		text_.setCharacterSize(size);
+		
+		align::centerTextInShape(text_, shape_);
+		textPos_ = text_.getPosition();
 	}
 	void Button::setSize(const sf::Vector2f size)
 	{
-		shape.setSize(size);
+		shape_.setSize(size);
 	}
-	bool Button::activated()
+	void Button::setDisabled(const bool isDisabled)
 	{
-		if (isActive) {
-			isActive = false;
-			return true;
-		}
-		else return false;
-	}
-	void Button::setString(const sf::String & txt)
-	{
-		//sets the new string to the text
-		this->text.setString(txt);
+		isDisabled_ = isDisabled;
 
-		//centers the new string of text
-		centerTextInShape(text, shape);
-		textPos = text.getPosition();
+		if (isDisabled) {
+			shape_.setFillColor(shapeColor_);
+		}
+		else if (!isDisabled) {
+			isSelected_ = false;
+			shape_.setOutlineThickness(0);
+
+			shape_.setFillColor({ 150, 150, 150 });
+		}
+	}
+	void Button::setString(const sf::String & text)
+	{
+		this->text_.setString(text);
+
+		align::centerTextInShape(text_, shape_);
+
+		textPos_ = text_.getPosition();
 	}
 }

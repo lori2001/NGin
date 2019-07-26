@@ -1,140 +1,134 @@
 #include "Dropdown.h"
 
-#include "../Base/Logger.h"
+#include "../Base/Console.h"
 #include "Cursor.h"
 
-namespace NGin::UI
+namespace ngin::ui
 {
-	void Dropdown::draw(sf::RenderTarget& target, sf::RenderStates states) const
+	void Dropdown::draw(sf::RenderWindow& window)
 	{
-		target.draw(shape);
+		window.draw(shape_);
 
-		if (drawHighlight) {
-			target.draw(highlight);
+		if (drawHighlight_) {
+			window.draw(highlight_);
 		}
 
-		for (int i = 0; i < int(texts.size()); i++) {
+		for (int i = 0; i < int(texts_.size()); i++) {
 
 			// checks if the fonts are properly defined and prints a warning if not
-			if ((texts[i].getString() != "") && texts[i].getFont() == nullptr) {
-				Logger::logOnce("Dropdown nr." + std::to_string(Elemindex) + " -> Text nr." + std::to_string(i)
-				+ " set but font NOT initialized! -> TEXT MAY NOT BE DISPLAYED!", Logger::Severity::Warning);
+			if ((texts_[i].getString() != "") && texts_[i].getFont() == nullptr) {
+				Console::logOnce(Console::Severity::Warning, "Dropdown nr.", getElementIndex(), " -> Text nr.", i,
+															 " set but font NOT initialized! -> TEXT MAY NOT BE DISPLAYED!");
 			}
 
-			if (i == 0 || isActive[0]) {
-				target.draw(texts[i]);
+			if (i == 0 || isActives_[0]) {
+				window.draw(texts_[i]);
 			}
 		}
 	}
-	void Dropdown::select(const sf::Vector2f& mouse)
+	void Dropdown::handleEvents(const sf::Event& event, const sf::Vector2f& mouse)
 	{
-		if (!isInactive)
+		if (!isDisabled_)
 		{
-			// first element is the closed-up shape
-			sf::FloatRect mainrect(shape.getGlobalBounds().left, shape.getGlobalBounds().top, size.x * shape.getScale().x, size.y * shape.getScale().y);
-			
-			// a false rectangle that represents mouse for easy intersection checking
+			sf::FloatRect mainrect(shape_.getGlobalBounds().left,
+								   shape_.getGlobalBounds().top,
+								   size_.x * shape_.getScale().x,
+								   size_.y * shape_.getScale().y);
+
 			sf::FloatRect mouseRect = { mouse, { 1,1 } };
-			
-			// check if it collides with mouse
-			isSelected[0] = mainrect.intersects(mouseRect);
+
+			isSelecteds_[0] = mainrect.intersects(mouseRect);
 
 			// if the main element has been pressed
-			if (isActive[0])
+			if (isActives_[0])
 			{
-				// iterate through each element of the dropdown
-				for (int i = 1; i < int(isSelected.size()); i++)
+				for (int i = 1; i < int(isSelecteds_.size()); i++)
 				{
-					// creates a FloatRect class for the current elements' position
 					// keep in mind that shape is in extended mode right now
 					sf::FloatRect thisrect(
-						shape.getGlobalBounds().left,
-						shape.getGlobalBounds().top + (size.y * shape.getScale().y * i), // moves down by the amount of i
-						size.x * shape.getScale().x,
-						size.y * shape.getScale().y
+						shape_.getGlobalBounds().left,
+						shape_.getGlobalBounds().top + (size_.y * shape_.getScale().y * i),
+						size_.x * shape_.getScale().x,
+						size_.y * shape_.getScale().y
 					);
 
 					// checks intersection with mouse for each element
-					isSelected[i] = thisrect.intersects(mouseRect);
+					isSelecteds_[i] = thisrect.intersects(mouseRect);
 				}
 			}
-		}
-	}
-	void Dropdown::handleEvents(const sf::Event& event)
-	{
-		if (!isInactive) {
+
+			for (int i = 1; i < static_cast<int>(isActives_.size()); i++)
+				isActives_[i] = false;
+
 			// if the leftmousebutton is enabled
 			if (event.mouseButton.button == sf::Mouse::Left)
 			{
 				// if mouse is pressed and the main element is selected
-				if (event.type == sf::Event::MouseButtonPressed && isSelected[0])
+				if (event.type == sf::Event::MouseButtonPressed && isSelecteds_[0])
 				{
 					// play feedback sound
 					Cursor::playSound();
 
 					// drop down
-					shape.setTextureRect(sf::IntRect((int)size.x, 0, (int)size.x, int(size.y * isSelected.size())));
-					shape.setSize(sf::Vector2f(size.x, size.y * isSelected.size()));
+					shape_.setTextureRect(sf::IntRect((int)size_.x, 0, (int)size_.x, int(size_.y * isSelecteds_.size())));
+					shape_.setSize(sf::Vector2f(size_.x, size_.y * isSelecteds_.size()));
 
 					// set main bool to true (makes all items viewable & selectable)
-					isActive[0] = true;
+					isActives_[0] = true;
 				}
 				// if dropped down & left mouse button released & the mouse isn't on the main element
-				else if (isActive[0] && event.type == sf::Event::MouseButtonReleased && !isSelected[0])
+				else if (isActives_[0] && event.type == sf::Event::MouseButtonReleased && !isSelecteds_[0])
 				{
 					// iterate through each element
-					for (int i = 0; i < int(isSelected.size()); i++)
+					for (int i = 0; i < int(isSelecteds_.size()); i++)
 					{
-						if (isSelected[i]) //check if selected
+						if (isSelecteds_[i]) //check if selected
 						{
 							// play feedback sound
 							Cursor::playSound();
 
 							// make button active
-							isActive[i] = true;
+							isActives_[i] = true;
 
 							// if the dropdown's displayed information should change
-							if (!isStatic)
+							if (!isStatic_)
 							{
 								//change text
-								texts[0].setString(texts[i].getString());
+								texts_[0].setString(texts_[i].getString());
 
 								// center the new text properly
-								centerTextInBounds(texts[0], { shape.getGlobalBounds().left + outlineThickness,
-																  shape.getGlobalBounds().top + outlineThickness,
-																  size.x * shape.getScale().x,
-																  size.y * shape.getScale().y });
+								align::centerTextInBounds(texts_[0], closedGlobalBounds_);
 							}
 
 							break;
 						}
 						else // if not selected make sure its not active
-							isActive[i] = false;
+							isActives_[i] = false;
 					}
 
 					// (if lmb is released) minimalize the dropdown back (no matter what) 
-					shape.setTextureRect(sf::IntRect(0, 0, int(size.x), int(size.y)));
-					shape.setSize(size);
+					shape_.setTextureRect(sf::IntRect(0, 0, int(size_.x), int(size_.y)));
+					shape_.setSize(size_);
 				}
 			}
 
 			// if dropped down or first element is selected
-			if ((isActive[0] || isSelected[0]))
-				shape.setOutlineThickness(outlineThickness);
+			if (isActives_[0] || isSelecteds_[0])
+				shape_.setOutlineThickness(selectThickness_);
 			else
-				shape.setOutlineThickness(0);
+				shape_.setOutlineThickness(0);
 
-			drawHighlight = false; // do not draw highlight by default
+			drawHighlight_ = false; // do not draw highlight by default
 
-			if (isActive[0]) // if dropped down
+			if (isActives_[0]) // if dropped down
 			{
-				for (int i = 1; i < int(isSelected.size()); i++) // for every element
+				for (int i = 1; i < int(isSelecteds_.size()); i++) // for every element
 				{
-					if (isSelected[i]) // if the element is selected
+					if (isSelecteds_[i]) // if the element is selected
 					{
 						// set the position of the selection rectangle properly
-						highlight.setPosition(sf::Vector2f(shape.getPosition().x, shape.getPosition().y + size.y * i * shape.getScale().y));
-						drawHighlight = true;
+						highlight_.setPosition(sf::Vector2f(shape_.getPosition().x, shape_.getPosition().y + size_.y * i * shape_.getScale().y));
+						drawHighlight_ = true;
 
 						// break because only one can be selected at once
 						break;
@@ -143,140 +137,118 @@ namespace NGin::UI
 			}
 		}
 	}
-	void Dropdown::addDropString(const sf::String text)
+	void Dropdown::addDropString(const sf::String& text)
 	{
-		isSelected.push_back(false);
-		isActive.push_back(false);
-		texts.push_back({ text, *texts[0].getFont(), texts[0].getCharacterSize() });
+		isSelecteds_.push_back(false);
+		isActives_.push_back(false);
+		texts_.push_back({ text, *texts_[0].getFont(), texts_[0].getCharacterSize() });
 
 		// puts added element's text inside its container
-		int i = texts.size() - 1;
-		centerTextInBounds(texts[i], { shape.getGlobalBounds().left,
-								  shape.getGlobalBounds().top + shape.getGlobalBounds().height * i,
-								  shape.getGlobalBounds().width,
-								  shape.getGlobalBounds().height });
+		int i = texts_.size() - 1;
+		align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
 	}
 	void Dropdown::deleteDropString(const int index)
 	{
-		if (index < int(isSelected.size()) ) {
-			isSelected.erase(isSelected.begin() + index);
-			isActive.erase(isActive.begin() + index);
-			texts.erase(texts.begin() + index);
+		if (index < int(isSelecteds_.size()) ) {
+			isSelecteds_.erase(isSelecteds_.begin() + index);
+			isActives_.erase(isActives_.begin() + index);
+			texts_.erase(texts_.begin() + index);
 
 			// repositions elements properly after the deleted element
-			for (int i = index; i < int(isSelected.size()); i++) {
-				centerTextInBounds(texts[i], { shape.getGlobalBounds().left,
-						  shape.getGlobalBounds().top + shape.getGlobalBounds().height * i,
-						  shape.getGlobalBounds().width,
-						  shape.getGlobalBounds().height });
+			for (int i = index; i < int(isSelecteds_.size()); i++) {
+				align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
 			}
 		}
 		else {
-			Logger::logOnce("Dropdown nr." + std::to_string(Elemindex) + "-> cannot delete text nr." + std::to_string(index)
-			+ " (vector size is " + std::to_string(isSelected.size()) + ") -> COMMAND IGNORED", Logger::Severity::Warning);
+			Console::logOnce(Console::Severity::Warning, "Dropdown nr.", getElementIndex(), " -> cannot delete text nr.",
+														 index, " (vector size is " , isSelecteds_.size() , ") -> COMMAND IGNORED");
 		}
 	}
 	void Dropdown::setTexture(sf::Texture& texture)
 	{
 		texture.setRepeated(true);
 
-		shape.setTexture(&texture);
-		if(!isInactive) shape.setTextureRect({ 0, 0, int(size.x), int(size.y) });
+		shape_.setTexture(&texture);
+		if(!isDisabled_) shape_.setTextureRect({ 0, 0, int(size_.x), int(size_.y) });
 	}
-	void Dropdown::setFont(sf::Font& in_font)
+	void Dropdown::setFont(sf::Font& font)
 	{
-		for (int i = 0; i < int(texts.size()); i++)
+		for (int i = 0; i < int(texts_.size()); i++)
 		{
-			texts[i].setFont(in_font);
+			texts_[i].setFont(font);
 
-			centerTextInBounds(texts[i], { shape.getGlobalBounds().left,
-											  shape.getGlobalBounds().top + shape.getGlobalBounds().height * i,
-											  shape.getGlobalBounds().width,
-											  shape.getGlobalBounds().height });
+			align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
 		}
 	}
 	void Dropdown::setFillColor(const sf::Color& color)
 	{
-		shape.setFillColor(color);
-		shapeColor = color;
+		shape_.setFillColor(color);
+		shapeColor_ = color;
 	}
 	void Dropdown::setSelectColor(const sf::Color& color)
 	{
-		shape.setOutlineColor(color);
+		shape_.setOutlineColor(color);
 	}
-	void Dropdown::setSize(const sf::Vector2f& in_size)
+	void Dropdown::setSelectThickness(const float thickness)
 	{
-		size = in_size;
-		shape.setSize(in_size);
+		selectThickness_ = thickness;
+	}
+	void Dropdown::setSize(const sf::Vector2f& size)
+	{
+		size_ = size;
+		shape_.setSize(size);
+		highlight_.setSize(size);
+
+		closedGlobalBounds_.width = shape_.getGlobalBounds().width;
+		closedGlobalBounds_.height = shape_.getGlobalBounds().height;
+
+		for (int i = 0; i < int(texts_.size()); i++)
+			align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
 	}
 	void Dropdown::setPosition(const sf::Vector2f& position)
 	{
-		shape.setPosition(position);
+		shape_.setPosition(position);
 
-		for (int i = 0; i < int(texts.size()); i++)
-		{
-			centerTextInBounds(texts[i], { shape.getGlobalBounds().left,
-											  shape.getGlobalBounds().top + shape.getGlobalBounds().height * i,
-											  shape.getGlobalBounds().width,
-											  shape.getGlobalBounds().height });
-		}
+		closedGlobalBounds_.left = shape_.getGlobalBounds().left;
+		closedGlobalBounds_.top = shape_.getGlobalBounds().top;
+
+		for (int i = 0; i < int(texts_.size()); i++)
+			align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
 	}
 	void Dropdown::setTextSize(const unsigned charSize)
 	{
-		for (int i = 0; i < int(texts.size()); i++) {
-			texts[i].setCharacterSize(charSize);
+		for (int i = 0; i < int(texts_.size()); i++) {
+			texts_[i].setCharacterSize(charSize);
 
-			centerTextInBounds(texts[i], { shape.getGlobalBounds().left,
-								  shape.getGlobalBounds().top + shape.getGlobalBounds().height * i,
-								  shape.getGlobalBounds().width,
-								  shape.getGlobalBounds().height });
+			align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
 		}
 	}
 	void Dropdown::setDropString(const int i, const sf::String& text)
 	{
-		texts[i].setString(text);
+		texts_[i].setString(text);
 
-		centerTextInBounds(texts[i], { shape.getGlobalBounds().left,
-					  shape.getGlobalBounds().top + shape.getGlobalBounds().height * i,
-					  shape.getGlobalBounds().width,
-					  shape.getGlobalBounds().height });
+		align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
 	}
-	void Dropdown::setInactivity(const bool in_isInactive)
+	void Dropdown::setDisabled(const bool isDisabled)
 	{
-		if (isInactive && !in_isInactive) {
+		if (isDisabled_ && !isDisabled) {
 			// set original shape color back
-			shape.setFillColor(shapeColor);
+			shape_.setFillColor(shapeColor_);
 		}
-		else if (!isInactive && in_isInactive) {
+		else if (!isDisabled_ && isDisabled) {
 			// gets rid of selected outline if there is any
-			isActive[0] = false;
-			isSelected[0] = false;
-			shape.setOutlineThickness(0);
+			isActives_[0] = false;
+			isSelecteds_[0] = false;
+			shape_.setOutlineThickness(0);
 
 			// set greyish color to shape
-			shape.setFillColor({ 150, 150, 150 });
+			shape_.setFillColor({ 150, 150, 150 });
 		}
 
-		isInactive = in_isInactive;
+		isDisabled_ = isDisabled;
 	}
-	void Dropdown::setStaticism(const bool in_isStatic)
+	void Dropdown::setStatic(const bool isStatic)
 	{
-		isStatic = in_isStatic;
-	}
-	bool Dropdown::activated(const int i)
-	{
-		if (isActive[i]) {
-			isActive[i] = false;
-			return true;
-		}
-		else return false;
-	}
-	int Dropdown::getNrofElem()
-	{
-		return int(isSelected.size());
-	}
-	sf::String Dropdown::getDropString(const int i)
-	{
-		return texts[i].getString();
+		isStatic_ = isStatic;
 	}
 }

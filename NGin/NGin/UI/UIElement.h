@@ -1,28 +1,28 @@
 #pragma once
+#include <vector>
 #include "SFML/Graphics.hpp"
 
-namespace NGin::UI {
-	// helps count number of UIElements for debugging purposes
-	static std::vector<bool> UIElements;
-
+namespace ngin::ui
+{
 	// holds every class that all UIElements should have in common
-	class UIElement : public sf::Drawable
+	class UIElement
 	{
 	public:
 		UIElement() {
-			Elemindex = UIElements.size();
-			UIElements.push_back(true);
+			iElement_ = static_cast<int>(Elements_.size());
+			Elements_.push_back(true);
 		}
 		virtual ~UIElement()
 		{
-			UIElements.erase(UIElements.begin() + Elemindex);
+			Elements_.erase(Elements_.begin() + iElement_);
 		}
 
-		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
-		virtual void select(const sf::Vector2f& mouse) = 0;
-		virtual void handleEvents(const sf::Event& event) = 0;
-
-	protected:
-		unsigned Elemindex;
+		virtual void handleEvents(const sf::Event& event, const sf::Vector2f& mouse) = 0;
+		virtual void draw(sf::RenderWindow& window) = 0;
+		int getElementIndex() const { return iElement_; }
+	private:
+		// helps count number of UIElements for debugging purposes
+		static std::vector<bool> Elements_;
+		int iElement_;
 	};
 }

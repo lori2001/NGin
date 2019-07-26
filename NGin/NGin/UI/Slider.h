@@ -2,7 +2,7 @@
 #include "UIElement.h"
 #include "Button.h"
 
-namespace NGin::UI {
+namespace ngin::ui {
 	class Slider : public UIElement {
 	public:
 		Slider(const sf::Vector2f& shapeSize,
@@ -10,68 +10,54 @@ namespace NGin::UI {
 			const sf::Vector2f& markSize,
 			const sf::Vector2f& position = { 0,0 })
 		{
-			outlineThickness = 3;
-
-			// set shapes' sizes
-			shape.setSize(shapeSize);
-			leftArrow.setSize(arrowSize);
-			rightArrow.setSize(arrowSize);
-			mark.setSize(markSize);
+			setSelectThickness(-3); // selection goes inside container
+			setSizes(shapeSize, arrowSize, markSize);
 
 			// button has to be centered in order to align properly
-			mark.setOrigin({ mark.getGlobalBounds().width / 2, mark.getGlobalBounds().height / 2 });
+			mark_.setOrigin({ mark_.getGlobalBounds().width / 2, mark_.getGlobalBounds().height / 2 });
 
-			// set up virtual box (has some additional offset calibrated for default textures)
-			sliderBox = { mark.getGlobalBounds().width / 2 + 5 , 0,
-					   shape.getGlobalBounds().width - mark.getGlobalBounds().width - 10,
-					   shape.getGlobalBounds().height / 2 };
+			// set up the mark's virtual box (has some additional offset calibrated for default textures)
+			sliderBox_ = { mark_.getGlobalBounds().width / 2 + 5 , 0,
+					   container_.getGlobalBounds().width - mark_.getGlobalBounds().width - 10,
+					   container_.getGlobalBounds().height / 2 };
 
 			setPosition({ 0, 0 });
 
 		} Slider(const sf::Vector2f& position = { 0,0 }) : Slider({ 300, 40 }, { 40, 40 }, { 30, 30 }, position) {}
 
-		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+		void handleEvents(const sf::Event& event, const sf::Vector2f& mouse);
+		void draw(sf::RenderWindow& window);
 
-		//  Selects by mouse (BUT Needs handleEvents() to take action!)
-		void select(const sf::Vector2f& mouse);
-
-		// handles enter and mouseclick events and plays given sounds and animations whenever needed
-		void handleEvents(const sf::Event& event);
-
-		// sets textures which then get mapped according to sizes (shape->arrow->button)
 		void setTexture(const sf::Texture& texture);
-		// set fill color of every element
 		void setFillColor(const sf::Color& color);
-		// set the fill color of the mark's container only
-		void setContainerColor(const sf::Color& color);
-		// set the fill color of the mark only
-		void setMarkColor(const sf::Color& color);
-		// set the fill color of the arrows(left and right) only
+		void setContainerColor(const sf::Color& color) { container_.setFillColor(color); }
+		void setMarkColor(const sf::Color& color) { mark_.setFillColor(color); }
 		void setArrowsColor(const sf::Color& color);
-		// sets the box the slider can move in
-		void setSliderBox(const sf::FloatRect& newbox);
-		// sets the position of the object (top-left pivot)
+		void setSliderBox(const sf::FloatRect& sliderBox) { sliderBox_ = sliderBox; }
 		void setPosition(const sf::Vector2f& position);
+		void setLevel(const float level);
+		void setSizes(const sf::Vector2f& shapeSize, const sf::Vector2f& arrowSize, const sf::Vector2f& markSize);
+		void setSelectThickness(const float selectSize) { selectThickness_ = selectSize; }
 
-		// gets the current level of the slider in a value between 0 and 1
-		float getLevel();
+		float getLevel() { return level_; }
+		sf::Vector2f getSize() { return { leftButton_.getSize().x + container_.getSize().x + rightArrow.getSize().x, container_.getSize().y }; }
+		bool getHasChanged() { return hasChanged_; }
 	private:
 		// adjust button position based on level
 		void adjustMarkPos();
 	private:
-		sf::FloatRect sliderBox; // a virtual box for the mark
-		sf::RectangleShape shape; // the main shape of the slider
-		sf::RectangleShape mark; // the round sprite signaling current level
-		Button leftArrow; // the left arrow's button
-		Button rightArrow; // the right arrow's button
+		sf::FloatRect sliderBox_; // a box for the mark to move in
+		sf::RectangleShape container_;
+		sf::RectangleShape mark_;
+		Button leftButton_; // the button on the left of the window
+		Button rightArrow; // the button on the right of the window
 
-		float outlineThickness; // the thickness of selection outline
-		float mouseX = 0; // holds mouse's X position to help calculate level later on
-		float level = 0; // the output percentage (0 <= level <= 1)
+		float selectThickness_;
+		float level_ = 0; // the output percentage (0 <= level <= 1)
 
-		bool isSliding = false; // true if lmb is on hold (then slider is active)
-		bool isInactive = false; // if true the object can't be selected or modified
-		bool isSelected = false; // used for the main section
-		bool isActive = false; // used for the main section
+		bool isSliding_ = false; // true if lmb is on hold (then slider is active)
+		bool isDisabled_ = false; // if true the object can't be selected or modified
+		bool isSelected_ = false; // used for the main section
+		bool hasChanged_ = false; // signals to user wheter level has been changed compared to last time
 	};
 }

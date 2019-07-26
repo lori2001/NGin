@@ -1,7 +1,6 @@
 #pragma once
 
 // includes esential files
-
-#include "Base/Logger.h"
-#include "Base/ResourceCodex.h"
-// #include "Base/Animation.h"
+#include "Base/Console.h"
+#include "Base/Resources.h"
+#include "Base/Timer.h"
