@@ -14,14 +14,13 @@ int main()
 	ngin::Resources::setLocation("assets/");
 	ngin::ui::Cursor::setBuffer(*ngin::Resources::AcquireSoundBuffer("click.wav"));
 
-	ngin::ui::Switcher switcher;
-	switcher.setTexture(*ngin::Resources::AcquireTexture("switcher.png"));
-
 	ngin::ui::Dropdown dropdown;
+	dropdown.setTexture(*ngin::Resources::AcquireTexture("dropdown.png"));
 	dropdown.setFont(*ngin::Resources::AcquireFont("arial.ttf"));
 	dropdown.setDropString(0, "123123");
 	dropdown.addDropString("11");
 	dropdown.setFillColor(sf::Color::Red);
+	dropdown.setPosition({200,200});
 
 	while (window.isOpen())
 	{
@@ -31,15 +30,13 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
-	
+
 			ngin::ui::Cursor::followMouse(window);
-			switcher.handleEvents(event, ngin::ui::Cursor::getPosition());
 			dropdown.handleEvents(event, ngin::ui::Cursor::getPosition());
 		}
-		
+
 		window.clear();
 
-		switcher.draw(window);
 		dropdown.draw(window);
 
 		window.display();
