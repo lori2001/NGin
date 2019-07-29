@@ -77,8 +77,8 @@ namespace ngin::ui {
 		window.draw(cursor_);
 
 		// if the font is not set
-		if (text_.getFont() == nullptr) {
-			Console::logOnce(Console::Severity::Warning, "Font undefined for InputText nr.",
+		if (text_.getFont() == 0) {
+			NG_LOG_ONCE_WARN("Font undefined for InputText nr.",
 				UIElement::getElementIndex(), " -> OBJECT MAY NOT FUNCTION PROPERLY");
 		}
 	}

@@ -32,7 +32,6 @@ namespace ngin
 		template<typename T, typename... Args>
 		static void logOnce(const Severity& severity, T t, Args... args);
 
-		static void hideOnRelease();
 		static void setSize(const sf::Vector2u &size);
 		// !!! Changes all fonts (even those alredy printed)
 		static void setFontStyle(const sf::Vector2i& size, const bool isBold = false);
@@ -91,3 +90,29 @@ namespace ngin
 		logOnce(severity, args...);
 	}
 }
+
+#ifndef NG_CONSOLE_HIDE
+#define NG_LOG_NOTE(...) ngin::Console::log(ngin::Console::Severity::Note, __VA_ARGS__ )
+#define NG_LOG_INFO(...) ngin::Console::log(ngin::Console::Severity::Info, __VA_ARGS__ )
+#define NG_LOG_WARN(...) ngin::Console::log(ngin::Console::Severity::Warning, __VA_ARGS__ )
+#define NG_LOG_ERROR(...) ngin::Console::log(ngin::Console::Severity::Error, __VA_ARGS__ )
+
+#define NG_LOG_ONCE_NOTE(...) ngin::Console::logOnce(ngin::Console::Severity::Note, __VA_ARGS__ )
+#define NG_LOG_ONCE_INFO(...) ngin::Console::logOnce(ngin::Console::Severity::Info, __VA_ARGS__ )
+#define NG_LOG_ONCE_WARN(...) ngin::Console::logOnce(ngin::Console::Severity::Warning, __VA_ARGS__ )
+#define NG_LOG_ONCE_ERROR(...) ngin::Console::logOnce(ngin::Console::Severity::Error, __VA_ARGS__ )
+#else
+#define NG_LOG_NOTE
+#define NG_LOG_INFO
+#define NG_LOG_WARN
+#define NG_LOG_ERROR
+
+#define NG_LOG_ONCE_NOTE(...)
+#define NG_LOG_ONCE_INFO(...)
+#define NG_LOG_ONCE_WARN(...)
+#define NG_LOG_ONCE_ERROR(...)
+#endif // NG_CONSOLE_HIDE
+
+// #ifndef _DEBUG
+// ShowWindow(GetConsoleWindow(), SW_HIDE);
+// #endif

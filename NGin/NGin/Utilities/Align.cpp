@@ -1,4 +1,5 @@
 #include "Align.h"
+#include "../Base/Console.h"
 
 namespace ngin::align {
 	void positionTextInBounds(sf::Vector2f position, sf::Text& text, const sf::FloatRect& bounds)
@@ -20,7 +21,7 @@ namespace ngin::align {
 	}
 	void centerTextInBounds(sf::Text& text, const sf::FloatRect& bounds)
 	{
-		if (text.getString() == "") return; // avoid exceptions
+		if (text.getString() == "" || text.getFont() == 0) return;
 
 		const sf::Vector2f position = { 
 			(bounds.width  / 2) - (text.getGlobalBounds().width  / 2),
@@ -30,13 +31,13 @@ namespace ngin::align {
 	}
 	void centerTextInShape(sf::Text& text, const sf::RectangleShape& shape)
 	{
-		if (text.getString() == "") return;
+		if (text.getString() == "" || text.getFont() == 0) return;
 
 		centerTextInBounds(text, shape.getGlobalBounds());
 	}
 	void centerTextInBounds(float xOffset, sf::Text& text, const sf::FloatRect& bounds)
 	{
-		if (text.getString() == "") return;
+		if (text.getString() == "" || text.getFont() == 0) return;
 
 		const sf::Vector2f position = {
 			(bounds.width / 2) - (text.getGlobalBounds().width / 2) + xOffset,
@@ -46,13 +47,13 @@ namespace ngin::align {
 	}
 	void centerTextInShape(float xOffset, sf::Text& text, const sf::RectangleShape& shape)
 	{
-		if (text.getString() == "") return;
+		if (text.getString() == "" || text.getFont() == 0) return;
 
 		centerTextInBounds( xOffset, text, shape.getGlobalBounds());
 	}
 	void centerTextInBounds(sf::Text& text, const sf::FloatRect& bounds, float yOffset)
 	{
-		if (text.getString() == "") return;
+		if (text.getString() == "" || text.getFont() == 0 ) return;
 
 		const sf::Vector2f position = {
 			(bounds.width / 2) - (text.getGlobalBounds().width / 2),
@@ -62,7 +63,7 @@ namespace ngin::align {
 	}
 	void centerTextInShape(sf::Text& text, const sf::RectangleShape& shape, float yOffset)
 	{
-		if (text.getString() == "") return;
+		if (text.getString() == "" || text.getFont() == 0) return;
 
 		centerTextInBounds(text, shape.getGlobalBounds(), yOffset);
 	}

@@ -13,16 +13,10 @@ namespace ngin::ui
 			window.draw(highlight_);
 		}
 
-		for (int i = 0; i < int(texts_.size()); i++) {
-
-			// checks if the fonts are properly defined and prints a warning if not
-			if ((texts_[i].getString() != "") && texts_[i].getFont() == nullptr) {
-				Console::logOnce(Console::Severity::Warning, "Dropdown nr.", getElementIndex(), " -> Text nr.", i,
-															 " set but font NOT initialized! -> TEXT MAY NOT BE DISPLAYED!");
-			}
-
-			if (i == 0 || isActives_[0]) {
-				window.draw(texts_[i]);
+		if (texts_[0].getFont() != 0) {
+			for (int i = 0; i < int(texts_.size()); i++) {
+				if ((i == 0 || isActives_[0]) && texts_[i].getString() != "")
+					window.draw(texts_[i]);
 			}
 		}
 	}
@@ -139,13 +133,25 @@ namespace ngin::ui
 	}
 	void Dropdown::addDropString(const sf::String& text)
 	{
-		isSelecteds_.push_back(false);
-		isActives_.push_back(false);
-		texts_.push_back({ text, *texts_[0].getFont(), texts_[0].getCharacterSize() });
+			isSelecteds_.push_back(false);
+			isActives_.push_back(false);
+			int i = texts_.size();
 
-		// puts added element's text inside its container
-		int i = texts_.size() - 1;
-		align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
+			if (texts_[0].getFont() != 0) {
+				texts_.push_back({ text, *texts_[0].getFont(), characterSize_ });
+			}
+			else {
+				sf::Text tmp;
+				tmp.setString(text);
+				tmp.setCharacterSize(characterSize_);
+				texts_.push_back(tmp);
+
+				NG_LOG_WARN("Dropdown nr.", getElementIndex(), " -> Text nr.", i,
+					" set but font NOT initialized! -> TEXT MAY NOT BE DISPLAYED!");
+			}
+
+			// puts added element's text inside its container
+			align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
 	}
 	void Dropdown::deleteDropString(const int index)
 	{
@@ -160,8 +166,8 @@ namespace ngin::ui
 			}
 		}
 		else {
-			Console::logOnce(Console::Severity::Warning, "Dropdown nr.", getElementIndex(), " -> cannot delete text nr.",
-														 index, " (vector size is " , isSelecteds_.size() , ") -> COMMAND IGNORED");
+			NG_LOG_WARN("Dropdown nr.", getElementIndex(), " -> cannot delete text nr.",
+				index, " (vector size is ", isSelecteds_.size(), ") -> COMMAND IGNORED");
 		}
 	}
 	void Dropdown::setTexture(sf::Texture& texture)
@@ -185,14 +191,6 @@ namespace ngin::ui
 		shape_.setFillColor(color);
 		shapeColor_ = color;
 	}
-	void Dropdown::setSelectColor(const sf::Color& color)
-	{
-		shape_.setOutlineColor(color);
-	}
-	void Dropdown::setSelectThickness(const float thickness)
-	{
-		selectThickness_ = thickness;
-	}
 	void Dropdown::setSize(const sf::Vector2f& size)
 	{
 		size_ = size;
@@ -215,16 +213,22 @@ namespace ngin::ui
 		for (int i = 0; i < int(texts_.size()); i++)
 			align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
 	}
-	void Dropdown::setTextSize(const unsigned charSize)
+	void Dropdown::setCharacterSize(const unsigned characterSize)
 	{
+		characterSize_ = characterSize;
+
 		for (int i = 0; i < int(texts_.size()); i++) {
-			texts_[i].setCharacterSize(charSize);
+			texts_[i].setCharacterSize(characterSize_);
 
 			align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
 		}
 	}
 	void Dropdown::setDropString(const int i, const sf::String& text)
 	{
+		if (i == 0 && texts_[0].getFont() == 0)
+			NG_LOG_WARN("Dropdown nr.", getElementIndex(), " -> Text nr.", i,
+				" set but font NOT initialized! -> TEXT MAY NOT BE DISPLAYED!");
+
 		texts_[i].setString(text);
 
 		align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
@@ -246,9 +250,5 @@ namespace ngin::ui
 		}
 
 		isDisabled_ = isDisabled;
-	}
-	void Dropdown::setStatic(const bool isStatic)
-	{
-		isStatic_ = isStatic;
 	}
 }

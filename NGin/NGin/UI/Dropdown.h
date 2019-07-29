@@ -13,10 +13,10 @@ namespace ngin::ui
 			/*declaration of MANDATORY first element*/
 				isSelecteds_.push_back(false);
 				isActives_.push_back(false);
-				texts_.push_back({ "", sf::Font{}, 22 });
-				align::centerTextInShape(texts_[0], shape_);
+				texts_.push_back(sf::Text{});
 
 			selectThickness_ = 3; // the thickness of outline when selected
+			setCharacterSize(22);
 			highlight_.setFillColor(sf::Color(255, 255, 255, 100)); // half-transparent white
 		}
 		Dropdown() : Dropdown({ 300, 40 }) {}
@@ -34,14 +34,14 @@ namespace ngin::ui
 		void setTexture(sf::Texture& texture);
 		void setFont(sf::Font& font);
 		void setFillColor(const sf::Color& color);
-		void setSelectColor(const sf::Color& color);
-		void setSelectThickness(const float thickness);
+		void setSelectColor(const sf::Color& color) { shape_.setOutlineColor(color); }
+		void setSelectThickness(const float thickness) { selectThickness_ = thickness; }
 		void setSize(const sf::Vector2f& size);
 		void setPosition(const sf::Vector2f& position);
-		void setTextSize(const unsigned charSize);
+		void setCharacterSize(const unsigned characterSize);
 		void setDropString(const int i, const sf::String& text);
 		void setDisabled(const bool isDisabled);
-		void setStatic(const bool isStatic);
+		void setStatic(const bool isStatic) { isStatic_ = isStatic; }
 
 		bool isActive(const int i) const { return isActives_[i]; }
 		int getElementsNo() const { return int(isSelecteds_.size()); }
@@ -57,6 +57,7 @@ namespace ngin::ui
 		sf::FloatRect closedGlobalBounds_;
 
 		std::vector<sf::Text> texts_; // texts inside each element
+		unsigned characterSize_;
 		std::vector<bool> isSelecteds_; // bool for each element that = true if the element is selected
 		std::vector<bool> isActives_; // if true then react - this is done outside of object exept for element nr 0
 

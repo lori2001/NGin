@@ -57,13 +57,6 @@ namespace ngin {
 		}
 		else return;
 	}
-	void Console::hideOnRelease()
-	{
-#ifndef _DEBUG
-			HWND console = GetConsoleWindow();
-			ShowWindow(console, SW_HIDE);
-#endif
-	}
 	void Console::setSize(const sf::Vector2u& size)
 	{
 		RECT rect;

@@ -122,11 +122,11 @@ namespace ngin::ui {
 
 			// check if the set level is valid
 			if (level > 1) {
-				Console::logOnce(Console::Severity::Warning, "Element: ", getElementIndex(),
+				NG_LOG_ONCE_WARN("Element: ", getElementIndex(),
 					" Slider level set to: ", level, " -> above 1(100%)!");
 			}
 			else if (level < 0) {
-				Console::logOnce(Console::Severity::Warning, "Element: ", getElementIndex(),
+				NG_LOG_ONCE_WARN("Element: ", getElementIndex(),
 					" Slider level set to: ", level, " -> below 0(0%)!");
 			}
 

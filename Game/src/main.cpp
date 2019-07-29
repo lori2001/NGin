@@ -17,6 +17,12 @@ int main()
 	ngin::ui::Switcher switcher;
 	switcher.setTexture(*ngin::Resources::AcquireTexture("switcher.png"));
 
+	ngin::ui::Dropdown dropdown;
+	dropdown.setFont(*ngin::Resources::AcquireFont("arial.ttf"));
+	dropdown.setDropString(0, "123123");
+	dropdown.addDropString("11");
+	dropdown.setFillColor(sf::Color::Red);
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -28,11 +34,13 @@ int main()
 	
 			ngin::ui::Cursor::followMouse(window);
 			switcher.handleEvents(event, ngin::ui::Cursor::getPosition());
+			dropdown.handleEvents(event, ngin::ui::Cursor::getPosition());
 		}
 		
 		window.clear();
 
 		switcher.draw(window);
+		dropdown.draw(window);
 
 		window.display();
 	}
