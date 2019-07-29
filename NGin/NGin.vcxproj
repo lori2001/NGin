@@ -11,33 +11,34 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NGin\Base\Console.cpp" />
-    <ClCompile Include="NGin\Base\Resources.cpp" />
-    <ClCompile Include="NGin\Base\Timer.cpp" />
-    <ClCompile Include="NGin\UI\Button.cpp" />
-    <ClCompile Include="NGin\UI\Cursor.cpp" />
-    <ClCompile Include="NGin\UI\Dropdown.cpp" />
-    <ClCompile Include="NGin\UI\Slider.cpp" />
-    <ClCompile Include="NGin\UI\Switcher.cpp" />
-    <ClCompile Include="NGin\UI\InputText.cpp" />
-    <ClCompile Include="NGin\UI\UIElement.cpp" />
-    <ClCompile Include="NGin\Utilities\Align.cpp" />
+    <ClCompile Include="src\NGin\Client.cpp" />
+    <ClCompile Include="src\NGin\System\Console.cpp" />
+    <ClCompile Include="src\NGin\System\Resources.cpp" />
+    <ClCompile Include="src\NGin\System\Timer.cpp" />
+    <ClCompile Include="src\NGin\UI\Button.cpp" />
+    <ClCompile Include="src\NGin\UI\Cursor.cpp" />
+    <ClCompile Include="src\NGin\UI\Dropdown.cpp" />
+    <ClCompile Include="src\NGin\UI\Slider.cpp" />
+    <ClCompile Include="src\NGin\UI\Switcher.cpp" />
+    <ClCompile Include="src\NGin\UI\InputText.cpp" />
+    <ClCompile Include="src\NGin\UI\UIElement.cpp" />
+    <ClCompile Include="src\NGin\Utilities\Align.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NGin\Base.h" />
-    <ClInclude Include="NGin\Base\Console.h" />
-    <ClInclude Include="NGin\Base\Resources.h" />
-    <ClInclude Include="NGin\Base\Timer.h" />
-    <ClInclude Include="NGin\UI\Button.h" />
-    <ClInclude Include="NGin\UI\Cursor.h" />
-    <ClInclude Include="NGin\UI\Dropdown.h" />
-    <ClInclude Include="NGin\UI\Slider.h" />
-    <ClInclude Include="NGin\UI\Switcher.h" />
-    <ClInclude Include="NGin\UI\InputText.h" />
-    <ClInclude Include="NGin\UserInterface.h" />
-    <ClInclude Include="NGin\Utilities.h" />
-    <ClInclude Include="NGin\Utilities\Align.h" />
-    <ClInclude Include="NGin\UI\UIElement.h" />
+    <ClInclude Include="src\NGin\Client.h" />
+    <ClInclude Include="src\NGin.h" />
+    <ClInclude Include="src\NGin\System\Console.h" />
+    <ClInclude Include="src\NGin\System\Resources.h" />
+    <ClInclude Include="src\NGin\System\Timer.h" />
+    <ClInclude Include="src\NGin\EntryPoint.h" />
+    <ClInclude Include="src\NGin\UI\Button.h" />
+    <ClInclude Include="src\NGin\UI\Cursor.h" />
+    <ClInclude Include="src\NGin\UI\Dropdown.h" />
+    <ClInclude Include="src\NGin\UI\Slider.h" />
+    <ClInclude Include="src\NGin\UI\Switcher.h" />
+    <ClInclude Include="src\NGin\UI\InputText.h" />
+    <ClInclude Include="src\NGin\Utilities\Align.h" />
+    <ClInclude Include="src\NGin\UI\UIElement.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\styles\warcraft\button.png" />

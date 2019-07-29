@@ -54,10 +54,10 @@ namespace ngin::ui
 			}
 		}
 	}
-	void Button::draw(sf::RenderWindow& window)
+	void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		window.draw(shape_);
-		window.draw(text_);
+		target.draw(shape_);
+		target.draw(text_);
 	}
 	void Button::setFont(const sf::Font & font)
 	{

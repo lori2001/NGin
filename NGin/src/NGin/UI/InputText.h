@@ -1,6 +1,6 @@
 #pragma once
 #include "UIElement.h"
-#include "../Utilities.h"
+#include "../Utilities/Align.h"
 
 namespace ngin::ui {
 	class InputText : public UIElement {
@@ -17,7 +17,7 @@ namespace ngin::ui {
 		InputText() : InputText({ 400, 50 }) {}
 
 		void handleEvents(const sf::Event& event, const sf::Vector2f& mouse);
-		void draw(sf::RenderWindow& window);
+		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		void setPosition(const sf::Vector2f& position);
 		void setString(const sf::String& str);

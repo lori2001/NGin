@@ -1,6 +1,6 @@
 #pragma once
 #include "UIElement.h"
-#include "../Utilities.h"
+#include "../Utilities/Align.h"
 
 namespace ngin::ui
 {
@@ -27,7 +27,7 @@ namespace ngin::ui
 
 		// Handles input events and plays given sounds and animations whenever needed.
 		void handleEvents(const sf::Event& event, const sf::Vector2f& mouse);
-		void draw(sf::RenderWindow& window);
+		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		void setFont(const sf::Font& font);
 		void setTextColor(const sf::Color& color);

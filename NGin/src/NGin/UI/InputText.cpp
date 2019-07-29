@@ -1,5 +1,5 @@
 #include "InputText.h"
-#include "../Base/Console.h"
+#include "../System/Console.h"
 #include "Cursor.h"
 
 namespace ngin::ui {
@@ -70,11 +70,11 @@ namespace ngin::ui {
 			}
 		}
 	}
-	void InputText::draw(sf::RenderWindow& window)
+	void InputText::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		window.draw(shape_);
-		window.draw(text_);
-		window.draw(cursor_);
+		target.draw(shape_);
+		target.draw(text_);
+		target.draw(cursor_);
 
 		// if the font is not set
 		if (text_.getFont() == 0) {

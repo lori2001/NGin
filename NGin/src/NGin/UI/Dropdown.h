@@ -1,6 +1,6 @@
 #pragma once
 #include "UIElement.h"
-#include "../Utilities.h"
+#include "../Utilities/Align.h"
 
 namespace ngin::ui
 {
@@ -21,9 +21,8 @@ namespace ngin::ui
 		}
 		Dropdown() : Dropdown({ 300, 40 }) {}
 
-		void draw(sf::RenderWindow& window);
-
 		void handleEvents(const sf::Event& event, const sf::Vector2f& mouse);
+		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		// creates a dropdown element filled with text
 		void addDropString(const sf::String& text);

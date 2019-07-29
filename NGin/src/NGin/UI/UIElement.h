@@ -5,7 +5,7 @@
 namespace ngin::ui
 {
 	// holds every class that all UIElements should have in common
-	class UIElement
+	class UIElement : public sf::Drawable
 	{
 	public:
 		UIElement() {
@@ -18,7 +18,7 @@ namespace ngin::ui
 		}
 
 		virtual void handleEvents(const sf::Event& event, const sf::Vector2f& mouse) = 0;
-		virtual void draw(sf::RenderWindow& window) = 0;
+		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
 		int getElementIndex() const { return iElement_; }
 	private:
 		// helps count number of UIElements for debugging purposes

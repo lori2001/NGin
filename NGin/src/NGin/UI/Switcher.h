@@ -11,7 +11,7 @@ namespace ngin::ui {
 		}
 
 		void handleEvents(const sf::Event& event, const sf::Vector2f& mouse);
-		void draw(sf::RenderWindow& window);
+		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		void setTexture(const sf::Texture& texture);
 		void setPosition(const sf::Vector2f& position);

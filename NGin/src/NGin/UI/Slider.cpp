@@ -1,12 +1,13 @@
 #include "Slider.h"
-#include "../Base/Console.h"
+#include "../System/Console.h"
 #include "Cursor.h"
 
 namespace ngin::ui {
 	void Slider::handleEvents(const sf::Event& event, const sf::Vector2f& mouse)
 	{
-		if (!isDisabled_) {
+		hasChanged_ = false; // the level has not yet changed in this frame
 
+		if (!isDisabled_) {
 			isSelected_ = container_.getGlobalBounds().intersects({ mouse, { 1,1 } });
 
 			if (isSelected_) {
@@ -42,7 +43,7 @@ namespace ngin::ui {
 			}
 
 			leftButton_.handleEvents(event, mouse);
-			rightArrow.handleEvents(event, mouse);
+			rightButton_.handleEvents(event, mouse);
 
 			if (leftButton_.isActive()) {
 				float temp = level_ - 0.05F; // step down level by 0.05
@@ -54,7 +55,7 @@ namespace ngin::ui {
 				hasChanged_ = true; // signal that the level has changed in this frame
 				adjustMarkPos();
 			}
-			else if (rightArrow.isActive()) {
+			else if (rightButton_.isActive()) {
 				float temp = level_ + 0.05F; // step up level by 0.05
 
 				// establish 1 as maximum limit
@@ -66,31 +67,28 @@ namespace ngin::ui {
 			}
 		}
 	}
-	void Slider::draw(sf::RenderWindow& window)
+	void Slider::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		// DONT DO this at home, kids
-		hasChanged_ = false; // the level has not yet changed in this frame
-
-		window.draw(container_);
-		leftButton_.draw(window);
-		rightArrow.draw(window);
-		window.draw(mark_);
+		target.draw(container_);
+		target.draw(leftButton_);
+		target.draw(rightButton_);
+		target.draw(mark_);
 	}
 	void Slider::setTexture(const sf::Texture& texture)
 	{
 		container_.setTexture(&texture);
 		leftButton_.setTexture(texture);
-		rightArrow.setTexture(texture);
+		rightButton_.setTexture(texture);
 		mark_.setTexture(&texture);
 
 		leftButton_.setTexturePos({ 0, 0 });
 
 		container_.setTextureRect({ 2 * (int)leftButton_.getSize().x, 0, (int)container_.getSize().x, (int)container_.getSize().y });
 
-		rightArrow.setTexturePos({ 2 * int(leftButton_.getSize().x) + int(container_.getSize().x), 0 });
+		rightButton_.setTexturePos({ 2 * int(leftButton_.getSize().x) + int(container_.getSize().x), 0 });
 
 		mark_.setTextureRect ({
-			int(container_.getSize().x) + 2 * int(leftButton_.getSize().x) + 2 * int(rightArrow.getSize().x), 0,
+			int(container_.getSize().x) + 2 * int(leftButton_.getSize().x) + 2 * int(rightButton_.getSize().x), 0,
 			(int)mark_.getSize().x, (int)mark_.getSize().y
 		});
 	}
@@ -103,14 +101,14 @@ namespace ngin::ui {
 	void Slider::setArrowsColor(const sf::Color& color)
 	{
 		leftButton_.setFillColor(color);
-		rightArrow.setFillColor(color);
+		rightButton_.setFillColor(color);
 	}
 	void Slider::setPosition(const sf::Vector2f& position)
 	{
 		// positon structure (leftArrow->shape->rightArrow)
 		leftButton_.setPosition(position);
 		container_.setPosition({ leftButton_.getPosition().x + leftButton_.getGlobalBounds().width, position.y });
-		rightArrow.setPosition({ container_.getPosition().x + container_.getGlobalBounds().width, position.y });
+		rightButton_.setPosition({ container_.getPosition().x + container_.getGlobalBounds().width, position.y });
 
 		// put the mark where it should be
 		adjustMarkPos();
@@ -142,7 +140,7 @@ namespace ngin::ui {
 	{
 		container_.setSize(shapeSize);
 		leftButton_.setSize(arrowSize);
-		rightArrow.setSize(arrowSize);
+		rightButton_.setSize(arrowSize);
 		mark_.setSize(markSize);
 	}
 	void Slider::adjustMarkPos()

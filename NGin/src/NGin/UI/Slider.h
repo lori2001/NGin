@@ -26,7 +26,7 @@ namespace ngin::ui {
 		} Slider(const sf::Vector2f& position = { 0,0 }) : Slider({ 300, 40 }, { 40, 40 }, { 30, 30 }, position) {}
 
 		void handleEvents(const sf::Event& event, const sf::Vector2f& mouse);
-		void draw(sf::RenderWindow& window);
+		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		void setTexture(const sf::Texture& texture);
 		void setFillColor(const sf::Color& color);
@@ -40,7 +40,7 @@ namespace ngin::ui {
 		void setSelectThickness(const float selectSize) { selectThickness_ = selectSize; }
 
 		float getLevel() { return level_; }
-		sf::Vector2f getSize() { return { leftButton_.getSize().x + container_.getSize().x + rightArrow.getSize().x, container_.getSize().y }; }
+		sf::Vector2f getSize() { return { leftButton_.getSize().x + container_.getSize().x + rightButton_.getSize().x, container_.getSize().y }; }
 		bool getHasChanged() { return hasChanged_; }
 	private:
 		// adjust button position based on level
@@ -50,7 +50,7 @@ namespace ngin::ui {
 		sf::RectangleShape container_;
 		sf::RectangleShape mark_;
 		Button leftButton_; // the button on the left of the window
-		Button rightArrow; // the button on the right of the window
+		Button rightButton_; // the button on the right of the window
 
 		float selectThickness_;
 		float level_ = 0; // the output percentage (0 <= level <= 1)

@@ -1,5 +1,4 @@
 #include "Align.h"
-#include "../Base/Console.h"
 
 namespace ngin::align {
 	void positionTextInBounds(sf::Vector2f position, sf::Text& text, const sf::FloatRect& bounds)

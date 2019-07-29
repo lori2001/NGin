@@ -3,6 +3,8 @@
 namespace ngin::ui {
 	void Switcher::handleEvents(const sf::Event& event, const sf::Vector2f& mouse)
 	{
+		hasChanged_ = false;
+
 		button_.handleEvents(event, mouse);
 
 		if (button_.isPressed()) {
@@ -19,15 +21,12 @@ namespace ngin::ui {
 		else hasChanged_ = false;
 
 	}
-	void Switcher::draw(sf::RenderWindow& window)
+	void Switcher::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		button_.draw(window);
+		target.draw(button_);
 
-		if (isActive_)
-			window.draw(mark);
-
-		// this is to avoid writing an update() function
-		hasChanged_ = false;
+		if (isActive_)	
+			target.draw(mark);
 	}
 	void Switcher::setTexture(const sf::Texture& texture)
 	{

@@ -1,25 +1,10 @@
 #include "Dropdown.h"
 
-#include "../Base/Console.h"
+#include "../System/Console.h"
 #include "Cursor.h"
 
 namespace ngin::ui
 {
-	void Dropdown::draw(sf::RenderWindow& window)
-	{
-		window.draw(shape_);
-
-		if (drawHighlight_) {
-			window.draw(highlight_);
-		}
-
-		if (texts_[0].getFont() != 0) {
-			for (int i = 0; i < int(texts_.size()); i++) {
-				if ((i == 0 || isActives_[0]) && texts_[i].getString() != "")
-					window.draw(texts_[i]);
-			}
-		}
-	}
 	void Dropdown::handleEvents(const sf::Event& event, const sf::Vector2f& mouse)
 	{
 		if (!isDisabled_)
@@ -128,6 +113,21 @@ namespace ngin::ui
 						break;
 					}
 				}
+			}
+		}
+	}
+	void Dropdown::draw(sf::RenderTarget& target, sf::RenderStates states) const
+	{
+		target.draw(shape_);
+
+		if (drawHighlight_) {
+			target.draw(highlight_);
+		}
+
+		if (texts_[0].getFont() != 0) {
+			for (int i = 0; i < int(texts_.size()); i++) {
+				if ((i == 0 || isActives_[0]) && texts_[i].getString() != "")
+					target.draw(texts_[i]);
 			}
 		}
 	}

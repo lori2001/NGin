@@ -15,81 +15,84 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NGin\UI\Button.cpp">
+    <ClCompile Include="src\NGin\System\Console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\UI\Dropdown.cpp">
+    <ClCompile Include="src\NGin\System\Resources.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\UI\Slider.cpp">
+    <ClCompile Include="src\NGin\System\Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\UI\Switcher.cpp">
+    <ClCompile Include="src\NGin\UI\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\UI\InputText.cpp">
+    <ClCompile Include="src\NGin\UI\Cursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\UI\Cursor.cpp">
+    <ClCompile Include="src\NGin\UI\Dropdown.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\Base\Timer.cpp">
+    <ClCompile Include="src\NGin\UI\InputText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\Utilities\Align.cpp">
+    <ClCompile Include="src\NGin\UI\Slider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\UI\UIElement.cpp">
+    <ClCompile Include="src\NGin\UI\Switcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\Base\Console.cpp">
+    <ClCompile Include="src\NGin\UI\UIElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NGin\Base\Resources.cpp">
+    <ClCompile Include="src\NGin\Utilities\Align.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NGin\Client.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NGin\UI\Button.h">
+    <ClInclude Include="src\NGin\System\Console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\UserInterface.h">
+    <ClInclude Include="src\NGin\System\Resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\UI\Dropdown.h">
+    <ClInclude Include="src\NGin\System\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\Base.h">
+    <ClInclude Include="src\NGin\UI\Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\UI\Slider.h">
+    <ClInclude Include="src\NGin\UI\Cursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\UI\Switcher.h">
+    <ClInclude Include="src\NGin\UI\Dropdown.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\UI\InputText.h">
+    <ClInclude Include="src\NGin\UI\InputText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\UI\Cursor.h">
+    <ClInclude Include="src\NGin\UI\Slider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\UI\UIElement.h">
+    <ClInclude Include="src\NGin\UI\Switcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\Base\Timer.h">
+    <ClInclude Include="src\NGin\Utilities\Align.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\Utilities.h">
+    <ClInclude Include="src\NGin\Client.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\Utilities\Align.h">
+    <ClInclude Include="src\NGin\EntryPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\Base\Console.h">
+    <ClInclude Include="src\NGin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NGin\Base\Resources.h">
+    <ClInclude Include="src\NGin\UI\UIElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
