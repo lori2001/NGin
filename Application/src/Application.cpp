@@ -23,6 +23,10 @@ void Application::handleEvents()
 	}
 }
 
+void Application::update()
+{
+}
+
 void Application::draw(sf::RenderWindow& window) const
 {
 	window.draw(button);
