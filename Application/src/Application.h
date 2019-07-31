@@ -1,4 +1,6 @@
 #pragma once
+#define MAIN_LEVEL
+
 #include "NGin.h"
 
 class Application : public ngin::MainLevel

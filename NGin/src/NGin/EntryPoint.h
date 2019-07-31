@@ -1,5 +1,8 @@
+#pragma once
 #include "MainLevel.h"
 
+// only add once to the program
+#ifdef MAIN_LEVEL
 extern ngin::MainLevel* setMainLevel();
 
 int main()
@@ -10,3 +13,4 @@ int main()
 
 	return 0;
 }
+#endif
