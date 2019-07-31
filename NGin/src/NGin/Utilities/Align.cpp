@@ -1,6 +1,6 @@
 #include "Align.h"
 
-namespace ngin::align {
+namespace ngin {
 	void positionTextInBounds(sf::Vector2f position, sf::Text& text, const sf::FloatRect& bounds)
 	{
 		// skip empty text avoiding errors

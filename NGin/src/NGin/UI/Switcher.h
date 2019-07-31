@@ -2,7 +2,7 @@
 #include "UIElement.h"
 #include "Button.h"
 
-namespace ngin::ui {
+namespace ngin {
 	class Switcher : public UIElement {
 	public:
 		Switcher() : Switcher(sf::Vector2f{ 60,60 }) {}

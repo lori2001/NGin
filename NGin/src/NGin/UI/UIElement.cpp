@@ -1,6 +1,6 @@
 #include "UIElement.h"
 
-namespace ngin::ui
+namespace ngin
 {
 	std::vector<bool> UIElement::Elements_;
 }

@@ -2,7 +2,7 @@
 #include "../System/Console.h"
 #include "Cursor.h"
 
-namespace ngin::ui {
+namespace ngin {
 	void Slider::handleEvents(const sf::Event& event, const sf::Vector2f& mouse)
 	{
 		hasChanged_ = false; // the level has not yet changed in this frame
@@ -18,7 +18,7 @@ namespace ngin::ui {
 					isSliding_ = true;
 
 					// play slider sound
-					ngin::ui::Cursor::playSound();
+					ngin::Cursor::playSound();
 				}
 			}
 			else

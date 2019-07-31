@@ -3,7 +3,7 @@
 #include "../System/Console.h"
 #include "Cursor.h"
 
-namespace ngin::ui
+namespace ngin
 {
 	void Dropdown::handleEvents(const sf::Event& event, const sf::Vector2f& mouse)
 	{
@@ -76,7 +76,7 @@ namespace ngin::ui
 								texts_[0].setString(texts_[i].getString());
 
 								// center the new text properly
-								align::centerTextInBounds(texts_[0], closedGlobalBounds_);
+								centerTextInBounds(texts_[0], closedGlobalBounds_);
 							}
 
 							break;
@@ -151,7 +151,7 @@ namespace ngin::ui
 			}
 
 			// puts added element's text inside its container
-			align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
+			centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
 	}
 	void Dropdown::deleteDropString(const int index)
 	{
@@ -162,7 +162,7 @@ namespace ngin::ui
 
 			// repositions elements properly after the deleted element
 			for (int i = index; i < int(isSelecteds_.size()); i++) {
-				align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
+				centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
 			}
 		}
 		else {
@@ -183,7 +183,7 @@ namespace ngin::ui
 		{
 			texts_[i].setFont(font);
 
-			align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
+			centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
 		}
 	}
 	void Dropdown::setFillColor(const sf::Color& color)
@@ -201,7 +201,7 @@ namespace ngin::ui
 		closedGlobalBounds_.height = shape_.getGlobalBounds().height;
 
 		for (int i = 0; i < int(texts_.size()); i++)
-			align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
+			centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
 	}
 	void Dropdown::setPosition(const sf::Vector2f& position)
 	{
@@ -211,7 +211,7 @@ namespace ngin::ui
 		closedGlobalBounds_.top = shape_.getGlobalBounds().top;
 
 		for (int i = 0; i < int(texts_.size()); i++)
-			align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
+			centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
 	}
 	void Dropdown::setCharacterSize(const unsigned characterSize)
 	{
@@ -220,7 +220,7 @@ namespace ngin::ui
 		for (int i = 0; i < int(texts_.size()); i++) {
 			texts_[i].setCharacterSize(characterSize_);
 
-			align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
+			centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
 		}
 	}
 	void Dropdown::setDropString(const int i, const sf::String& text)
@@ -231,7 +231,7 @@ namespace ngin::ui
 
 		texts_[i].setString(text);
 
-		align::centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
+		centerTextInBounds(texts_[i], closedGlobalBounds_, closedGlobalBounds_.height * i);
 	}
 	void Dropdown::setDisabled(const bool isDisabled)
 	{

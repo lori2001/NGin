@@ -2,7 +2,7 @@
 #include "SFML\Audio.hpp"
 #include "SFML\Graphics.hpp"
 
-namespace ngin::ui {
+namespace ngin {
 	class Cursor
 	{
 	public:

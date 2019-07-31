@@ -17,7 +17,7 @@ void ngin::MainLevel::run()
 
 			handleEvents();
 
-			ngin::ui::Cursor::followMouse(window_);
+			ngin::Cursor::followMouse(window_);
 		}
 
 		window_.clear();

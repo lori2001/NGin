@@ -2,7 +2,7 @@
 #include "../System/Console.h"
 #include "Cursor.h"
 
-namespace ngin::ui {
+namespace ngin {
 	void InputText::handleEvents(const sf::Event& event, const sf::Vector2f& mouse)
 	{
 		if (!isDisabled_) {
@@ -17,7 +17,7 @@ namespace ngin::ui {
 			// if mouse button pressed on object
 			if (isSelected_ && event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonPressed)
 			{
-				ngin::ui::Cursor::playSound();
+				ngin::Cursor::playSound();
 
 				// adjusts cursor's position
 				adjustCursor();
@@ -64,7 +64,7 @@ namespace ngin::ui {
 				// add new string to output text
 				text_.setString(container);
 				// center text
-				align::centerTextInShape(text_, shape_);
+				centerTextInShape(text_, shape_);
 				// adjusts cursor's position
 				adjustCursor();
 			}
@@ -85,24 +85,24 @@ namespace ngin::ui {
 	void InputText::setPosition(const sf::Vector2f& position)
 	{
 		shape_.setPosition(position);
-		align::centerTextInShape(text_, shape_);
+		centerTextInShape(text_, shape_);
 	}
 	void InputText::setFont(sf::Font& font)
 	{
 		text_.setFont(font);
 		cursor_.setFont(font);
 
-		align::centerTextInShape(text_, shape_);
+		centerTextInShape(text_, shape_);
 	}
 	void InputText::setString(const sf::String& str)
 	{
 		text_.setString(str);
 		// centers the newly added string
-		align::centerTextInShape(text_, shape_);
+		centerTextInShape(text_, shape_);
 	}
 	void InputText::setCharacterSize(const unsigned characterSize) {
 		text_.setCharacterSize(characterSize);
-		align::centerTextInShape(text_, shape_);
+		centerTextInShape(text_, shape_);
 
 		cursor_.setCharacterSize(characterSize);
 	}
@@ -117,7 +117,7 @@ namespace ngin::ui {
 		}
 		else {
 			// if there is no text put the cursor in center of shape
-			align::centerTextInShape(cursor_, shape_);
+			centerTextInShape(cursor_, shape_);
 		}
 
 	}

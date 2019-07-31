@@ -1,7 +1,7 @@
 #include "Button.h"
 #include "Cursor.h"
 
-namespace ngin::ui
+namespace ngin
 {
 	void Button::handleEvents(const sf::Event & event, const sf::Vector2f& mouse)
 	{
@@ -21,7 +21,7 @@ namespace ngin::ui
 						isPressed_ = true;
 
 						// audio feedback for pressing
-						ngin::ui::Cursor::playSound();
+						ngin::Cursor::playSound();
 
 						// create the "pressed in" visual feedback
 						shape_.setTextureRect(sf::IntRect{
@@ -64,7 +64,7 @@ namespace ngin::ui
 		text_.setFont(font);
 
 		// centers text with the new font in mind
-		align::centerTextInShape(text_, shape_);
+		centerTextInShape(text_, shape_);
 		textPos_ = text_.getPosition();
 	}
 	void Button::setTextColor(const sf::Color & color)
@@ -97,7 +97,7 @@ namespace ngin::ui
 	{
 		shape_.setPosition(position);
 
-		align::centerTextInShape(text_, shape_);
+		centerTextInShape(text_, shape_);
 		textPos_ = text_.getPosition();
 	}
 	void Button::setSelectColor(const sf::Color & color)
@@ -114,14 +114,14 @@ namespace ngin::ui
 
 		text_.setCharacterSize(int(38 * scale.y));
 
-		align::centerTextInShape(text_, shape_);
+		centerTextInShape(text_, shape_);
 		textPos_ = text_.getPosition();
 	}
 	void Button::setCharacterSize(const int size)
 	{
 		text_.setCharacterSize(size);
 		
-		align::centerTextInShape(text_, shape_);
+		centerTextInShape(text_, shape_);
 		textPos_ = text_.getPosition();
 	}
 	void Button::setSize(const sf::Vector2f size)
@@ -146,7 +146,7 @@ namespace ngin::ui
 	{
 		this->text_.setString(text);
 
-		align::centerTextInShape(text_, shape_);
+		centerTextInShape(text_, shape_);
 
 		textPos_ = text_.getPosition();
 	}

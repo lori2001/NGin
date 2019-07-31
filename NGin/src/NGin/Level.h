@@ -12,6 +12,6 @@ namespace ngin {
 		// gets called every frame but is not constant
 		virtual void update() {}
 		// gets called every frame but should only draw on window
-		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
+		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const {}
 	};
 }

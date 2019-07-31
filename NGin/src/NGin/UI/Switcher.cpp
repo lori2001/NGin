@@ -1,6 +1,6 @@
 #include "Switcher.h"
 
-namespace ngin::ui {
+namespace ngin {
 	void Switcher::handleEvents(const sf::Event& event, const sf::Vector2f& mouse)
 	{
 		hasChanged_ = false;

@@ -15,7 +15,7 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 private:
 
-	ngin::ui::Button button;
+	ngin::Button button;
 };
 
 ngin::MainLevel* setMainLevel() {

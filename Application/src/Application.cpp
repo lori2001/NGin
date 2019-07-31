@@ -16,7 +16,7 @@ void Application::setup()
 
 void Application::handleEvents()
 {
-	button.handleEvents(event_, ngin::ui::Cursor::getPosition());
+	button.handleEvents(event_, ngin::Cursor::getPosition());
 
 	if (button.isActive()) {
 		NG_LOG_INFO("Button Pressed");

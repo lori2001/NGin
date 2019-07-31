@@ -1,6 +1,6 @@
 #include "Cursor.h"
 
-namespace ngin::ui {
+namespace ngin {
 
 	sf::Sprite Cursor::sprite_;
 	sf::Sound Cursor::sound_;

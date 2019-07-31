@@ -2,7 +2,7 @@
 #include "UIElement.h"
 #include "../Utilities/Align.h"
 
-namespace ngin::ui
+namespace ngin
 {
 	class Button : public UIElement
 	{
@@ -14,17 +14,21 @@ namespace ngin::ui
 		Button(const sf::Vector2f& size, const sf::Texture& texture) : Button(size) {
 			this->setTexture(texture);
 		}
-		Button(const sf::Font& font, const sf::String& txt, const sf::Vector2f& size) : Button(size)
+		Button(const sf::Font& font, const sf::String& txt, const sf::Vector2f& buttonSize) : Button(buttonSize)
 		{
 			text_.setFont(font);
 			text_.setString(txt);
 			text_.setCharacterSize(30);
 
-			align::centerTextInShape(text_, shape_);
+			centerTextInShape(text_, shape_);
 			textPos_ = text_.getPosition();
 		}
 		Button() : Button(sf::Vector2f{ 400, 50 }) {}
-
+		Button(const sf::String& txt, const sf::Vector2f& buttonSize) : Button(buttonSize)
+		{
+			text_.setString(txt);
+			text_.setCharacterSize(30);
+		}
 		// Handles input events and plays given sounds and animations whenever needed.
 		void handleEvents(const sf::Event& event, const sf::Vector2f& mouse);
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;

@@ -2,7 +2,7 @@
 #include "UIElement.h"
 #include "Button.h"
 
-namespace ngin::ui {
+namespace ngin {
 	class Slider : public UIElement {
 	public:
 		Slider(const sf::Vector2f& shapeSize,

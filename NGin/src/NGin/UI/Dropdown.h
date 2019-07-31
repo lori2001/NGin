@@ -2,7 +2,7 @@
 #include "UIElement.h"
 #include "../Utilities/Align.h"
 
-namespace ngin::ui
+namespace ngin
 {
 	class Dropdown : public UIElement
 	{

@@ -2,7 +2,7 @@
 #include <vector>
 #include "SFML/Graphics.hpp"
 
-namespace ngin::ui
+namespace ngin
 {
 	// holds every class that all UIElements should have in common
 	class UIElement : public sf::Drawable
