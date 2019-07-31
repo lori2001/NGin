@@ -16,8 +16,11 @@
 #include "NGin/UI/Slider.h" // includes Button.h
 #include "NGin/UI/Switcher.h" // includes Button.h
 
-// -- Client Class --------
-#include "NGin/Client.h"
+// Generic Level Class
+#include "NGin/Level.h"
+
+// -- Main Level Class --------
+#include "NGin/MainLevel.h"
 // ------------------------
 
 // --- Entry Point(int main()) --------

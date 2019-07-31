@@ -1,10 +1,10 @@
-#include "Client.h"
+#include "MainLevel.h"
 
-extern ngin::Client* createApplication();
+extern ngin::MainLevel* setMainLevel();
 
 int main()
 {
-	auto app = createApplication();
+	auto app = setMainLevel();
 	app->run();
 	delete app;
 

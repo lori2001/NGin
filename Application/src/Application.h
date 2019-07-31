@@ -1,7 +1,7 @@
 #pragma once
 #include "NGin.h"
 
-class Application : public ngin::Client
+class Application : public ngin::MainLevel
 {
 public:
 	Application();
@@ -16,6 +16,6 @@ private:
 	ngin::ui::Button button;
 };
 
-ngin::Client* createApplication() {
+ngin::MainLevel* setMainLevel() {
 	return new Application;
 }

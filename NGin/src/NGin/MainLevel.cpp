@@ -1,6 +1,6 @@
-#include "Client.h"
+#include "MainLevel.h"
 
-void ngin::Client::run()
+void ngin::MainLevel::run()
 {
 	window_.create(sf::VideoMode(windowSize_.x, windowSize_.y), windowName_);
 

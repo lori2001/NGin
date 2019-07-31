@@ -4,7 +4,7 @@
 #include "UI/Cursor.h"
 
 namespace ngin {
-	class Client
+	class MainLevel
 	{
 	public:
 		void run();
@@ -26,5 +26,5 @@ namespace ngin {
 	};
 
 	// To be defined in client
-	ngin::Client* createApplication();
+	ngin::MainLevel* setMainLevel();
 }

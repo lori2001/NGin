@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\NGin\Client.cpp" />
+    <ClCompile Include="src\NGin\MainLevel.cpp" />
     <ClCompile Include="src\NGin\System\Console.cpp" />
     <ClCompile Include="src\NGin\System\Resources.cpp" />
     <ClCompile Include="src\NGin\System\Timer.cpp" />
@@ -25,7 +25,8 @@
     <ClCompile Include="src\NGin\Utilities\Align.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\NGin\Client.h" />
+    <ClInclude Include="src\NGin\Level.h" />
+    <ClInclude Include="src\NGin\MainLevel.h" />
     <ClInclude Include="src\NGin.h" />
     <ClInclude Include="src\NGin\System\Console.h" />
     <ClInclude Include="src\NGin\System\Resources.h" />
