@@ -4,7 +4,7 @@
 #include "UI/Cursor.h"
 
 namespace ngin {
-	class MainLevel
+	class MainLevel : public sf::Drawable
 	{
 	public:
 		void run();
@@ -17,7 +17,7 @@ namespace ngin {
 		// gets called every frame but is not constant
 		virtual void update() {}
 		// gets called every frame but should only draw on window
-		virtual void draw(sf::RenderWindow& window) const {}
+		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const {}
 
 		sf::Vector2i windowSize_{ 1000,600 };
 		sf::String windowName_ = "My Application";

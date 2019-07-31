@@ -10,7 +10,7 @@ public:
 	virtual void setup();
 	virtual void handleEvents();
 	virtual void update();
-	virtual void draw(sf::RenderWindow& window) const;
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 private:
 
 	ngin::ui::Button button;

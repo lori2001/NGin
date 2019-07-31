@@ -27,7 +27,7 @@ void Application::update()
 {
 }
 
-void Application::draw(sf::RenderWindow& window) const
+void Application::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	window.draw(button);
+	target.draw(button);
 }

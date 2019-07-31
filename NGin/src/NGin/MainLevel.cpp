@@ -23,7 +23,7 @@ void ngin::MainLevel::run()
 		window_.clear();
 
 		update();
-		draw(window_);
+		window_.draw(*this);
 
 		window_.display();
 	}
