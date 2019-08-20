@@ -1,5 +1,5 @@
 #pragma once
-#include "MainLevel.h"
+#include "Levels/MainLevel.h"
 
 // only add once to the program
 #ifdef MAIN_LEVEL

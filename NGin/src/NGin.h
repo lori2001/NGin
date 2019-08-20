@@ -1,27 +1,38 @@
 #pragma once
 
-// includes esential files
+// --- SFML ---------------------
+#include "SFML/System.hpp"
+#include "SFML/Graphics.hpp"
+#include "SFML/Audio.hpp"
+
+// --- System Files -------------
 #include "NGin/System/Console.h"
 #include "NGin/System/Resources.h"
 #include "NGin/System/Timer.h"
 
-// Utilities
+// --- Utilities ----------------
 #include "NGin/Utilities/Align.h"
 
-// User Interface Related stuff
-#include "NGin/UI/Cursor.h"
-#include "NGin/UI/Button.h"
-#include "NGin/UI/Dropdown.h"
-#include "NGin/UI/InputText.h"
-#include "NGin/UI/Slider.h" // includes Button.h
-#include "NGin/UI/Switcher.h" // includes Button.h
+// --- Animation ----------------
+#include "NGin/Animation/AnimationFile.h" // includes Timer.h
 
-// Generic Level Class
-#include "NGin/Level.h"
+// --- Audio --------------------
+#include "NGin/Audio/Audio.h"
 
-// -- Main Level Class --------
-#include "NGin/MainLevel.h"
-// ------------------------
+// -- File Reading/Writing ------
+#include "NGin/Files/Json.h" // nlohmann vendor -> namespace io::
+
+// --- User Interface -----------
+#include "NGin/UserInterface/Cursor.h"
+#include "NGin/UserInterface/Button.h"
+#include "NGin/UserInterface/Dropdown.h"
+#include "NGin/UserInterface/InputText.h"
+#include "NGin/UserInterface/Slider.h" // includes Button.h
+#include "NGin/UserInterface/Switcher.h" // includes Button.h
+
+// --- Level Types --------------------
+#include "NGin/Levels/Level.h"
+#include "NGin/Levels/MainLevel.h" 
 
 // --- Entry Point(int main()) --------
 #include "NGin/EntryPoint.h"

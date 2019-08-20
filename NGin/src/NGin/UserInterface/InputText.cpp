@@ -15,11 +15,12 @@ namespace ngin {
 				shape_.setOutlineThickness(0);
 
 			// if mouse button pressed on object
-			if (isSelected_ && event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonPressed)
+			if (isSelected_ && event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonPressed
+				&& blockingException_ == -1)
 			{
 				ngin::Cursor::playSound();
 
-				// adjusts cursor's position
+				// adjusts (|)cursor's position
 				adjustCursor();
 
 				// color the cursor character (make visible)
@@ -87,7 +88,7 @@ namespace ngin {
 		shape_.setPosition(position);
 		centerTextInShape(text_, shape_);
 	}
-	void InputText::setFont(sf::Font& font)
+	void InputText::setFont(const sf::Font& font)
 	{
 		text_.setFont(font);
 		cursor_.setFont(font);

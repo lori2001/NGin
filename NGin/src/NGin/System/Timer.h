@@ -24,7 +24,7 @@ namespace ngin {
 		// get system time in hh:mm format as string
 		static std::string getSysHMStr() { return hour_ + ":" + min_; }
 
-		// get delta the delta time measured
+		// get the delta time measured
 		static float getDeltaTime() { return deltaTime_; }
 
 	private:

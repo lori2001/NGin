@@ -9,7 +9,7 @@ namespace ngin
 	public:
 		Button(const sf::Vector2f& size) {
 			shape_.setSize(size);
-			selectThickness_ = 3;
+			selectThickness_ = 2.5F;
 		}
 		Button(const sf::Vector2f& size, const sf::Texture& texture) : Button(size) {
 			this->setTexture(texture);
@@ -43,7 +43,7 @@ namespace ngin
 		void setSelectColor(const sf::Color& color);
 		void setSelectThickness(const float thickness);
 		void setScale(const sf::Vector2f& scale);
-		void setCharacterSize(const int size);
+		void setCharacterSize(const unsigned size);
 		void setSize(const sf::Vector2f size);
 		void setDisabled(const bool isDisabled);
 
@@ -55,6 +55,7 @@ namespace ngin
 		bool isActive() const { return isActive_; }
 	private:
 		sf::RectangleShape shape_;
+
 		sf::Text text_;
 
 		float selectThickness_;

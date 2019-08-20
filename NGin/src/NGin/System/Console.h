@@ -9,7 +9,7 @@ namespace ngin
 {
 	class Console {
 	public:
-		enum Severity {
+		enum class Severity {
 			Note = 0,
 			Info,
 			Warning,
@@ -91,7 +91,7 @@ namespace ngin
 	}
 }
 
-#ifndef NG_CONSOLE_HIDE
+#ifndef NG_CONSOLE_NOPRINT
 #define NG_LOG_NOTE(...) ngin::Console::log(ngin::Console::Severity::Note, __VA_ARGS__ )
 #define NG_LOG_INFO(...) ngin::Console::log(ngin::Console::Severity::Info, __VA_ARGS__ )
 #define NG_LOG_WARN(...) ngin::Console::log(ngin::Console::Severity::Warning, __VA_ARGS__ )
@@ -111,7 +111,7 @@ namespace ngin
 #define NG_LOG_ONCE_INFO(...)
 #define NG_LOG_ONCE_WARN(...)
 #define NG_LOG_ONCE_ERROR(...)
-#endif // NG_CONSOLE_HIDE
+#endif // NG_CONSOLE_NOPRINT
 
 // #ifndef _DEBUG
 // ShowWindow(GetConsoleWindow(), SW_HIDE);

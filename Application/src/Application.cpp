@@ -2,7 +2,7 @@
 
 Application::Application()
 {
-	windowSize_ = { 1366,768 };
+	windowVideoMode_ = { 1366,768 };
 	windowName_ = "Client App";
 }
 
@@ -25,6 +25,7 @@ void Application::handleEvents()
 
 void Application::update()
 {
+	/*Empty bc im shit*/
 }
 
 void Application::draw(sf::RenderTarget& target, sf::RenderStates states) const

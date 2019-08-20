@@ -10,16 +10,14 @@ namespace ngin {
 			const sf::Vector2f& markSize,
 			const sf::Vector2f& position = { 0,0 })
 		{
-			setSelectThickness(-3); // selection goes inside container
+			setSelectThickness(-2.5F); // selection goes inside container
 			setSizes(shapeSize, arrowSize, markSize);
 
 			// button has to be centered in order to align properly
 			mark_.setOrigin({ mark_.getGlobalBounds().width / 2, mark_.getGlobalBounds().height / 2 });
 
-			// set up the mark's virtual box (has some additional offset calibrated for default textures)
-			sliderBox_ = { mark_.getGlobalBounds().width / 2 + 5 , 0,
-					   container_.getGlobalBounds().width - mark_.getGlobalBounds().width - 10,
-					   container_.getGlobalBounds().height / 2 };
+			adjustSliderBox();
+			adjustMarkPos();
 
 			setPosition({ 0, 0 });
 
@@ -37,14 +35,19 @@ namespace ngin {
 		void setPosition(const sf::Vector2f& position);
 		void setLevel(const float level);
 		void setSizes(const sf::Vector2f& shapeSize, const sf::Vector2f& arrowSize, const sf::Vector2f& markSize);
-		void setSelectThickness(const float selectSize) { selectThickness_ = selectSize; }
+		void setScale(const sf::Vector2f& scale);
+		void setSelectColor(const sf::Color& color);
+		void setSelectThickness(const float selectSize);
 
-		float getLevel() { return level_; }
-		sf::Vector2f getSize() { return { leftButton_.getSize().x + container_.getSize().x + rightButton_.getSize().x, container_.getSize().y }; }
-		bool getHasChanged() { return hasChanged_; }
+		float getLevel() const { return level_; }
+		sf::Vector2f getSize() const { return { leftButton_.getSize().x + container_.getSize().x + rightButton_.getSize().x, container_.getSize().y }; }
+		bool getHasChanged() const { return hasChanged_; }
+		sf::FloatRect getGlobalBounds() const;
 	private:
 		// adjust button position based on level
 		void adjustMarkPos();
+		// set up the mark's virtual box (has some additional offset calibrated for default textures)
+		void adjustSliderBox();
 	private:
 		sf::FloatRect sliderBox_; // a box for the mark to move in
 		sf::RectangleShape container_;

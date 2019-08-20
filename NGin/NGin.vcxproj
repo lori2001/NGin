@@ -11,35 +11,42 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\NGin\MainLevel.cpp" />
+    <ClCompile Include="src\NGin\Levels\MainLevel.cpp" />
+    <ClCompile Include="src\NGin\Animation\AnimationFile.cpp" />
+    <ClCompile Include="src\NGin\Animation\AnimationRect.cpp" />
+    <ClCompile Include="src\NGin\Audio\Audio.cpp" />
     <ClCompile Include="src\NGin\System\Console.cpp" />
     <ClCompile Include="src\NGin\System\Resources.cpp" />
     <ClCompile Include="src\NGin\System\Timer.cpp" />
-    <ClCompile Include="src\NGin\UI\Button.cpp" />
-    <ClCompile Include="src\NGin\UI\Cursor.cpp" />
-    <ClCompile Include="src\NGin\UI\Dropdown.cpp" />
-    <ClCompile Include="src\NGin\UI\Slider.cpp" />
-    <ClCompile Include="src\NGin\UI\Switcher.cpp" />
-    <ClCompile Include="src\NGin\UI\InputText.cpp" />
-    <ClCompile Include="src\NGin\UI\UIElement.cpp" />
+    <ClCompile Include="src\NGin\UserInterface\Button.cpp" />
+    <ClCompile Include="src\NGin\UserInterface\Cursor.cpp" />
+    <ClCompile Include="src\NGin\UserInterface\Dropdown.cpp" />
+    <ClCompile Include="src\NGin\UserInterface\Slider.cpp" />
+    <ClCompile Include="src\NGin\UserInterface\Switcher.cpp" />
+    <ClCompile Include="src\NGin\UserInterface\InputText.cpp" />
+    <ClCompile Include="src\NGin\UserInterface\UIElement.cpp" />
     <ClCompile Include="src\NGin\Utilities\Align.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\NGin\Level.h" />
-    <ClInclude Include="src\NGin\MainLevel.h" />
+    <ClInclude Include="src\NGin\Audio\Audio.h" />
+    <ClInclude Include="src\NGin\FIles\Json.h" />
+    <ClInclude Include="src\NGin\Levels\Level.h" />
+    <ClInclude Include="src\NGin\Levels\MainLevel.h" />
     <ClInclude Include="src\NGin.h" />
+    <ClInclude Include="src\NGin\Animation\AnimationFile.h" />
+    <ClInclude Include="src\NGin\Animation\AnimationRect.h" />
     <ClInclude Include="src\NGin\System\Console.h" />
     <ClInclude Include="src\NGin\System\Resources.h" />
     <ClInclude Include="src\NGin\System\Timer.h" />
     <ClInclude Include="src\NGin\EntryPoint.h" />
-    <ClInclude Include="src\NGin\UI\Button.h" />
-    <ClInclude Include="src\NGin\UI\Cursor.h" />
-    <ClInclude Include="src\NGin\UI\Dropdown.h" />
-    <ClInclude Include="src\NGin\UI\Slider.h" />
-    <ClInclude Include="src\NGin\UI\Switcher.h" />
-    <ClInclude Include="src\NGin\UI\InputText.h" />
+    <ClInclude Include="src\NGin\UserInterface\Button.h" />
+    <ClInclude Include="src\NGin\UserInterface\Cursor.h" />
+    <ClInclude Include="src\NGin\UserInterface\Dropdown.h" />
+    <ClInclude Include="src\NGin\UserInterface\Slider.h" />
+    <ClInclude Include="src\NGin\UserInterface\Switcher.h" />
+    <ClInclude Include="src\NGin\UserInterface\InputText.h" />
     <ClInclude Include="src\NGin\Utilities\Align.h" />
-    <ClInclude Include="src\NGin\UI\UIElement.h" />
+    <ClInclude Include="src\NGin\UserInterface\UIElement.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\styles\warcraft\button.png" />
@@ -96,8 +103,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\json;$(SolutionDir)vendor\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)vendor\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -112,8 +120,9 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\json;$(SolutionDir)vendor\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

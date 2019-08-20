@@ -13,7 +13,8 @@ namespace ngin {
 			if (isSelected_) {
 				container_.setOutlineThickness(selectThickness_);
 
-				if (event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonPressed) {
+				if (event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonPressed
+					&& blockingException_ == -1) {
 					// isSliding is true if isSelected and while lmb is held 
 					isSliding_ = true;
 
@@ -31,7 +32,7 @@ namespace ngin {
 			}
 			else if (isSliding_) {
 				// calculate the level based on the mouse's position (OUTPUT: a number between 0 and 1)
-				level_ = (mouse.x - container_.getGlobalBounds().left) / container_.getGlobalBounds().width;
+				level_ = (mouse.x - sliderBox_.left) / sliderBox_.width;
 
 				// Safely restrict that number
 				if (level_ > 1) level_ = 1;
@@ -45,7 +46,7 @@ namespace ngin {
 			leftButton_.handleEvents(event, mouse);
 			rightButton_.handleEvents(event, mouse);
 
-			if (leftButton_.isActive()) {
+			if (leftButton_.isActive() && blockingException_ == -1) {
 				float temp = level_ - 0.05F; // step down level by 0.05
 
 				// establish 0 as minimum limit
@@ -55,7 +56,7 @@ namespace ngin {
 				hasChanged_ = true; // signal that the level has changed in this frame
 				adjustMarkPos();
 			}
-			else if (rightButton_.isActive()) {
+			else if (rightButton_.isActive() && blockingException_ == -1) {
 				float temp = level_ + 0.05F; // step up level by 0.05
 
 				// establish 1 as maximum limit
@@ -107,10 +108,11 @@ namespace ngin {
 	{
 		// positon structure (leftArrow->shape->rightArrow)
 		leftButton_.setPosition(position);
-		container_.setPosition({ leftButton_.getPosition().x + leftButton_.getGlobalBounds().width, position.y });
-		rightButton_.setPosition({ container_.getPosition().x + container_.getGlobalBounds().width, position.y });
+		container_.setPosition({ leftButton_.getGlobalBounds().left + leftButton_.getGlobalBounds().width, position.y });
+		rightButton_.setPosition({ container_.getGlobalBounds().left + container_.getGlobalBounds().width, position.y });
 
 		// put the mark where it should be
+		adjustSliderBox();
 		adjustMarkPos();
 	}
 	void Slider::setLevel(const float level)
@@ -142,11 +144,62 @@ namespace ngin {
 		leftButton_.setSize(arrowSize);
 		rightButton_.setSize(arrowSize);
 		mark_.setSize(markSize);
+
+		adjustSliderBox();
+	}
+	void Slider::setScale(const sf::Vector2f& scale)
+	{
+		container_  .setScale(scale);
+		leftButton_ .setScale(scale);
+		rightButton_.setScale(scale);
+		mark_       .setScale(scale);
+
+		adjustSliderBox();
+	}
+	void Slider::setSelectColor(const sf::Color& color)
+	{
+		container_.setOutlineColor(color);
+		leftButton_.setSelectColor(color);
+		rightButton_.setSelectColor(color);
+	}
+	void Slider::setSelectThickness(const float selectSize)
+	{
+		selectThickness_ = selectSize;
+		leftButton_.setSelectThickness(selectSize);
+		rightButton_.setSelectThickness(selectSize);
+	}
+	sf::FloatRect Slider::getGlobalBounds() const
+	{
+		// widths add up
+		float width = leftButton_.getGlobalBounds().width
+					+ container_.getGlobalBounds().width
+					+ rightButton_.getGlobalBounds().width;
+
+		// biggest of heights
+		float height = container_.getGlobalBounds().height;
+		if (height < leftButton_ .getGlobalBounds().height)
+			height = leftButton_ .getGlobalBounds().height;
+		if (height < rightButton_.getGlobalBounds().height)
+			height = rightButton_.getGlobalBounds().height;
+
+		return sf::FloatRect{
+			leftButton_.getGlobalBounds().left, leftButton_.getGlobalBounds().top,
+			width, height };
 	}
 	void Slider::adjustMarkPos()
 	{
 		mark_.setPosition({
-			container_.getPosition().x + sliderBox_.left + (sliderBox_.width * level_),
-			container_.getPosition().y + sliderBox_.height });
+			sliderBox_.left + sliderBox_.width * level_,
+			sliderBox_.top + sliderBox_.height / 2});
+	}
+	void Slider::adjustSliderBox()
+	{
+		float left = container_.getGlobalBounds().left + container_.getOutlineThickness()
+			+ mark_.getGlobalBounds().width / 2 + 5;
+		float top = container_.getGlobalBounds().top + container_.getOutlineThickness();
+		float width = container_.getGlobalBounds().width - mark_.getGlobalBounds().width - 10;
+		float height = container_.getGlobalBounds().height;
+
+		sliderBox_ = { left, top, width, height };
 	}
 }

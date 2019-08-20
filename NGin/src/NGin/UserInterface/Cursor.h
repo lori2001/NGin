@@ -23,6 +23,8 @@ namespace ngin {
 		// sets the sound the cursor makes ex. when pressing a button 
 		static void setBuffer(sf::SoundBuffer& soundBuffer);
 
+		static sf::Sound* getSoundPtr() { return &sound_; }
+
 		// plays the sound avoiding sound overlap with multiple clicks
 		static void playSound();
 

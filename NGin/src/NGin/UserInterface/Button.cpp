@@ -33,7 +33,8 @@ namespace ngin
 						text_.setPosition(sf::Vector2f(textPos_.x + (3 * shape_.getScale().x),
 													   textPos_.y + (3 * shape_.getScale().y)));
 					}
-					else if (isPressed_ && event.type == sf::Event::MouseButtonReleased)
+					else if (isPressed_ && event.type == sf::Event::MouseButtonReleased
+						     && blockingException_ == -1)
 					{
 						isActive_ = true;
 					}
@@ -50,6 +51,7 @@ namespace ngin
 				isPressed_ = false;
 
 				shape_.setTextureRect(sf::IntRect(texturePos_.x, texturePos_.y, (int)shape_.getSize().x, (int)shape_.getSize().y));
+				shape_.setOutlineThickness(0);
 				text_.setPosition(textPos_);
 			}
 		}
@@ -117,7 +119,7 @@ namespace ngin
 		centerTextInShape(text_, shape_);
 		textPos_ = text_.getPosition();
 	}
-	void Button::setCharacterSize(const int size)
+	void Button::setCharacterSize(const unsigned size)
 	{
 		text_.setCharacterSize(size);
 		

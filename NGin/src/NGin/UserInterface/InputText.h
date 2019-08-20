@@ -9,7 +9,7 @@ namespace ngin {
 			cursor_.setFillColor(sf::Color::Transparent);
 			cursor_.setString("|");
 
-			setSelectThickness(3);
+			setSelectThickness(2.5F);
 			setMaxCharacterNo(20);
 			setCharacterSize(25);
 			setSize(size);
@@ -22,7 +22,7 @@ namespace ngin {
 		void setPosition(const sf::Vector2f& position);
 		void setString(const sf::String& str);
 		void setCharacterSize(const unsigned characterSize);
-		void setFont(sf::Font& font);
+		void setFont(const sf::Font& font);
 		void setFillColor(const sf::Color& color) { shape_.setFillColor(color); }
 		void setTextColor(const sf::Color& color) { text_.setFillColor(color); }
 		void setTexture(const sf::Texture& texture) { shape_.setTexture(&texture); }
@@ -32,8 +32,10 @@ namespace ngin {
 		void setSize(const sf::Vector2f& size) { shape_.setSize(size); }
 		void setDisabled(const bool isDisabled) { isDisabled_ = isDisabled; }
 
-		sf::String getString() { return text_.getString(); }
-		bool getisActive() { return isActive_; }
+		sf::String getString() const { return text_.getString(); }
+		bool getisActive() const { return isActive_; }
+		sf::FloatRect getGlobalBounds() const { return shape_.getGlobalBounds(); }
+		sf::Vector2f getPosition() const { return shape_.getPosition(); }
 
 	private:
 		sf::RectangleShape shape_; // the block that the text gets displayed in
