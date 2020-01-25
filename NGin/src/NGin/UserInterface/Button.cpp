@@ -10,13 +10,15 @@ namespace ngin
 			isActive_ = false;
 
 			// considers mouse to be 1x1 pixels
-			isSelected_ = shape_.getGlobalBounds().intersects(sf::FloatRect(mouse, { 1,1 }));
+			if (UIElement::blockingException_ == -1) {
+				isSelected_ = shape_.getGlobalBounds().intersects(sf::FloatRect(mouse, { 1,1 }));
+			}
 
 			if (isSelected_) {
 				shape_.setOutlineThickness(selectThickness_);
 
 				if (event.mouseButton.button == sf::Mouse::Left) {
-					if (event.type == sf::Event::MouseButtonPressed)
+					if (event.type == sf::Event::MouseButtonPressed && !isPressed_)
 					{
 						isPressed_ = true;
 
@@ -40,7 +42,7 @@ namespace ngin
 					}
 				}
 			}
-			else { // !isSelected_
+			else { // if !isSelected_
 				shape_.setOutlineThickness(0);
 			}
 
@@ -51,7 +53,6 @@ namespace ngin
 				isPressed_ = false;
 
 				shape_.setTextureRect(sf::IntRect(texturePos_.x, texturePos_.y, (int)shape_.getSize().x, (int)shape_.getSize().y));
-				shape_.setOutlineThickness(0);
 				text_.setPosition(textPos_);
 			}
 		}
@@ -109,6 +110,10 @@ namespace ngin
 	void Button::setSelectThickness(const float thickness)
 	{
 		selectThickness_ = thickness;
+	}
+	void Button::setOrigin(const sf::Vector2f& origin) {
+		shape_.setOrigin(origin);
+		text_.setOrigin(origin);
 	}
 	void Button::setScale(const sf::Vector2f & scale)
 	{

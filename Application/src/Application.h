@@ -15,7 +15,10 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 private:
 
-	ngin::Button button;
+	sf::RectangleShape testRect;
+	ngin::ScrollBox scrollBox_;
+
+	ngin::Button button_;
 };
 
 ngin::MainLevel* setMainLevel() {

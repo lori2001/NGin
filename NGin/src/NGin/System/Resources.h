@@ -3,8 +3,6 @@
 #include "SFML/Audio.hpp"
 #include <unordered_map>
 
-
-#include "Console.h"
 namespace ngin
 {
 	class Resources
@@ -23,12 +21,17 @@ namespace ngin
 		static void destroyUnused();
 
 		// changes default load-in location
-		static void setLocation(const std::string& loc) { location = loc; }
+		static void setLocation(const std::string& loc) { location_ = loc; }
+		static std::string getLocation() { return location_; }
 
 	private:
 		static std::unordered_map<std::string, std::shared_ptr<sf::Texture>> textures_;
 		static std::unordered_map<std::string, std::shared_ptr<sf::Font>> fonts_;
 		static std::unordered_map<std::string, std::shared_ptr<sf::SoundBuffer>> soundBuffers_;
-		static std::string location;
+		static std::string location_;
 	};
+
+#define NG_TEXTURE(location) *ngin::Resources::AcquireTexture(location)
+#define NG_FONT(location) *ngin::Resources::AcquireFont(location)
+#define NG_SOUNDBUFFER(location) *ngin::Resources::AcquireSoundBuffer(location)
 }

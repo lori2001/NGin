@@ -2,6 +2,15 @@
 #include <Windows.h>
 
 namespace ngin {
+	sf::View MainLevel::view_ = sf::View{ sf::FloatRect{0, 0, 1920, 1080} }; // default view is full HD
+	sf::VideoMode MainLevel::windowVideoMode_{ 1000, 600 }; // default window size fits all modern screens
+	sf::String MainLevel::windowName_ = "My Application"; // defualt name
+	sf::Color MainLevel::windowClearColor_ = sf::Color(0, 0, 0); // default screen clear color
+	WINDOW_TYPE MainLevel::windowType_ = WINDOW_TYPE::WINDOW_UNRESIZEABLE; // default window type
+	
+	sf::RenderWindow MainLevel::window_;
+	bool MainLevel::hasFocus_ = true; // assumes window has focus by default
+	unsigned long MainLevel::loopCicles_ = 0; // counts how many loops have passed
 
 	void MainLevel::run()
 	{
@@ -16,6 +25,7 @@ namespace ngin {
 
 		while (window_.isOpen())
 		{
+			loopCicles_++;
 			// measure delta time for each iteration
 			ngin::Timer::measureDeltaTime();
 
@@ -24,6 +34,10 @@ namespace ngin {
 				// close window on request
 				if (event_.type == sf::Event::Closed)
 					window_.close();
+				else if (event_.type == sf::Event::GainedFocus)
+					hasFocus_ = true;
+				else if (event_.type == sf::Event::LostFocus)
+					hasFocus_ = false;
 
 				// client's events handling
 				handleEvents();
@@ -32,8 +46,8 @@ namespace ngin {
 				ngin::Cursor::followMouse(window_);
 			}
 
-			// clear window from previous bs
-			window_.clear();
+			// clear window of previous bs
+			window_.clear(windowClearColor_);
 
 			// client update
 			update();
@@ -50,6 +64,9 @@ namespace ngin {
 				applySettingsToWindow();
 			}
 
+			// make sure view is applied to window
+			window_.setView(view_);
+
 			// draw client's main level
 			window_.draw(*this);
 
@@ -61,26 +78,45 @@ namespace ngin {
 		}
 	}
 
+	unsigned long int MainLevel::getLoopCicleCount()
+	{
+		return loopCicles_;
+	}
+	
+	void MainLevel::setWindowIcon(const std::string& location)
+	{
+		if (icon_.loadFromFile(location)) {
+			window_.setIcon(icon_.getSize().x, icon_.getSize().y, icon_.getPixelsPtr());
+			hasIcon_ = true;
+		}
+		else {
+			NG_LOG_WARN("Failed to set Icon!");
+			hasIcon_ = false;
+		}
+	}
+
+	void MainLevel::applyViewToWindow()
+	{
+		window_.setView(view_);
+	}
+
 	void MainLevel::applySettingsToWindow()
 	{
-		// prevents destroying window's view
-		const sf::View saveView = window_.getView();
-
 		sf::Uint32 windowStyle = sf::Style::Titlebar;
 		bool isBorderless = false;
 
 		// --- Styling ---------------------------------
-		if (windowType_ == WINDOW_TYPE::RESIZEABLE) {
+		if (windowType_ == WINDOW_TYPE::WINDOW_RESIZEABLE) {
 			windowStyle = sf::Style::Default;
 		}
-		else if (windowType_ == WINDOW_TYPE::UNRESIZEABLE) {
+		else if (windowType_ == WINDOW_TYPE::WINDOW_UNRESIZEABLE) {
 			windowStyle = sf::Style::Titlebar | sf::Style::Close;
 		}
-		else if (windowType_ == WINDOW_TYPE::FULLSCREEN) {
+		else if (windowType_ == WINDOW_TYPE::WINDOW_FULLSCREEN) {
 			windowStyle = sf::Style::Fullscreen;
 			windowVideoMode_ = sf::VideoMode::getDesktopMode();
 		}
-		else if (windowType_ == WINDOW_TYPE::BORDERLESS) {
+		else if (windowType_ == WINDOW_TYPE::WINDOW_BORDERLESS) {
 			isBorderless = true;
 			windowStyle = sf::Style::Fullscreen;
 		}
@@ -94,9 +130,13 @@ namespace ngin {
 		else {
 			window_.create(windowVideoMode_, windowName_, windowStyle);
 		}
+		
+		// set view (back)
+		window_.setView(view_);
 
-		// set view back
-		window_.setView(saveView);
+		// set icon back
+		if(hasIcon_)
+			window_.setIcon(icon_.getSize().x, icon_.getSize().y, icon_.getPixelsPtr());
 
 		// save settings
 		saveName_ = windowName_;
