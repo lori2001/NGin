@@ -28,6 +28,8 @@ namespace ngin {
 			loopCicles_++;
 			// measure delta time for each iteration
 			ngin::Timer::measureDeltaTime();
+			// measure system time for each iteration
+			ngin::Timer::measureSysTime();
 
 			while (window_.pollEvent(event_))
 			{
