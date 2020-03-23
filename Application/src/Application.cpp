@@ -5,7 +5,7 @@ Application::Application()
 	windowVideoMode = { 1366,768 };
 	windowName = "Client App";
 
-	ng::Resources::setLocation("assets/");
+	// ng::Resources::setLocation("assets/"); // it is default
 
 	testRect.setFillColor(sf::Color::Red);
 	testRect.setSize({ 60, 60 });
