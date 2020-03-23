@@ -2,7 +2,7 @@
 #include "../System/Console.h"
 #include "Cursor.h"
 
-namespace ngin {
+namespace ng {
 	void InputText::handleEvents(const sf::Event& event, const sf::Vector2f& mouse)
 	{
 		if (!isDisabled_) {
@@ -18,7 +18,7 @@ namespace ngin {
 			if (isSelected_ && event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonPressed
 				&& blockingException_ == -1)
 			{
-				ngin::Cursor::playSound();
+				ng::Cursor::playSound();
 
 				// adjusts (|)cursor's position
 				adjustCursor();
@@ -80,7 +80,7 @@ namespace ngin {
 		// if the font is not set
 		if (text_.getFont() == 0) {
 			NG_LOG_ONCE_WARN("Font undefined for InputText nr.",
-				UIElement::getElementIndex(), " -> OBJECT MAY NOT FUNCTION PROPERLY");
+				UIElement::getUIElementIndex(), " -> OBJECT MAY NOT FUNCTION PROPERLY");
 		}
 	}
 	void InputText::setPosition(const sf::Vector2f& position)

@@ -4,7 +4,7 @@
 // This file contains operations with sfml vectors
 // which might shorten otherwise long code
 
-namespace ngin {
+namespace ng {
 	
 	// converts floating point to an unidimensional vector
 	sf::Vector2f ftoVec(const float floatingPoint);

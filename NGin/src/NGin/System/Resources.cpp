@@ -1,6 +1,6 @@
 #include "Resources.h"
 
-namespace ngin {
+namespace ng {
 
 	std::unordered_map<std::string, std::shared_ptr<sf::Texture>> Resources::textures_;
 	std::unordered_map<std::string, std::shared_ptr<sf::Font>> Resources::fonts_;

@@ -1,7 +1,7 @@
 #include "ScrollBox.h"
 #include "Cursor.h"
 
-namespace ngin {
+namespace ng {
 
 	void ScrollBox::handleEvents(const sf::Event& event, const sf::Vector2f& mouse)
 	{
@@ -19,9 +19,9 @@ namespace ngin {
 			// TODO: scroll by wheel logic
 			if (isFocused_ && event.type == sf::Event::MouseWheelMoved) {
 				if (YisUsed_) {
-					scrollPercent.y += event.mouseWheel.delta * scrollSpeed_;
-					if (scrollPercent.y > 1) scrollPercent.y = 1;
-					else if (scrollPercent.y < 0) scrollPercent.y = 0;
+					scrollPercent_.y += event.mouseWheel.delta * (-1) * scrollSpeed_;
+					if (scrollPercent_.y > 1) scrollPercent_.y = 1;
+					else if (scrollPercent_.y < 0) scrollPercent_.y = 0;
 
 					setPosition(getPosition());
 				}
@@ -45,9 +45,9 @@ namespace ngin {
 
 				float newPosition = Xscroller_.getPosition().x + deltaMouseX;
 
-				scrollPercent.x = (newPosition - minPosition) / (maxPosition - minPosition);
-				if (scrollPercent.x > 1) scrollPercent.x = 1;
-				else if (scrollPercent.x < 0) scrollPercent.x = 0;
+				scrollPercent_.x = (newPosition - minPosition) / (maxPosition - minPosition);
+				if (scrollPercent_.x > 1) scrollPercent_.x = 1;
+				else if (scrollPercent_.x < 0) scrollPercent_.x = 0;
 				
 				// set the position of scrollers properly
 				setPosition(getPosition());
@@ -69,9 +69,9 @@ namespace ngin {
 
 				float newPosition = Yscroller_.getPosition().y + deltaMouseY;
 
-				scrollPercent.y = (newPosition - minPosition) / (maxPosition - minPosition);
-				if (scrollPercent.y > 1) scrollPercent.y = 1;
-				else if (scrollPercent.y < 0) scrollPercent.y = 0;
+				scrollPercent_.y = (newPosition - minPosition) / (maxPosition - minPosition);
+				if (scrollPercent_.y > 1) scrollPercent_.y = 1;
+				else if (scrollPercent_.y < 0) scrollPercent_.y = 0;
 
 				// set the position of scrollers properly
 				setPosition(getPosition());
@@ -107,7 +107,7 @@ namespace ngin {
 					}
 				}
 			}
-			else { // if !XisSelected_
+			else if(!XisPressed_) { // if !XisSelected_ && !XisPressed_
 				Xscroller_.setOutlineThickness(0);
 			}
 
@@ -152,7 +152,7 @@ namespace ngin {
 					}
 				}
 			}
-			else { // if !YisSelected_
+			else if(!YisPressed_) { // if !YisSelected_ and !YisPressed_
 				Yscroller_.setOutlineThickness(0);
 			}
 
@@ -174,6 +174,32 @@ namespace ngin {
 	{
 		target.draw(container_);
 
+		for (auto it : subsRects_) {
+			// draw only if container "contains" the rectangle
+			if (container_.getPosition().x < it->getPosition().x &&
+				container_.getPosition().y < it->getPosition().y &&
+				container_.getPosition().x + container_.getGlobalBounds().width >
+				it->getPosition().x + it->getGlobalBounds().width &&
+				container_.getPosition().y + container_.getGlobalBounds().height >
+				it->getPosition().y + it->getGlobalBounds().height)
+			{
+				target.draw(*it);
+			}
+		}
+
+		for (auto it : subsTexts_) {
+			// draw only if container "contains" the text
+			if (container_.getPosition().x < it->getPosition().x &&
+				container_.getPosition().y < it->getPosition().y &&
+				container_.getPosition().x + container_.getGlobalBounds().width >
+				it->getPosition().x + it->getGlobalBounds().width &&
+				container_.getPosition().y + container_.getGlobalBounds().height >
+				it->getPosition().y + it->getGlobalBounds().height)
+			{
+				target.draw(*it);
+			}
+		}
+
 		if (XisUsed_) {
 			target.draw(Xscroller_);
 		}
@@ -181,33 +207,19 @@ namespace ngin {
 		if (YisUsed_) {
 			target.draw(Yscroller_);
 		}
-
-		for (auto it : subsRects_) {
-			// draw only if container "contains" the rectangle
-			if (container_.getPosition().x < *&it->getPosition().x &&
-				container_.getPosition().y < *&it->getPosition().y &&
-				container_.getPosition().x + container_.getGlobalBounds().width >
-				(*&it)->getPosition().x + (*&it)->getGlobalBounds().width &&
-				container_.getPosition().y + container_.getGlobalBounds().height >
-				(*&it)->getPosition().y + (*&it)->getGlobalBounds().height)
-			{
-				target.draw(*it);
-			}
-		}
 	}
 
 	bool ScrollBox::addElement(sf::RectangleShape& rectangle, const sf::Vector2f& relativePosition)
 	{
 		subsRects_.push_back(&rectangle);
-		subsRectPositions_.push_back(relativePosition);
+		subsRectPositions_.push_back({relativePosition});
 
-		if (relativePosition.x > insideSize_.x || relativePosition.y > insideSize_.y)
+		if (relativePosition.x + rectangle.getGlobalBounds().width  > insideSize_.x ||
+			relativePosition.y + rectangle.getGlobalBounds().height > insideSize_.y)
 		{
 			NG_LOG_WARN("Rectangle nr.", subsRects_.size() - 1,
-				" subscribed to scrollbox nr.", getElementIndex(),
-				" with position out of bounds");
-
-			rectangle.setPosition({0, 0});
+				" subscribed to scrollbox nr.", getUIElementIndex(),
+				" with position{", relativePosition.x, ", ", relativePosition.y, "} out of reach");
 
 			return false;
 		}
@@ -218,6 +230,76 @@ namespace ngin {
 		});
 
 		return true;
+	}
+
+	bool ScrollBox::addElement(sf::Text& text, const sf::Vector2f& relativePosition)
+	{
+		subsTexts_.push_back(&text);
+		subsTextPositions_.push_back({ relativePosition });
+
+		// TODO: FIX THIS SHIT
+		if (relativePosition.x + text.getGlobalBounds().width > insideSize_.x ||
+			relativePosition.y +
+			text.getGlobalBounds().height -
+			text.getGlobalBounds().top > insideSize_.y)
+		{
+			NG_LOG_WARN("Text nr.", subsTexts_.size() - 1,
+				" subscribed to scrollbox nr.", getUIElementIndex(),
+				" with position{", relativePosition.x, ", ", relativePosition.y, "} out of reach");
+
+			return false;
+		}
+
+		text.setPosition({
+			container_.getPosition().x + relativePosition.x,
+			container_.getPosition().y + relativePosition.y
+			});
+
+		return true;
+	}
+
+	bool ScrollBox::addElement(sf::Text& text)
+	{
+		sf::Vector2f relativePosition = {
+			text.getPosition().x - container_.getPosition().x,
+			text.getPosition().y - container_.getPosition().y,
+		};
+		return addElement(text, relativePosition);
+	}
+
+	bool ScrollBox::addElement(sf::RectangleShape& rectangle)
+	{
+		sf::Vector2f relativePosition = {
+			rectangle.getPosition().x - container_.getPosition().x,
+			rectangle.getPosition().y - container_.getPosition().y,
+		};
+		return addElement(rectangle, relativePosition);
+	}
+
+	int ScrollBox::getElementID(sf::Text& text) const
+	{
+		// iterate through each pointer
+		for (int i = 0; i < static_cast<int>(subsTexts_.size()); i++)
+		{
+			// if ID of pointer is found
+			if (subsTexts_[i] == &text) {
+				return i;
+			}
+		}
+		return -1; // not found
+	}
+
+	int ScrollBox::getElementID(sf::RectangleShape& rectangle) const
+	{
+		// iterate through each pointer
+		for (int i = 0; i < static_cast<int>(subsRects_.size()); i++)
+		{
+			// if ID of pointer is found
+			if (subsRects_[i] == &rectangle) {
+				return i;
+			}
+		}
+		return -1; // not found
 	}
 
 	void ScrollBox::setTexture(const sf::Texture& texture)
@@ -254,11 +336,11 @@ namespace ngin {
 
 		Xoffset.y = container_.getGlobalBounds().height - Xscroller_.getGlobalBounds().height;
 		if (!YisUsed_) {
-			Xoffset.x = scrollPercent.x *
+			Xoffset.x = scrollPercent_.x *
 				(container_.getGlobalBounds().width - Xscroller_.getGlobalBounds().width);
 		}
 		else {
-			Xoffset.x = scrollPercent.x *
+			Xoffset.x = scrollPercent_.x *
 				(container_.getGlobalBounds().width -
 				 Xscroller_.getGlobalBounds().width -
 				 Yscroller_.getGlobalBounds().width);
@@ -266,11 +348,11 @@ namespace ngin {
 
 		Yoffset.x = container_.getGlobalBounds().width - Yscroller_.getGlobalBounds().width;
 		if (!XisUsed_) {
-			Yoffset.y = scrollPercent.y *
+			Yoffset.y = scrollPercent_.y *
 				(container_.getGlobalBounds().height - Yscroller_.getGlobalBounds().height);
 		}
 		else {
-			Yoffset.y = scrollPercent.y *
+			Yoffset.y = scrollPercent_.y *
 				(container_.getGlobalBounds().height -
 				 Yscroller_.getGlobalBounds().height - 
 				 Xscroller_.getGlobalBounds().height);
@@ -281,10 +363,16 @@ namespace ngin {
 		// right side
 		Yscroller_.setPosition({ position.x + Yoffset.x, position.y + Yoffset.y });
 
-		for (int i = 0; i < subsRects_.size(); i++) {
+		for (int i = 0; i < static_cast<int>(subsRects_.size()); i++) {
 			subsRects_[i]->setPosition({
-				position.x + subsRectPositions_[i].x - (scrollPercent.x * insideSize_.x),
-				position.y + subsRectPositions_[i].y - (scrollPercent.y * insideSize_.y)
+				position.x + subsRectPositions_[i].x - (scrollPercent_.x * (insideSize_.x - outsideSize_.x)),
+				position.y + subsRectPositions_[i].y - (scrollPercent_.y * (insideSize_.y - outsideSize_.y))
+			});
+		}
+		for (int i = 0; i < static_cast<int>(subsTexts_.size()); i++) {
+			subsTexts_[i]->setPosition({
+				position.x + subsTextPositions_[i].x - (scrollPercent_.x * (insideSize_.x - outsideSize_.x)),
+				position.y + subsTextPositions_[i].y - (scrollPercent_.y * (insideSize_.y - outsideSize_.y))
 			});
 		}
 	}

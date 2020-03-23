@@ -1,6 +1,6 @@
 #include "Vectors.h"
 
-namespace ngin {
+namespace ng {
 	sf::Vector2f ftoVec(const float floatingPoint)
 	{
 		return { floatingPoint, floatingPoint };

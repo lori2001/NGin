@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace ngin {
+namespace ng {
 	class FileReader {
 	public:
 		virtual void read() = 0;

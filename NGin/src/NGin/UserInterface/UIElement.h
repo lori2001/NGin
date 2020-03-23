@@ -2,7 +2,7 @@
 #include <vector>
 #include "SFML/Graphics.hpp"
 
-namespace ngin
+namespace ng
 {
 	// holds every class that all UIElements should have in common
 	class UIElement : public sf::Drawable
@@ -13,9 +13,15 @@ namespace ngin
 		virtual void setPosition(const sf::Vector2f& position) = 0;
 		virtual sf::Vector2f getPosition() const = 0;
 
-		int getElementIndex() const {
+		int getUIElementIndex() const {
 			auto it = std::find(Elements_.begin(), Elements_.end(), elementNo_);
 			return std::distance(Elements_.begin(), it);;
+		}
+
+		// returns true if one ui element took blocking exception
+		// privileges (ex. dropdown is dropped down somewhere)
+		static bool hasBlockingException() {
+			return blockingException_ == -1 ? false : true;
 		}
 
 	public:

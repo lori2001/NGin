@@ -1,7 +1,7 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 
-namespace ngin {
+namespace ng {
 	void positionTextInBounds(sf::Vector2f position, sf::Text& text, const sf::FloatRect& bounds);
 	void positionTextInShape(sf::Vector2f position, sf::Text& text, const sf::RectangleShape& shape);
 

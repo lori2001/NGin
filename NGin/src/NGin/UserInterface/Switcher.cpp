@@ -1,6 +1,6 @@
 #include "Switcher.h"
 
-namespace ngin {
+namespace ng {
 	void Switcher::handleEvents(const sf::Event& event, const sf::Vector2f& mouse)
 	{
 		if (blockingException_ == -1) {

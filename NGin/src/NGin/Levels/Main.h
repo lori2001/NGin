@@ -5,7 +5,7 @@
 #include "../UserInterface/Cursor.h"
 #include"../System/Console.h"
 
-namespace ngin {
+namespace ng {
 	enum class WINDOW_TYPE {
 		WINDOW_RESIZEABLE = 0, // resizeable windowed
 		WINDOW_UNRESIZEABLE, // unresizeable windowed
@@ -13,26 +13,25 @@ namespace ngin {
 		WINDOW_FULLSCREEN
 	};
 
-	class MainLevel : public sf::Drawable
+	class Main : public sf::Drawable
 	{
 	public:
-		virtual ~MainLevel() = default;
+		Main();
+		virtual ~Main() = default;
 		void run();
 
-		static sf::View view_; // default view is full HD
-		static sf::VideoMode windowVideoMode_;
-		static sf::String windowName_;
-		static sf::Color windowClearColor_;
-		static WINDOW_TYPE windowType_;
+		static sf::View view; // default view is full HD
+		static sf::VideoMode windowVideoMode;
+		static sf::String windowName;
+		static sf::Color windowClearColor;
+		static WINDOW_TYPE windowType;
 
-		static unsigned long int getLoopCicleCount();
+		static unsigned long long getLoopCicleCount();
 		// quickly ad view_ to window_
 		static void applyViewToWindow();
 		// returns true if window is in focus
-		static bool windowHasFocus() { return hasFocus_; }
+		static bool windowHasFocus() { return hasFocus; }
 	protected:
-		// gets called after creating the window
-		virtual void setup() = 0;
 		// gets called only if there is an ongoing event
 		virtual void handleEvents() = 0;
 		// gets called every frame but is not constant
@@ -43,20 +42,20 @@ namespace ngin {
 		// use this to set window icon instead of accesing window_ directly
 		void setWindowIcon(const std::string& location);
 
-		static sf::RenderWindow window_;
-		sf::Event event_{};
+		static sf::RenderWindow window;
+		sf::Event event_;
 
 	private:
-		sf::VideoMode saveVideoMode_ = windowVideoMode_;
-		sf::String saveName_ = windowName_;
-		WINDOW_TYPE saveType_ = windowType_;
+		sf::VideoMode saveVideoMode_ = windowVideoMode;
+		sf::String saveName_ = windowName;
+		WINDOW_TYPE saveType_ = windowType;
 
 		sf::Image icon_;
 		bool hasIcon_ = false;
 
-		static bool hasFocus_;
+		static bool hasFocus;
 
-		static unsigned long loopCicles_; // counts how many loops have passed
+		static unsigned long long loopCicles; // counts how many loops have passed
 
 		// recreates window with current settings
 		void applySettingsToWindow();
@@ -65,5 +64,5 @@ namespace ngin {
 	};
 
 	// To be defined in client
-	ngin::MainLevel* setMainLevel();
+	ng::Main* setMainLevel();
 }

@@ -3,24 +3,23 @@
 
 #include "NGin.h"
 
-class Application : public ngin::MainLevel
+class Application : public ng::Main
 {
 public:
 	Application();
 
 	/* abstract overrides */
-	virtual void setup();
 	virtual void handleEvents();
 	virtual void update();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 private:
 
 	sf::RectangleShape testRect;
-	ngin::ScrollBox scrollBox_;
+	ng::ScrollBox scrollBox_;
 
-	ngin::Button button_;
+	ng::Button button_;
 };
 
-ngin::MainLevel* setMainLevel() {
+ng::Main* setMainLevel() {
 	return new Application;
 }
