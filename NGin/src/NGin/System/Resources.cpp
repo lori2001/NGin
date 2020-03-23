@@ -5,7 +5,7 @@ namespace ng {
 	std::unordered_map<std::string, std::shared_ptr<sf::Texture>> Resources::textures_;
 	std::unordered_map<std::string, std::shared_ptr<sf::Font>> Resources::fonts_;
 	std::unordered_map<std::string, std::shared_ptr<sf::SoundBuffer>> Resources::soundBuffers_;
-	std::string Resources::location_ = "";
+	std::string Resources::location_ = "assets/";
 
 	std::shared_ptr<sf::Texture> Resources::AcquireTexture(const std::string& name)
 	{
