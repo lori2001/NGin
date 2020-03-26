@@ -62,7 +62,8 @@ namespace ng
 		sf::Vector2f getScale() const { return shape_.getScale(); }
 		sf::Vector2f getPosition() const { return shape_.getPosition(); }
 		sf::FloatRect getClosedGlobalBounds() const { return closedGlobalBounds_; }
-
+		sf::FloatRect getGlobalBounds() const { return shape_.getGlobalBounds(); }
+	
 	private:
 		sf::Vector2f size_; // the size of the object in closed status
 		float selectThickness_; // the size of the outline in pixels

@@ -29,6 +29,7 @@ namespace ng
 			text_.setString(txt);
 			text_.setCharacterSize(30);
 		}
+		Button(const sf::String& txt) : Button(txt, sf::Vector2f{ 400, 50 }) {}
 		// Handles input events and plays given sounds and animations whenever needed.
 		void handleEvents(const sf::Event& event, const sf::Vector2f& mouse);
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;

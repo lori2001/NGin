@@ -55,11 +55,11 @@ namespace ng {
 
 		// -- converts object's global position to relative position
         // aka. object at position x and y will only be available if
-        // is inside container + the insideSize expansion
+        // is inside container + the insideSize
 		bool addElement(sf::Text& text);
 		// -- converts object's global position to relative position
 		// aka. object at position x and y will only be available if
-		// is inside container + the insideSize expansion
+		// is inside container + the insideSize
 		bool addElement(sf::RectangleShape& rectangle);
 
 		// returns the index of the given subscribed element
@@ -105,7 +105,7 @@ namespace ng {
 		sf::Vector2f getOutsideSize() const { return outsideSize_; }
 		sf::Vector2f getInsideSize() const { return insideSize_; }
 		// gets the global bounds of the container
-		sf::FloatRect getGlobalBounds() { return container_.getGlobalBounds(); }
+		sf::FloatRect getGlobalBounds() const { return container_.getGlobalBounds(); }
 
 	private:
 		// outsideSize_ < insideSize_

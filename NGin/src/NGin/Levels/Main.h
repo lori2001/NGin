@@ -31,6 +31,15 @@ namespace ng {
 		static void applyViewToWindow();
 		// returns true if window is in focus
 		static bool windowHasFocus() { return hasFocus; }
+
+		// use this to set window icon instead of accesing window_ directly
+		static void setWindowIcon(const std::string& location);
+		static sf::Image* getWinIconPtr() {
+			if (hasIcon_) {
+				return &icon_;
+			}
+			else return nullptr;
+		}
 	protected:
 		// gets called only if there is an ongoing event
 		virtual void handleEvents() = 0;
@@ -38,9 +47,6 @@ namespace ng {
 		virtual void update() = 0;
 		// gets called every frame but should only draw on window
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
-
-		// use this to set window icon instead of accesing window_ directly
-		void setWindowIcon(const std::string& location);
 
 		static sf::RenderWindow window;
 		sf::Event event_;
@@ -50,8 +56,8 @@ namespace ng {
 		sf::String saveName_ = windowName;
 		WINDOW_TYPE saveType_ = windowType;
 
-		sf::Image icon_;
-		bool hasIcon_ = false;
+		static sf::Image icon_;
+		static bool hasIcon_;
 
 		static bool hasFocus;
 

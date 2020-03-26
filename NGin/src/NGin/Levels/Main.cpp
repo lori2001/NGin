@@ -7,6 +7,9 @@ namespace ng {
 	sf::String Main::windowName = "My Application"; // defualt name
 	sf::Color Main::windowClearColor = sf::Color(0, 0, 0); // default screen clear color
 	WINDOW_TYPE Main::windowType = WINDOW_TYPE::WINDOW_UNRESIZEABLE; // default window type
+
+	sf::Image Main::icon_;
+	bool Main::hasIcon_ = false;
 	
 	sf::RenderWindow Main::window;
 	bool Main::hasFocus = true; // assumes window has focus by default

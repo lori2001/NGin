@@ -75,6 +75,9 @@
     <ClCompile Include="src\NGin\Levels\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\NGin\UserInterface\ConfirmDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\NGin\System\Console.h">
@@ -150,6 +153,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\NGin\Levels\Main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NGin\UserInterface\ConfirmDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
