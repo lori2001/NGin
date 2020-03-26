@@ -24,7 +24,7 @@ namespace ng
 		// returns true if one ui element took blocking exception
 		// privileges (ex. dropdown is dropped down somewhere)
 		static bool hasBlockingException() {
-			return blockingException_ == -1 ? false : true;
+			return blockingException_ != -1;
 		}
 
 	public:

@@ -47,7 +47,7 @@ namespace ng
 		}
 		// --- Logging functions END ----------------------------------------
 
-
+		static sf::Vector2u getSize();
 		static void setSize(const sf::Vector2u &size);
 		// !!! Changes all fonts (even those alredy printed)
 		static void setFontStyle(const sf::Vector2i& size, const bool isBold = false);

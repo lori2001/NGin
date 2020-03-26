@@ -4,5 +4,5 @@
 
 // simplify long namespace inside NGin
 namespace ng {
-	using Json = nlohmann::json;
+	using json = nlohmann::json;
 }

@@ -14,7 +14,7 @@ namespace ng {
 				container_.setOutlineThickness(selectThickness_);
 
 				if (event.mouseButton.button == sf::Mouse::Left && event.type == sf::Event::MouseButtonPressed
-					&& blockingException_ == -1) {
+					&& !UIElement::hasBlockingException()) {
 					// isSliding is true if isSelected and while lmb is held 
 					isSliding_ = true;
 
@@ -121,11 +121,11 @@ namespace ng {
 		if (!hasChanged_) {
 
 			// check if the set level is valid
-			if (level > 1) {
+			if (level > 1.0F) {
 				NG_LOG_ONCE_WARN("Element: ", getUIElementIndex(),
 					" Slider level set to: ", level, " -> above 1(100%)!");
 			}
-			else if (level < 0) {
+			else if (level < 0.0F) {
 				NG_LOG_ONCE_WARN("Element: ", getUIElementIndex(),
 					" Slider level set to: ", level, " -> below 0(0%)!");
 			}

@@ -66,6 +66,14 @@ namespace ng {
 		// change colors back in case some1 wants to log using std::cout
 		SetConsoleTextAttribute(HConsole_, defaultColors_);
 	}
+	sf::Vector2u Console::getSize() {
+		RECT rect;
+		HWND console = GetConsoleWindow();
+		GetWindowRect(console, &rect); // stores the console's current dimensions
+
+		return { static_cast<unsigned>(rect.right - rect.left),
+				 static_cast<unsigned>(rect.bottom - rect.top) };
+	}
 	void Console::setSize(const sf::Vector2u& size)
 	{
 		RECT rect;

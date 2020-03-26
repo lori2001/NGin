@@ -25,6 +25,7 @@ namespace ng {
 		void setMarkColor(const sf::Color& color);
 		void setButtonColor(const sf::Color& color);
 		void setSelectColor(const sf::Color& color);
+		void setSelectThickness(const float thickness);
 		void setIsActive(const bool active);
 		void setDisabled(const bool isDisabled);
 
