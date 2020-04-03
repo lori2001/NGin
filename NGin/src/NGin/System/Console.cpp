@@ -101,4 +101,8 @@ namespace ng {
 	{
 		SetConsoleTitle(name);
 	}
+	bool Console::isActive()
+	{
+		return IsWindowVisible(GetConsoleWindow());
+	}
 }

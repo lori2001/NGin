@@ -11,6 +11,8 @@ namespace ng {
 	sf::Image Main::icon_;
 	bool Main::hasIcon_ = false;
 	
+	bool Main::closeWindow_ = false;
+
 	sf::RenderWindow Main::window;
 	bool Main::hasFocus = true; // assumes window has focus by default
 	unsigned long long Main::loopCicles = 0; // counts how many loops have passed
@@ -26,7 +28,7 @@ namespace ng {
 		// creates window with defined preperties
 		applySettingsToWindow();
 
-		while (window.isOpen())
+		while (window.isOpen() && !closeWindow_)
 		{
 			loopCicles++;
 			// measure delta time for each iteration

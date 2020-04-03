@@ -31,6 +31,11 @@ namespace ng {
 		static void applyViewToWindow();
 		// returns true if window is in focus
 		static bool windowHasFocus() { return hasFocus; }
+		// closes app properly from anywhere from program
+		// should be called because it calls destructors instead of
+		// forcing exit
+		static void closeWindow() { window.close(); closeWindow_ = true; }
+		static sf::WindowHandle getWindowHandle() { return window.getSystemHandle(); }
 
 		// use this to set window icon instead of accesing window_ directly
 		static void setWindowIcon(const std::string& location);
@@ -58,6 +63,9 @@ namespace ng {
 
 		static sf::Image icon_;
 		static bool hasIcon_;
+
+		// "closes window" before it even opens itself
+		static bool closeWindow_;
 
 		static bool hasFocus;
 

@@ -48,7 +48,8 @@ namespace ng {
 		void setTextures(const sf::Texture& buttonTexture, const sf::Texture& shapeTexture);
 		void setFont(const sf::Font& font);
 		void setButtonTextColor(const sf::Color color);
-		void setTextColor(const sf::Color color) { text_.setFillColor(color); }
+		void setMessageColor(const sf::Color color) { text_.setFillColor(color); }
+		void setAllTextColor(const sf::Color color) { setButtonTextColor(color); setMessageColor(color);}
 		void setCharacterSize(const unsigned characterSize);
 		void setShapeScale(const sf::Vector2f& scale);
 		void setButtonScale(const sf::Vector2f& buttonScale);
@@ -65,7 +66,7 @@ namespace ng {
 		// in case of one button close is called
 		enum class RESPONSE {
 			RESPONSE_NONE = 0,
-			RESPONSE_YES,
+			RESPONSE_OK,
 			RESPONSE_CLOSE
 		};
 

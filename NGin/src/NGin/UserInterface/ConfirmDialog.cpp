@@ -5,17 +5,17 @@ namespace ng
 {
 	void ConfirmDialog::handleEvents(const sf::Event& event, const sf::Vector2f& mouse)
 	{
+		response_ = RESPONSE::RESPONSE_NONE;
+
 		if (isActive_)
 		{
-			response_ = RESPONSE::RESPONSE_NONE;
-
 			switch (type_)
 			{
 			case DIALOG_TYPE::DIALOG_YES_OR_CLOSE:
 				okButton_.handleEvents(event, mouse);
 
 				if (okButton_.isActive()) {
-					response_ = RESPONSE::RESPONSE_YES;
+					response_ = RESPONSE::RESPONSE_OK;
 				}
 			case DIALOG_TYPE::DIALOG_CLOSE_ONLY:
 				closeButton_.handleEvents(event, mouse);
@@ -151,6 +151,7 @@ namespace ng
 	void ConfirmDialog::setButtonOffset(const sf::Vector2f& offset)
 	{
 		buttonOffset_ = offset;
+		setPosition(getPosition());
 	}
 	void ConfirmDialog::setString(const std::string& string)
 	{

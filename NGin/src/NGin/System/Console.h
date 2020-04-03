@@ -52,6 +52,7 @@ namespace ng
 		// !!! Changes all fonts (even those alredy printed)
 		static void setFontStyle(const sf::Vector2i& size, const bool isBold = false);
 		static void setName(const LPCSTR name);
+		static bool isActive();
 
 	private:
 		static HANDLE HConsole_;

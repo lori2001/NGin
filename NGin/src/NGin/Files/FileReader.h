@@ -4,7 +4,7 @@
 namespace ng {
 	class FileReader {
 	public:
-		virtual void read() = 0;
+		virtual void load() = 0;
 		virtual void save() = 0;
 	protected:
 		enum class INPUT_TYPE {
@@ -18,7 +18,7 @@ namespace ng {
 		INPUT_TYPE cleanInput(std::string& input);
 
 		// finds toFind in input and erases it
-		// only returns false if not found
+		// returns false if string not found
 		bool findAndClear(std::string& input, const std::string& toFind);
 	};
 }

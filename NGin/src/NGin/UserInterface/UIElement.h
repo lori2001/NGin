@@ -17,8 +17,8 @@ namespace ng
 		virtual sf::FloatRect getGlobalBounds() const = 0;
 
 		int getUIElementIndex() const {
-			auto it = std::find(Elements_.begin(), Elements_.end(), elementNo_);
-			return std::distance(Elements_.begin(), it);;
+			auto it = std::find(elements_.begin(), elements_.end(), elementNo_);
+			return std::distance(elements_.begin(), it);;
 		}
 
 		// returns true if one ui element took blocking exception
@@ -29,17 +29,19 @@ namespace ng
 
 	public:
 		UIElement() {
-			elementNo_ = static_cast<int>(Elements_.size());
-			Elements_.push_back(elementNo_);
+			elementNo_ = static_cast<int>(elements_.size());
+			elements_.push_back(elementNo_);
 		}
 		UIElement(const UIElement&) { // for containers (vectors)
-			elementNo_ = static_cast<int>(Elements_.size());
-			Elements_.push_back(elementNo_);
+			elementNo_ = static_cast<int>(elements_.size());
+			elements_.push_back(elementNo_);
 		}
 		virtual ~UIElement()
 		{
-			auto it = std::find(Elements_.begin(), Elements_.end(), elementNo_);
-			Elements_.erase(it);
+			auto it = std::find(elements_.begin(), elements_.end(), elementNo_);
+
+			if(it != elements_.end())
+				elements_.erase(it);
 		}
 
 	protected:
@@ -49,7 +51,7 @@ namespace ng
 	
 	private:
 		// helps count number of UIElements for debugging purposes
-		static std::vector<size_t> Elements_;
+		static std::vector<size_t> elements_;
 		// NOT INDEX (NOT IN ORDER)
 		size_t elementNo_;
 	};
