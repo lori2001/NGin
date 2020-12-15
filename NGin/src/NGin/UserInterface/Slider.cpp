@@ -75,12 +75,13 @@ namespace ng {
 		target.draw(rightButton_);
 		target.draw(mark_);
 	}
-	void Slider::setTexture(const sf::Texture& texture)
+	void Slider::setTexture(const ng::TexturePtr texture)
 	{
-		container_.setTexture(&texture);
-		leftButton_.setTexture(texture);
-		rightButton_.setTexture(texture);
-		mark_.setTexture(&texture);
+		texture_ = texture;
+		container_.setTexture(&*texture_);
+		leftButton_.setTexture(texture_);
+		rightButton_.setTexture(texture_);
+		mark_.setTexture(&*texture_);
 
 		leftButton_.setTexturePos({ 0, 0 });
 
@@ -93,7 +94,7 @@ namespace ng {
 			(int)mark_.getSize().x, (int)mark_.getSize().y
 		});
 	}
-	void Slider::setFillColor(const sf::Color& color)
+	void Slider::setBaseColor(const sf::Color& color)
 	{
 		setContainerColor(color);
 		setMarkColor(color);
@@ -101,8 +102,8 @@ namespace ng {
 	}
 	void Slider::setArrowsColor(const sf::Color& color)
 	{
-		leftButton_.setFillColor(color);
-		rightButton_.setFillColor(color);
+		leftButton_.setBaseColor(color);
+		rightButton_.setBaseColor(color);
 	}
 	void Slider::setPosition(const sf::Vector2f& position)
 	{
@@ -154,6 +155,7 @@ namespace ng {
 		rightButton_.setScale(scale);
 		mark_       .setScale(scale);
 
+		setPosition(getPosition());
 		adjustSliderBox();
 	}
 	void Slider::setSelectColor(const sf::Color& color)

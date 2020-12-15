@@ -11,15 +11,6 @@ namespace ng {
 			DIALOG_YES_OR_CLOSE
 		};
 
-		ConfirmDialog(DIALOG_TYPE type,
-			const std::string& text,
-			const sf::Vector2f& size,
-			const sf::Vector2f& position)
-		{
-			setString(text);
-			setSize(size);
-			setPosition(position);
-		}
 		ConfirmDialog(DIALOG_TYPE type) : UIElement()
 		{
 			type_ = type;
@@ -28,10 +19,58 @@ namespace ng {
 			isActive_ = false;
 			setCharacterSize(30);
 
-			if (type == DIALOG_TYPE::DIALOG_YES_OR_CLOSE) {
+			closeButton_.setString("close");
+
+			if (type == DIALOG_TYPE::DIALOG_YES_OR_CLOSE)
+			{
+				okButton_.setString("ok");
 				setButtonScale({ 0.5F, 0.8F });
 			}
 		}
+		ConfirmDialog(DIALOG_TYPE type,
+			ng::TexturePtr shapeTexture,
+			ng::TexturePtr buttonTexture,
+			ng::FontPtr font,
+			const std::string& text,
+			const sf::Vector2f& size,
+			const sf::Vector2f& buttonSize,
+			const sf::Color& textColor = sf::Color::White,
+			const sf::Color& selectColor = sf::Color::White,
+			const sf::Color& baseColor = sf::Color::White,
+			const sf::Vector2f & position = { 0, 0 }
+			) : ConfirmDialog(type)
+		{
+			setTextures(buttonTexture, shapeTexture);
+			setFont(font);
+			setButtonSize(buttonSize);
+			setString(text);
+			setSize(size);
+			setPosition(position);
+			setTextColor(textColor);
+			setSelectColor(selectColor);
+			setBaseColor(baseColor);
+		}
+		ConfirmDialog(
+			const UISettings& uiSettings,
+			DIALOG_TYPE type,
+			const sf::Vector2f& size,
+			const std::string& text = "")
+			: ConfirmDialog (
+				type,
+				NG_TEXTURE_SPTR(uiSettings.confirmDialogLoc),
+				NG_TEXTURE_SPTR(uiSettings.buttonLoc),
+				NG_FONT_SPTR(uiSettings.fontLoc),
+				text,
+				size,
+				uiSettings.buttonSize,
+				uiSettings.fontColor,
+				uiSettings.selectColor,
+				uiSettings.baseColor)
+		{}
+		ConfirmDialog(
+			const UISettings& uiSettings, DIALOG_TYPE type, const std::string& text = "")
+			: ConfirmDialog(uiSettings, type, uiSettings.confirmDialogSize, text)
+		{}
 
 		void handleEvents(const sf::Event& event, const sf::Vector2f& mouse);
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -41,18 +80,22 @@ namespace ng {
 		void drawInWindow(const std::string& windowName);
 
 		void setPosition(const sf::Vector2f& position);
+		void setButtonSize(const sf::Vector2f& size);
 		void setSize(const sf::Vector2f& size);
-		void setButtonTexture(const sf::Texture& texture);
-		void setShapeColor(const sf::Color& color) { shape_.setFillColor(color); }
-		void setShapeTexture(const sf::Texture& texture);
-		void setTextures(const sf::Texture& buttonTexture, const sf::Texture& shapeTexture);
-		void setFont(const sf::Font& font);
+		void setButtonTexture(const ng::TexturePtr texture);
+		void setBaseColor(const sf::Color& color);
+		void setShapeTexture(const ng::TexturePtr texture);
+		void setTextures(const ng::TexturePtr buttonTexture,
+			const ng::TexturePtr shapeTexture);
+		void setFont(const ng::FontPtr font);
 		void setButtonTextColor(const sf::Color color);
 		void setMessageColor(const sf::Color color) { text_.setFillColor(color); }
 		void setAllTextColor(const sf::Color color) { setButtonTextColor(color); setMessageColor(color);}
 		void setCharacterSize(const unsigned characterSize);
 		void setShapeScale(const sf::Vector2f& scale);
 		void setButtonScale(const sf::Vector2f& buttonScale);
+		void setTextColor(const sf::Color& color);
+		void setSelectColor(const sf::Color& color);
 		// sets buttons offset relative to the edge of window
 		// in case of 1 button only Y offset is available
 		// unsigned values expected
@@ -62,6 +105,7 @@ namespace ng {
 
 		sf::Vector2f getPosition() const { return shape_.getPosition(); }
 		sf::FloatRect getGlobalBounds() const { return shape_.getGlobalBounds(); }
+		sf::Color getShapeColor() const { return shape_.getFillColor(); }
 
 		// in case of one button close is called
 		enum class RESPONSE {
@@ -76,6 +120,10 @@ namespace ng {
 		void setIsActive(const bool isActive) { isActive_ = isActive; }
 
 	private:
+		ng::FontPtr font_;
+		ng::TexturePtr shapeTexture_;
+		ng::TexturePtr buttonTexture_;
+
 		bool isActive_;
 		DIALOG_TYPE type_ = DIALOG_TYPE::DIALOG_YES_OR_CLOSE;
 		RESPONSE response_ = RESPONSE::RESPONSE_NONE;
@@ -85,7 +133,7 @@ namespace ng {
 		float textYOffset_ = 0; // y ofsset of text from center
 
 		sf::Vector2f buttonOffset_;
-		Button okButton_{"ok"};
-		Button closeButton_{"close"};
+		Button okButton_;
+		Button closeButton_;
 	};
 }

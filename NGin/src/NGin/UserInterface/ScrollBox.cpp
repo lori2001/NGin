@@ -302,11 +302,12 @@ namespace ng {
 		return -1; // not found
 	}
 
-	void ScrollBox::setTexture(const sf::Texture& texture)
+	void ScrollBox::setTexture(const ng::TexturePtr texture)
 	{
-		container_.setTexture(&texture);
-		Xscroller_.setTexture(&texture);
-		Yscroller_.setTexture(&texture);
+		texture_ = texture;
+		container_.setTexture(&*texture_);
+		Xscroller_.setTexture(&*texture_);
+		Yscroller_.setTexture(&*texture_);
 
 		container_.setTextureRect({
 			0,
@@ -375,5 +376,11 @@ namespace ng {
 				position.y + subsTextPositions_[i].y - (scrollPercent_.y * (insideSize_.y - outsideSize_.y))
 			});
 		}
+	}
+	void ScrollBox::setBaseColor(const sf::Color& color)
+	{
+		container_.setFillColor(color);
+		Xscroller_.setFillColor(color);
+		Yscroller_.setFillColor(color);
 	}
 }
