@@ -62,7 +62,7 @@ namespace ng
 				NG_TEXTURE_SPTR(uiSettings.dropdownLoc),
 				NG_FONT_SPTR(uiSettings.fontLoc),
 				uiSettings.dropdownSize,
-				uiSettings.fontSize,
+				uiSettings.characterSize,
 				uiSettings.fontColor,
 				uiSettings.highlightColor,
 				uiSettings.selectColor,

@@ -61,7 +61,7 @@ namespace ng
 				NG_FONT_SPTR(uiSettings.fontLoc),
 				string,
 				uiSettings.buttonSize,
-				uiSettings.fontSize,
+				uiSettings.characterSize,
 				uiSettings.fontColor,
 				uiSettings.selectColor,
 				uiSettings.baseColor,

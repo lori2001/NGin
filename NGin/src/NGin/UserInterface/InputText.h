@@ -48,7 +48,7 @@ namespace ng {
 				NG_TEXTURE_SPTR(uiSettings.inputTextLoc),
 				NG_FONT_SPTR(uiSettings.fontLoc),
 				uiSettings.inputTextSize,
-				uiSettings.fontSize,
+				uiSettings.characterSize,
 				uiSettings.fontColor,
 				uiSettings.selectColor,
 				uiSettings.baseColor,

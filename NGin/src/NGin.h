@@ -4,7 +4,7 @@
 // signifies major and incompatible structural changes
 #define NG_VERSION_MAJOR 3
 // signifies changes that dont break compatibility
-#define NG_VERSION_MINOR 0
+#define NG_VERSION_MINOR 1
 // #define NG_VERSION_PATCH 0
 
 // --- SFML ---------------------

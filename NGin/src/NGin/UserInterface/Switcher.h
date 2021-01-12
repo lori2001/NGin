@@ -14,7 +14,8 @@ namespace ng {
 			const sf::Vector2f& buttonSize,
 			const sf::Vector2f& markSize,
 			const sf::Color& selectColor,
-			const sf::Color& baseColor,
+			const sf::Color& markColor,
+			const sf::Color& buttonColor,
 			const float selectThickness,
 			const sf::Vector2f& scale = { 1.0F, 1.0F },
 			const sf::Vector2f& position = { 0, 0 }) : UIElement()
@@ -24,7 +25,8 @@ namespace ng {
 			setPosition(position);
 			setScale(scale);
 			setSelectColor(selectColor);
-			setBaseColor(baseColor);
+			setMarkColor(markColor);
+			setButtonColor(buttonColor);
 			setSelectThickness(selectThickness);
 			setTexture(texture);
 		}
@@ -34,6 +36,7 @@ namespace ng {
 				uiSettings.switcherButtonSize,
 				uiSettings.switcherMarkSize,
 				uiSettings.selectColor,
+				uiSettings.highlightColor,
 				uiSettings.baseColor,
 				uiSettings.selectThickness)
 		{}
@@ -45,6 +48,7 @@ namespace ng {
 				styler.getButtonSize(),
 				styler.getMarkSize(),
 				styler.getSelectColor(),
+				styler.getMarkColor(),
 				styler.getButtonColor(),
 				styler.getSelectThickness(),
 				styler.getScale(),
@@ -76,6 +80,7 @@ namespace ng {
 		sf::Vector2f getPosition() const { return button_.getPosition(); }
 		sf::Vector2f getScale() const { return button_.getScale(); }
 		sf::Color getSelectColor() const { return button_.getSelectColor(); }
+		sf::Color getMarkColor() const { return mark_.getFillColor(); }
 		sf::Color getButtonColor() const { return button_.getBaseColor(); }
 		float getSelectThickness() const { return button_.getSelectThickness(); }
 		ng::TexturePtr getTexture() const { return texture_; }

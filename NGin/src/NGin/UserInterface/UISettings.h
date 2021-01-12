@@ -61,7 +61,7 @@ namespace ng {
 		std::string fontLoc = DEFAULT::FONT_LOC;
 		sf::Color fontColor =
 		{ DEFAULT::FONT_COLOR_R, DEFAULT::FONT_COLOR_G, DEFAULT::FONT_COLOR_B };
-		unsigned fontSize = DEFAULT::CHARACTER_SIZE;
+		unsigned characterSize = DEFAULT::CHARACTER_SIZE;
 		float selectThickness = DEFAULT::SELECT_THICKNESS;
 		sf::Color selectColor =
 		{ DEFAULT::SELECT_COLOR_R, DEFAULT::SELECT_COLOR_G, DEFAULT::SELECT_COLOR_B };
@@ -99,5 +99,7 @@ namespace ng {
 
 		std::string confirmDialogLoc = { DEFAULT::CONFIRM_DIALOG_LOC };
 		sf::Vector2f confirmDialogSize = { DEFAULT::CONFIRM_DIALOG_W, DEFAULT::CONFIRM_DIALOG_H };
+
+		sf::Text getTextStyle() const { return {" ", *NG_FONT_SPTR(fontLoc), characterSize }; }
 	};
 }
